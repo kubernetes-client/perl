@@ -21,3 +21,5 @@ nytprof.out
 swagger.json
 swagger.json.unprocessed
 bin/*
+.idea/**
+docs/**
