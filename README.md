@@ -1,5 +1,7 @@
 # Kubernetes Perl Client
 
+![Client Support Level](https://img.shields.io/badge/kubernetes%20client-alpha-green.svg?style=plastic&colorA=306CE8)
+
 Perl client for the [Kubernetes](http://kubernetes.io/) API.
 
 ## Community, discussion, contribution, and support
