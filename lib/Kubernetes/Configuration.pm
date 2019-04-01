@@ -110,7 +110,11 @@ sub new {
 	$p{access_token} //= '';
 
 	# base_url
-        $p{base_url} //= 'http://localhost';
+	$p{base_url} //= 'http://localhost';
+
+	$p{ssl_opts} //= {
+		verify_hostname => 1,
+	};
 
 	return bless \%p => $self;
 }

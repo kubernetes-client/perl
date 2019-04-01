@@ -6,6 +6,7 @@ requires 'Module::Runtime';
 requires 'URI::Query';
 requires 'Module::Find';
 requires 'LWP::UserAgent';
+requires 'LWP::Protocol::https';
 requires 'Class::Accessor';
 
 on 'test' => sub {
