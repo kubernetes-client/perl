@@ -51,10 +51,12 @@ sub new {
     }
 
     my (%args) = (
-        'ua' => LWP::UserAgent->new,
+        'ua' => LWP::UserAgent->new(
+            ssl_opts => $config->{ssl_opts},
+        ),
         'config' => $config,
     );
-  
+
     return bless \%args, $class;
 }
 
