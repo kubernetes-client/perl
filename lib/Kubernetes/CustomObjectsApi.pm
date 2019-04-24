@@ -1,3 +1,4 @@
+
 =begin comment
 
 Kubernetes
@@ -22,7 +23,7 @@ package Kubernetes::CustomObjectsApi;
 require 5.6.0;
 use strict;
 use warnings;
-use utf8; 
+use utf8;
 use Exporter;
 use Carp qw( croak );
 use Log::Any qw($log);
@@ -31,15 +32,16 @@ use Kubernetes::ApiClient;
 
 use base "Class::Data::Inheritable";
 
-__PACKAGE__->mk_classdata('method_documentation' => {});
+__PACKAGE__->mk_classdata( 'method_documentation' => {} );
 
 sub new {
     my $class = shift;
     my $api_client;
 
-    if ($_[0] && ref $_[0] && ref $_[0] eq 'Kubernetes::ApiClient' ) {
+    if ( $_[0] && ref $_[0] && ref $_[0] eq 'Kubernetes::ApiClient' ) {
         $api_client = $_[0];
-    } else {
+    }
+    else {
         $api_client = Kubernetes::ApiClient->new(@_);
     }
 
@@ -47,12 +49,11 @@ sub new {
 
 }
 
-
 #
 # create_cluster_custom_object
 #
-# 
-# 
+#
+#
 # @param string $group The custom resource&#39;s group name (required)
 # @param string $version The custom resource&#39;s version (required)
 # @param string $plural The custom resource&#39;s plural name. For TPRs this would be lowercase plural kind. (required)
@@ -60,107 +61,123 @@ sub new {
 # @param string $pretty If &#39;true&#39;, then the output is pretty printed. (optional)
 {
     my $params = {
-    'group' => {
-        data_type => 'string',
-        description => 'The custom resource&#39;s group name',
-        required => '1',
-    },
-    'version' => {
-        data_type => 'string',
-        description => 'The custom resource&#39;s version',
-        required => '1',
-    },
-    'plural' => {
-        data_type => 'string',
-        description => 'The custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'UNKNOWN_BASE_TYPE',
-        description => 'The JSON schema of the Resource to create.',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
+        'group' => {
+            data_type   => 'string',
+            description => 'The custom resource&#39;s group name',
+            required    => '1',
+        },
+        'version' => {
+            data_type   => 'string',
+            description => 'The custom resource&#39;s version',
+            required    => '1',
+        },
+        'plural' => {
+            data_type => 'string',
+            description =>
+'The custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
+            required => '1',
+        },
+        'body' => {
+            data_type   => 'UNKNOWN_BASE_TYPE',
+            description => 'The JSON schema of the Resource to create.',
+            required    => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'create_cluster_custom_object' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'create_cluster_custom_object'} = {
+        summary => '',
+        params  => $params,
         returns => 'object',
-        };
+    };
 }
+
 # @return object
 #
 sub create_cluster_custom_object {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'group' is set
-    unless (exists $args{'group'}) {
-      croak("Missing the required parameter 'group' when calling create_cluster_custom_object");
+    unless ( exists $args{'group'} ) {
+        croak(
+"Missing the required parameter 'group' when calling create_cluster_custom_object"
+        );
     }
 
     # verify the required parameter 'version' is set
-    unless (exists $args{'version'}) {
-      croak("Missing the required parameter 'version' when calling create_cluster_custom_object");
+    unless ( exists $args{'version'} ) {
+        croak(
+"Missing the required parameter 'version' when calling create_cluster_custom_object"
+        );
     }
 
     # verify the required parameter 'plural' is set
-    unless (exists $args{'plural'}) {
-      croak("Missing the required parameter 'plural' when calling create_cluster_custom_object");
+    unless ( exists $args{'plural'} ) {
+        croak(
+"Missing the required parameter 'plural' when calling create_cluster_custom_object"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling create_cluster_custom_object");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling create_cluster_custom_object"
+        );
     }
 
     # parse inputs
     my $_resource_path = '/apis/{group}/{version}/{plural}';
 
-    my $_method = 'POST';
-    my $query_params = {};
+    my $_method       = 'POST';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json');
+    my $_header_accept =
+      $self->{api_client}->select_header_accept('application/json');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # path params
-    if ( exists $args{'group'}) {
+    if ( exists $args{'group'} ) {
         my $_base_variable = "{" . "group" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'group'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'group'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'version'}) {
+    if ( exists $args{'version'} ) {
         my $_base_variable = "{" . "version" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'version'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'version'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'plural'}) {
+    if ( exists $args{'plural'} ) {
         my $_base_variable = "{" . "plural" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'plural'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'plural'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -168,21 +185,23 @@ sub create_cluster_custom_object {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('object', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'object', $response );
     return $_response_object;
 }
 
 #
 # create_namespaced_custom_object
 #
-# 
-# 
+#
+#
 # @param string $group The custom resource&#39;s group name (required)
 # @param string $version The custom resource&#39;s version (required)
 # @param string $namespace The custom resource&#39;s namespace (required)
@@ -191,124 +210,144 @@ sub create_cluster_custom_object {
 # @param string $pretty If &#39;true&#39;, then the output is pretty printed. (optional)
 {
     my $params = {
-    'group' => {
-        data_type => 'string',
-        description => 'The custom resource&#39;s group name',
-        required => '1',
-    },
-    'version' => {
-        data_type => 'string',
-        description => 'The custom resource&#39;s version',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'The custom resource&#39;s namespace',
-        required => '1',
-    },
-    'plural' => {
-        data_type => 'string',
-        description => 'The custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'UNKNOWN_BASE_TYPE',
-        description => 'The JSON schema of the Resource to create.',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
+        'group' => {
+            data_type   => 'string',
+            description => 'The custom resource&#39;s group name',
+            required    => '1',
+        },
+        'version' => {
+            data_type   => 'string',
+            description => 'The custom resource&#39;s version',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type   => 'string',
+            description => 'The custom resource&#39;s namespace',
+            required    => '1',
+        },
+        'plural' => {
+            data_type => 'string',
+            description =>
+'The custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
+            required => '1',
+        },
+        'body' => {
+            data_type   => 'UNKNOWN_BASE_TYPE',
+            description => 'The JSON schema of the Resource to create.',
+            required    => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'create_namespaced_custom_object' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'create_namespaced_custom_object'} = {
+        summary => '',
+        params  => $params,
         returns => 'object',
-        };
+    };
 }
+
 # @return object
 #
 sub create_namespaced_custom_object {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'group' is set
-    unless (exists $args{'group'}) {
-      croak("Missing the required parameter 'group' when calling create_namespaced_custom_object");
+    unless ( exists $args{'group'} ) {
+        croak(
+"Missing the required parameter 'group' when calling create_namespaced_custom_object"
+        );
     }
 
     # verify the required parameter 'version' is set
-    unless (exists $args{'version'}) {
-      croak("Missing the required parameter 'version' when calling create_namespaced_custom_object");
+    unless ( exists $args{'version'} ) {
+        croak(
+"Missing the required parameter 'version' when calling create_namespaced_custom_object"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling create_namespaced_custom_object");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling create_namespaced_custom_object"
+        );
     }
 
     # verify the required parameter 'plural' is set
-    unless (exists $args{'plural'}) {
-      croak("Missing the required parameter 'plural' when calling create_namespaced_custom_object");
+    unless ( exists $args{'plural'} ) {
+        croak(
+"Missing the required parameter 'plural' when calling create_namespaced_custom_object"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling create_namespaced_custom_object");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling create_namespaced_custom_object"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/{group}/{version}/namespaces/{namespace}/{plural}';
+    my $_resource_path =
+      '/apis/{group}/{version}/namespaces/{namespace}/{plural}';
 
-    my $_method = 'POST';
-    my $query_params = {};
+    my $_method       = 'POST';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json');
+    my $_header_accept =
+      $self->{api_client}->select_header_accept('application/json');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # path params
-    if ( exists $args{'group'}) {
+    if ( exists $args{'group'} ) {
         my $_base_variable = "{" . "group" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'group'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'group'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'version'}) {
+    if ( exists $args{'version'} ) {
         my $_base_variable = "{" . "version" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'version'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'version'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'plural'}) {
+    if ( exists $args{'plural'} ) {
         my $_base_variable = "{" . "plural" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'plural'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'plural'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -316,21 +355,23 @@ sub create_namespaced_custom_object {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('object', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'object', $response );
     return $_response_object;
 }
 
 #
 # delete_cluster_custom_object
 #
-# 
-# 
+#
+#
 # @param string $group the custom resource&#39;s group (required)
 # @param string $version the custom resource&#39;s version (required)
 # @param string $plural the custom object&#39;s plural name. For TPRs this would be lowercase plural kind. (required)
@@ -341,144 +382,166 @@ sub create_namespaced_custom_object {
 # @param string $propagation_policy Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. (optional)
 {
     my $params = {
-    'group' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s group',
-        required => '1',
-    },
-    'version' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s version',
-        required => '1',
-    },
-    'plural' => {
-        data_type => 'string',
-        description => 'the custom object&#39;s plural name. For TPRs this would be lowercase plural kind.',
-        required => '1',
-    },
-    'name' => {
-        data_type => 'string',
-        description => 'the custom object&#39;s name',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'V1DeleteOptions',
-        description => '',
-        required => '1',
-    },
-    'grace_period_seconds' => {
-        data_type => 'int',
-        description => 'The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.',
-        required => '0',
-    },
-    'orphan_dependents' => {
-        data_type => 'boolean',
-        description => 'Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both.',
-        required => '0',
-    },
-    'propagation_policy' => {
-        data_type => 'string',
-        description => 'Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy.',
-        required => '0',
-    },
+        'group' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s group',
+            required    => '1',
+        },
+        'version' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s version',
+            required    => '1',
+        },
+        'plural' => {
+            data_type => 'string',
+            description =>
+'the custom object&#39;s plural name. For TPRs this would be lowercase plural kind.',
+            required => '1',
+        },
+        'name' => {
+            data_type   => 'string',
+            description => 'the custom object&#39;s name',
+            required    => '1',
+        },
+        'body' => {
+            data_type   => 'V1DeleteOptions',
+            description => '',
+            required    => '1',
+        },
+        'grace_period_seconds' => {
+            data_type => 'int',
+            description =>
+'The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.',
+            required => '0',
+        },
+        'orphan_dependents' => {
+            data_type => 'boolean',
+            description =>
+'Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both.',
+            required => '0',
+        },
+        'propagation_policy' => {
+            data_type => 'string',
+            description =>
+'Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy.',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'delete_cluster_custom_object' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'delete_cluster_custom_object'} = {
+        summary => '',
+        params  => $params,
         returns => 'object',
-        };
+    };
 }
+
 # @return object
 #
 sub delete_cluster_custom_object {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'group' is set
-    unless (exists $args{'group'}) {
-      croak("Missing the required parameter 'group' when calling delete_cluster_custom_object");
+    unless ( exists $args{'group'} ) {
+        croak(
+"Missing the required parameter 'group' when calling delete_cluster_custom_object"
+        );
     }
 
     # verify the required parameter 'version' is set
-    unless (exists $args{'version'}) {
-      croak("Missing the required parameter 'version' when calling delete_cluster_custom_object");
+    unless ( exists $args{'version'} ) {
+        croak(
+"Missing the required parameter 'version' when calling delete_cluster_custom_object"
+        );
     }
 
     # verify the required parameter 'plural' is set
-    unless (exists $args{'plural'}) {
-      croak("Missing the required parameter 'plural' when calling delete_cluster_custom_object");
+    unless ( exists $args{'plural'} ) {
+        croak(
+"Missing the required parameter 'plural' when calling delete_cluster_custom_object"
+        );
     }
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling delete_cluster_custom_object");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling delete_cluster_custom_object"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling delete_cluster_custom_object");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling delete_cluster_custom_object"
+        );
     }
 
     # parse inputs
     my $_resource_path = '/apis/{group}/{version}/{plural}/{name}';
 
-    my $_method = 'DELETE';
-    my $query_params = {};
+    my $_method       = 'DELETE';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json');
+    my $_header_accept =
+      $self->{api_client}->select_header_accept('application/json');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'grace_period_seconds'}) {
-        $query_params->{'gracePeriodSeconds'} = $self->{api_client}->to_query_value($args{'grace_period_seconds'});
+    if ( exists $args{'grace_period_seconds'} ) {
+        $query_params->{'gracePeriodSeconds'} =
+          $self->{api_client}->to_query_value( $args{'grace_period_seconds'} );
     }
 
     # query params
-    if ( exists $args{'orphan_dependents'}) {
-        $query_params->{'orphanDependents'} = $self->{api_client}->to_query_value($args{'orphan_dependents'});
+    if ( exists $args{'orphan_dependents'} ) {
+        $query_params->{'orphanDependents'} =
+          $self->{api_client}->to_query_value( $args{'orphan_dependents'} );
     }
 
     # query params
-    if ( exists $args{'propagation_policy'}) {
-        $query_params->{'propagationPolicy'} = $self->{api_client}->to_query_value($args{'propagation_policy'});
+    if ( exists $args{'propagation_policy'} ) {
+        $query_params->{'propagationPolicy'} =
+          $self->{api_client}->to_query_value( $args{'propagation_policy'} );
     }
 
     # path params
-    if ( exists $args{'group'}) {
+    if ( exists $args{'group'} ) {
         my $_base_variable = "{" . "group" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'group'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'group'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'version'}) {
+    if ( exists $args{'version'} ) {
         my $_base_variable = "{" . "version" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'version'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'version'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'plural'}) {
+    if ( exists $args{'plural'} ) {
         my $_base_variable = "{" . "plural" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'plural'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'plural'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -486,21 +549,23 @@ sub delete_cluster_custom_object {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('object', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'object', $response );
     return $_response_object;
 }
 
 #
 # delete_namespaced_custom_object
 #
-# 
-# 
+#
+#
 # @param string $group the custom resource&#39;s group (required)
 # @param string $version the custom resource&#39;s version (required)
 # @param string $namespace The custom resource&#39;s namespace (required)
@@ -512,161 +577,187 @@ sub delete_cluster_custom_object {
 # @param string $propagation_policy Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. (optional)
 {
     my $params = {
-    'group' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s group',
-        required => '1',
-    },
-    'version' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s version',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'The custom resource&#39;s namespace',
-        required => '1',
-    },
-    'plural' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
-        required => '1',
-    },
-    'name' => {
-        data_type => 'string',
-        description => 'the custom object&#39;s name',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'V1DeleteOptions',
-        description => '',
-        required => '1',
-    },
-    'grace_period_seconds' => {
-        data_type => 'int',
-        description => 'The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.',
-        required => '0',
-    },
-    'orphan_dependents' => {
-        data_type => 'boolean',
-        description => 'Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both.',
-        required => '0',
-    },
-    'propagation_policy' => {
-        data_type => 'string',
-        description => 'Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy.',
-        required => '0',
-    },
+        'group' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s group',
+            required    => '1',
+        },
+        'version' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s version',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type   => 'string',
+            description => 'The custom resource&#39;s namespace',
+            required    => '1',
+        },
+        'plural' => {
+            data_type => 'string',
+            description =>
+'the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
+            required => '1',
+        },
+        'name' => {
+            data_type   => 'string',
+            description => 'the custom object&#39;s name',
+            required    => '1',
+        },
+        'body' => {
+            data_type   => 'V1DeleteOptions',
+            description => '',
+            required    => '1',
+        },
+        'grace_period_seconds' => {
+            data_type => 'int',
+            description =>
+'The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.',
+            required => '0',
+        },
+        'orphan_dependents' => {
+            data_type => 'boolean',
+            description =>
+'Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both.',
+            required => '0',
+        },
+        'propagation_policy' => {
+            data_type => 'string',
+            description =>
+'Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy.',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'delete_namespaced_custom_object' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'delete_namespaced_custom_object'} = {
+        summary => '',
+        params  => $params,
         returns => 'object',
-        };
+    };
 }
+
 # @return object
 #
 sub delete_namespaced_custom_object {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'group' is set
-    unless (exists $args{'group'}) {
-      croak("Missing the required parameter 'group' when calling delete_namespaced_custom_object");
+    unless ( exists $args{'group'} ) {
+        croak(
+"Missing the required parameter 'group' when calling delete_namespaced_custom_object"
+        );
     }
 
     # verify the required parameter 'version' is set
-    unless (exists $args{'version'}) {
-      croak("Missing the required parameter 'version' when calling delete_namespaced_custom_object");
+    unless ( exists $args{'version'} ) {
+        croak(
+"Missing the required parameter 'version' when calling delete_namespaced_custom_object"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling delete_namespaced_custom_object");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling delete_namespaced_custom_object"
+        );
     }
 
     # verify the required parameter 'plural' is set
-    unless (exists $args{'plural'}) {
-      croak("Missing the required parameter 'plural' when calling delete_namespaced_custom_object");
+    unless ( exists $args{'plural'} ) {
+        croak(
+"Missing the required parameter 'plural' when calling delete_namespaced_custom_object"
+        );
     }
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling delete_namespaced_custom_object");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling delete_namespaced_custom_object"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling delete_namespaced_custom_object");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling delete_namespaced_custom_object"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/{group}/{version}/namespaces/{namespace}/{plural}/{name}';
+    my $_resource_path =
+      '/apis/{group}/{version}/namespaces/{namespace}/{plural}/{name}';
 
-    my $_method = 'DELETE';
-    my $query_params = {};
+    my $_method       = 'DELETE';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json');
+    my $_header_accept =
+      $self->{api_client}->select_header_accept('application/json');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'grace_period_seconds'}) {
-        $query_params->{'gracePeriodSeconds'} = $self->{api_client}->to_query_value($args{'grace_period_seconds'});
+    if ( exists $args{'grace_period_seconds'} ) {
+        $query_params->{'gracePeriodSeconds'} =
+          $self->{api_client}->to_query_value( $args{'grace_period_seconds'} );
     }
 
     # query params
-    if ( exists $args{'orphan_dependents'}) {
-        $query_params->{'orphanDependents'} = $self->{api_client}->to_query_value($args{'orphan_dependents'});
+    if ( exists $args{'orphan_dependents'} ) {
+        $query_params->{'orphanDependents'} =
+          $self->{api_client}->to_query_value( $args{'orphan_dependents'} );
     }
 
     # query params
-    if ( exists $args{'propagation_policy'}) {
-        $query_params->{'propagationPolicy'} = $self->{api_client}->to_query_value($args{'propagation_policy'});
+    if ( exists $args{'propagation_policy'} ) {
+        $query_params->{'propagationPolicy'} =
+          $self->{api_client}->to_query_value( $args{'propagation_policy'} );
     }
 
     # path params
-    if ( exists $args{'group'}) {
+    if ( exists $args{'group'} ) {
         my $_base_variable = "{" . "group" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'group'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'group'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'version'}) {
+    if ( exists $args{'version'} ) {
         my $_base_variable = "{" . "version" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'version'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'version'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'plural'}) {
+    if ( exists $args{'plural'} ) {
         my $_base_variable = "{" . "plural" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'plural'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'plural'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -674,384 +765,438 @@ sub delete_namespaced_custom_object {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('object', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'object', $response );
     return $_response_object;
 }
 
 #
 # get_cluster_custom_object
 #
-# 
-# 
+#
+#
 # @param string $group the custom resource&#39;s group (required)
 # @param string $version the custom resource&#39;s version (required)
 # @param string $plural the custom object&#39;s plural name. For TPRs this would be lowercase plural kind. (required)
 # @param string $name the custom object&#39;s name (required)
 {
     my $params = {
-    'group' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s group',
-        required => '1',
-    },
-    'version' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s version',
-        required => '1',
-    },
-    'plural' => {
-        data_type => 'string',
-        description => 'the custom object&#39;s plural name. For TPRs this would be lowercase plural kind.',
-        required => '1',
-    },
-    'name' => {
-        data_type => 'string',
-        description => 'the custom object&#39;s name',
-        required => '1',
-    },
+        'group' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s group',
+            required    => '1',
+        },
+        'version' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s version',
+            required    => '1',
+        },
+        'plural' => {
+            data_type => 'string',
+            description =>
+'the custom object&#39;s plural name. For TPRs this would be lowercase plural kind.',
+            required => '1',
+        },
+        'name' => {
+            data_type   => 'string',
+            description => 'the custom object&#39;s name',
+            required    => '1',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'get_cluster_custom_object' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'get_cluster_custom_object'} = {
+        summary => '',
+        params  => $params,
         returns => 'object',
-        };
+    };
 }
+
 # @return object
 #
 sub get_cluster_custom_object {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'group' is set
-    unless (exists $args{'group'}) {
-      croak("Missing the required parameter 'group' when calling get_cluster_custom_object");
+    unless ( exists $args{'group'} ) {
+        croak(
+"Missing the required parameter 'group' when calling get_cluster_custom_object"
+        );
     }
 
     # verify the required parameter 'version' is set
-    unless (exists $args{'version'}) {
-      croak("Missing the required parameter 'version' when calling get_cluster_custom_object");
+    unless ( exists $args{'version'} ) {
+        croak(
+"Missing the required parameter 'version' when calling get_cluster_custom_object"
+        );
     }
 
     # verify the required parameter 'plural' is set
-    unless (exists $args{'plural'}) {
-      croak("Missing the required parameter 'plural' when calling get_cluster_custom_object");
+    unless ( exists $args{'plural'} ) {
+        croak(
+"Missing the required parameter 'plural' when calling get_cluster_custom_object"
+        );
     }
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling get_cluster_custom_object");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling get_cluster_custom_object"
+        );
     }
 
     # parse inputs
     my $_resource_path = '/apis/{group}/{version}/{plural}/{name}';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json');
+    my $_header_accept =
+      $self->{api_client}->select_header_accept('application/json');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # path params
-    if ( exists $args{'group'}) {
+    if ( exists $args{'group'} ) {
         my $_base_variable = "{" . "group" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'group'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'group'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'version'}) {
+    if ( exists $args{'version'} ) {
         my $_base_variable = "{" . "version" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'version'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'version'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'plural'}) {
+    if ( exists $args{'plural'} ) {
         my $_base_variable = "{" . "plural" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'plural'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'plural'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('object', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'object', $response );
     return $_response_object;
 }
 
 #
 # get_cluster_custom_object_scale
 #
-# 
-# 
+#
+#
 # @param string $group the custom resource&#39;s group (required)
 # @param string $version the custom resource&#39;s version (required)
 # @param string $plural the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind. (required)
 # @param string $name the custom object&#39;s name (required)
 {
     my $params = {
-    'group' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s group',
-        required => '1',
-    },
-    'version' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s version',
-        required => '1',
-    },
-    'plural' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
-        required => '1',
-    },
-    'name' => {
-        data_type => 'string',
-        description => 'the custom object&#39;s name',
-        required => '1',
-    },
+        'group' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s group',
+            required    => '1',
+        },
+        'version' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s version',
+            required    => '1',
+        },
+        'plural' => {
+            data_type => 'string',
+            description =>
+'the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
+            required => '1',
+        },
+        'name' => {
+            data_type   => 'string',
+            description => 'the custom object&#39;s name',
+            required    => '1',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'get_cluster_custom_object_scale' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'get_cluster_custom_object_scale'} = {
+        summary => '',
+        params  => $params,
         returns => 'object',
-        };
+    };
 }
+
 # @return object
 #
 sub get_cluster_custom_object_scale {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'group' is set
-    unless (exists $args{'group'}) {
-      croak("Missing the required parameter 'group' when calling get_cluster_custom_object_scale");
+    unless ( exists $args{'group'} ) {
+        croak(
+"Missing the required parameter 'group' when calling get_cluster_custom_object_scale"
+        );
     }
 
     # verify the required parameter 'version' is set
-    unless (exists $args{'version'}) {
-      croak("Missing the required parameter 'version' when calling get_cluster_custom_object_scale");
+    unless ( exists $args{'version'} ) {
+        croak(
+"Missing the required parameter 'version' when calling get_cluster_custom_object_scale"
+        );
     }
 
     # verify the required parameter 'plural' is set
-    unless (exists $args{'plural'}) {
-      croak("Missing the required parameter 'plural' when calling get_cluster_custom_object_scale");
+    unless ( exists $args{'plural'} ) {
+        croak(
+"Missing the required parameter 'plural' when calling get_cluster_custom_object_scale"
+        );
     }
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling get_cluster_custom_object_scale");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling get_cluster_custom_object_scale"
+        );
     }
 
     # parse inputs
     my $_resource_path = '/apis/{group}/{version}/{plural}/{name}/scale';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # path params
-    if ( exists $args{'group'}) {
+    if ( exists $args{'group'} ) {
         my $_base_variable = "{" . "group" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'group'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'group'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'version'}) {
+    if ( exists $args{'version'} ) {
         my $_base_variable = "{" . "version" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'version'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'version'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'plural'}) {
+    if ( exists $args{'plural'} ) {
         my $_base_variable = "{" . "plural" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'plural'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'plural'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('object', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'object', $response );
     return $_response_object;
 }
 
 #
 # get_cluster_custom_object_status
 #
-# 
-# 
+#
+#
 # @param string $group the custom resource&#39;s group (required)
 # @param string $version the custom resource&#39;s version (required)
 # @param string $plural the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind. (required)
 # @param string $name the custom object&#39;s name (required)
 {
     my $params = {
-    'group' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s group',
-        required => '1',
-    },
-    'version' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s version',
-        required => '1',
-    },
-    'plural' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
-        required => '1',
-    },
-    'name' => {
-        data_type => 'string',
-        description => 'the custom object&#39;s name',
-        required => '1',
-    },
+        'group' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s group',
+            required    => '1',
+        },
+        'version' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s version',
+            required    => '1',
+        },
+        'plural' => {
+            data_type => 'string',
+            description =>
+'the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
+            required => '1',
+        },
+        'name' => {
+            data_type   => 'string',
+            description => 'the custom object&#39;s name',
+            required    => '1',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'get_cluster_custom_object_status' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'get_cluster_custom_object_status'} = {
+        summary => '',
+        params  => $params,
         returns => 'object',
-        };
+    };
 }
+
 # @return object
 #
 sub get_cluster_custom_object_status {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'group' is set
-    unless (exists $args{'group'}) {
-      croak("Missing the required parameter 'group' when calling get_cluster_custom_object_status");
+    unless ( exists $args{'group'} ) {
+        croak(
+"Missing the required parameter 'group' when calling get_cluster_custom_object_status"
+        );
     }
 
     # verify the required parameter 'version' is set
-    unless (exists $args{'version'}) {
-      croak("Missing the required parameter 'version' when calling get_cluster_custom_object_status");
+    unless ( exists $args{'version'} ) {
+        croak(
+"Missing the required parameter 'version' when calling get_cluster_custom_object_status"
+        );
     }
 
     # verify the required parameter 'plural' is set
-    unless (exists $args{'plural'}) {
-      croak("Missing the required parameter 'plural' when calling get_cluster_custom_object_status");
+    unless ( exists $args{'plural'} ) {
+        croak(
+"Missing the required parameter 'plural' when calling get_cluster_custom_object_status"
+        );
     }
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling get_cluster_custom_object_status");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling get_cluster_custom_object_status"
+        );
     }
 
     # parse inputs
     my $_resource_path = '/apis/{group}/{version}/{plural}/{name}/status';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # path params
-    if ( exists $args{'group'}) {
+    if ( exists $args{'group'} ) {
         my $_base_variable = "{" . "group" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'group'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'group'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'version'}) {
+    if ( exists $args{'version'} ) {
         my $_base_variable = "{" . "version" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'version'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'version'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'plural'}) {
+    if ( exists $args{'plural'} ) {
         my $_base_variable = "{" . "plural" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'plural'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'plural'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('object', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'object', $response );
     return $_response_object;
 }
 
 #
 # get_namespaced_custom_object
 #
-# 
-# 
+#
+#
 # @param string $group the custom resource&#39;s group (required)
 # @param string $version the custom resource&#39;s version (required)
 # @param string $namespace The custom resource&#39;s namespace (required)
@@ -1059,138 +1204,158 @@ sub get_cluster_custom_object_status {
 # @param string $name the custom object&#39;s name (required)
 {
     my $params = {
-    'group' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s group',
-        required => '1',
-    },
-    'version' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s version',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'The custom resource&#39;s namespace',
-        required => '1',
-    },
-    'plural' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
-        required => '1',
-    },
-    'name' => {
-        data_type => 'string',
-        description => 'the custom object&#39;s name',
-        required => '1',
-    },
+        'group' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s group',
+            required    => '1',
+        },
+        'version' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s version',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type   => 'string',
+            description => 'The custom resource&#39;s namespace',
+            required    => '1',
+        },
+        'plural' => {
+            data_type => 'string',
+            description =>
+'the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
+            required => '1',
+        },
+        'name' => {
+            data_type   => 'string',
+            description => 'the custom object&#39;s name',
+            required    => '1',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'get_namespaced_custom_object' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'get_namespaced_custom_object'} = {
+        summary => '',
+        params  => $params,
         returns => 'object',
-        };
+    };
 }
+
 # @return object
 #
 sub get_namespaced_custom_object {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'group' is set
-    unless (exists $args{'group'}) {
-      croak("Missing the required parameter 'group' when calling get_namespaced_custom_object");
+    unless ( exists $args{'group'} ) {
+        croak(
+"Missing the required parameter 'group' when calling get_namespaced_custom_object"
+        );
     }
 
     # verify the required parameter 'version' is set
-    unless (exists $args{'version'}) {
-      croak("Missing the required parameter 'version' when calling get_namespaced_custom_object");
+    unless ( exists $args{'version'} ) {
+        croak(
+"Missing the required parameter 'version' when calling get_namespaced_custom_object"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling get_namespaced_custom_object");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling get_namespaced_custom_object"
+        );
     }
 
     # verify the required parameter 'plural' is set
-    unless (exists $args{'plural'}) {
-      croak("Missing the required parameter 'plural' when calling get_namespaced_custom_object");
+    unless ( exists $args{'plural'} ) {
+        croak(
+"Missing the required parameter 'plural' when calling get_namespaced_custom_object"
+        );
     }
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling get_namespaced_custom_object");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling get_namespaced_custom_object"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/{group}/{version}/namespaces/{namespace}/{plural}/{name}';
+    my $_resource_path =
+      '/apis/{group}/{version}/namespaces/{namespace}/{plural}/{name}';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json');
+    my $_header_accept =
+      $self->{api_client}->select_header_accept('application/json');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # path params
-    if ( exists $args{'group'}) {
+    if ( exists $args{'group'} ) {
         my $_base_variable = "{" . "group" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'group'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'group'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'version'}) {
+    if ( exists $args{'version'} ) {
         my $_base_variable = "{" . "version" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'version'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'version'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'plural'}) {
+    if ( exists $args{'plural'} ) {
         my $_base_variable = "{" . "plural" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'plural'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'plural'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('object', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'object', $response );
     return $_response_object;
 }
 
 #
 # get_namespaced_custom_object_scale
 #
-# 
-# 
+#
+#
 # @param string $group the custom resource&#39;s group (required)
 # @param string $version the custom resource&#39;s version (required)
 # @param string $namespace The custom resource&#39;s namespace (required)
@@ -1198,138 +1363,161 @@ sub get_namespaced_custom_object {
 # @param string $name the custom object&#39;s name (required)
 {
     my $params = {
-    'group' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s group',
-        required => '1',
-    },
-    'version' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s version',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'The custom resource&#39;s namespace',
-        required => '1',
-    },
-    'plural' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
-        required => '1',
-    },
-    'name' => {
-        data_type => 'string',
-        description => 'the custom object&#39;s name',
-        required => '1',
-    },
+        'group' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s group',
+            required    => '1',
+        },
+        'version' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s version',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type   => 'string',
+            description => 'The custom resource&#39;s namespace',
+            required    => '1',
+        },
+        'plural' => {
+            data_type => 'string',
+            description =>
+'the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
+            required => '1',
+        },
+        'name' => {
+            data_type   => 'string',
+            description => 'the custom object&#39;s name',
+            required    => '1',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'get_namespaced_custom_object_scale' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'get_namespaced_custom_object_scale'} =
+      {
+        summary => '',
+        params  => $params,
         returns => 'object',
-        };
+      };
 }
+
 # @return object
 #
 sub get_namespaced_custom_object_scale {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'group' is set
-    unless (exists $args{'group'}) {
-      croak("Missing the required parameter 'group' when calling get_namespaced_custom_object_scale");
+    unless ( exists $args{'group'} ) {
+        croak(
+"Missing the required parameter 'group' when calling get_namespaced_custom_object_scale"
+        );
     }
 
     # verify the required parameter 'version' is set
-    unless (exists $args{'version'}) {
-      croak("Missing the required parameter 'version' when calling get_namespaced_custom_object_scale");
+    unless ( exists $args{'version'} ) {
+        croak(
+"Missing the required parameter 'version' when calling get_namespaced_custom_object_scale"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling get_namespaced_custom_object_scale");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling get_namespaced_custom_object_scale"
+        );
     }
 
     # verify the required parameter 'plural' is set
-    unless (exists $args{'plural'}) {
-      croak("Missing the required parameter 'plural' when calling get_namespaced_custom_object_scale");
+    unless ( exists $args{'plural'} ) {
+        croak(
+"Missing the required parameter 'plural' when calling get_namespaced_custom_object_scale"
+        );
     }
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling get_namespaced_custom_object_scale");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling get_namespaced_custom_object_scale"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/{group}/{version}/namespaces/{namespace}/{plural}/{name}/scale';
+    my $_resource_path =
+      '/apis/{group}/{version}/namespaces/{namespace}/{plural}/{name}/scale';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # path params
-    if ( exists $args{'group'}) {
+    if ( exists $args{'group'} ) {
         my $_base_variable = "{" . "group" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'group'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'group'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'version'}) {
+    if ( exists $args{'version'} ) {
         my $_base_variable = "{" . "version" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'version'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'version'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'plural'}) {
+    if ( exists $args{'plural'} ) {
         my $_base_variable = "{" . "plural" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'plural'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'plural'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('object', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'object', $response );
     return $_response_object;
 }
 
 #
 # get_namespaced_custom_object_status
 #
-# 
-# 
+#
+#
 # @param string $group the custom resource&#39;s group (required)
 # @param string $version the custom resource&#39;s version (required)
 # @param string $namespace The custom resource&#39;s namespace (required)
@@ -1337,138 +1525,161 @@ sub get_namespaced_custom_object_scale {
 # @param string $name the custom object&#39;s name (required)
 {
     my $params = {
-    'group' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s group',
-        required => '1',
-    },
-    'version' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s version',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'The custom resource&#39;s namespace',
-        required => '1',
-    },
-    'plural' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
-        required => '1',
-    },
-    'name' => {
-        data_type => 'string',
-        description => 'the custom object&#39;s name',
-        required => '1',
-    },
+        'group' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s group',
+            required    => '1',
+        },
+        'version' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s version',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type   => 'string',
+            description => 'The custom resource&#39;s namespace',
+            required    => '1',
+        },
+        'plural' => {
+            data_type => 'string',
+            description =>
+'the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
+            required => '1',
+        },
+        'name' => {
+            data_type   => 'string',
+            description => 'the custom object&#39;s name',
+            required    => '1',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'get_namespaced_custom_object_status' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'get_namespaced_custom_object_status'}
+      = {
+        summary => '',
+        params  => $params,
         returns => 'object',
-        };
+      };
 }
+
 # @return object
 #
 sub get_namespaced_custom_object_status {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'group' is set
-    unless (exists $args{'group'}) {
-      croak("Missing the required parameter 'group' when calling get_namespaced_custom_object_status");
+    unless ( exists $args{'group'} ) {
+        croak(
+"Missing the required parameter 'group' when calling get_namespaced_custom_object_status"
+        );
     }
 
     # verify the required parameter 'version' is set
-    unless (exists $args{'version'}) {
-      croak("Missing the required parameter 'version' when calling get_namespaced_custom_object_status");
+    unless ( exists $args{'version'} ) {
+        croak(
+"Missing the required parameter 'version' when calling get_namespaced_custom_object_status"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling get_namespaced_custom_object_status");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling get_namespaced_custom_object_status"
+        );
     }
 
     # verify the required parameter 'plural' is set
-    unless (exists $args{'plural'}) {
-      croak("Missing the required parameter 'plural' when calling get_namespaced_custom_object_status");
+    unless ( exists $args{'plural'} ) {
+        croak(
+"Missing the required parameter 'plural' when calling get_namespaced_custom_object_status"
+        );
     }
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling get_namespaced_custom_object_status");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling get_namespaced_custom_object_status"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/{group}/{version}/namespaces/{namespace}/{plural}/{name}/status';
+    my $_resource_path =
+      '/apis/{group}/{version}/namespaces/{namespace}/{plural}/{name}/status';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # path params
-    if ( exists $args{'group'}) {
+    if ( exists $args{'group'} ) {
         my $_base_variable = "{" . "group" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'group'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'group'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'version'}) {
+    if ( exists $args{'version'} ) {
         my $_base_variable = "{" . "version" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'version'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'version'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'plural'}) {
+    if ( exists $args{'plural'} ) {
         my $_base_variable = "{" . "plural" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'plural'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'plural'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('object', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'object', $response );
     return $_response_object;
 }
 
 #
 # list_cluster_custom_object
 #
-# 
-# 
+#
+#
 # @param string $group The custom resource&#39;s group name (required)
 # @param string $version The custom resource&#39;s version (required)
 # @param string $plural The custom resource&#39;s plural name. For TPRs this would be lowercase plural kind. (required)
@@ -1480,164 +1691,191 @@ sub get_namespaced_custom_object_status {
 # @param boolean $watch Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. (optional)
 {
     my $params = {
-    'group' => {
-        data_type => 'string',
-        description => 'The custom resource&#39;s group name',
-        required => '1',
-    },
-    'version' => {
-        data_type => 'string',
-        description => 'The custom resource&#39;s version',
-        required => '1',
-    },
-    'plural' => {
-        data_type => 'string',
-        description => 'The custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'field_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
-        required => '0',
-    },
-    'label_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
-        required => '0',
-    },
-    'resource_version' => {
-        data_type => 'string',
-        description => 'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
-        required => '0',
-    },
-    'timeout_seconds' => {
-        data_type => 'int',
-        description => 'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
-        required => '0',
-    },
-    'watch' => {
-        data_type => 'boolean',
-        description => 'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications.',
-        required => '0',
-    },
+        'group' => {
+            data_type   => 'string',
+            description => 'The custom resource&#39;s group name',
+            required    => '1',
+        },
+        'version' => {
+            data_type   => 'string',
+            description => 'The custom resource&#39;s version',
+            required    => '1',
+        },
+        'plural' => {
+            data_type => 'string',
+            description =>
+'The custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
+            required => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'field_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
+            required => '0',
+        },
+        'label_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
+            required => '0',
+        },
+        'resource_version' => {
+            data_type => 'string',
+            description =>
+'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
+            required => '0',
+        },
+        'timeout_seconds' => {
+            data_type => 'int',
+            description =>
+'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
+            required => '0',
+        },
+        'watch' => {
+            data_type => 'boolean',
+            description =>
+'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications.',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'list_cluster_custom_object' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'list_cluster_custom_object'} = {
+        summary => '',
+        params  => $params,
         returns => 'object',
-        };
+    };
 }
+
 # @return object
 #
 sub list_cluster_custom_object {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'group' is set
-    unless (exists $args{'group'}) {
-      croak("Missing the required parameter 'group' when calling list_cluster_custom_object");
+    unless ( exists $args{'group'} ) {
+        croak(
+"Missing the required parameter 'group' when calling list_cluster_custom_object"
+        );
     }
 
     # verify the required parameter 'version' is set
-    unless (exists $args{'version'}) {
-      croak("Missing the required parameter 'version' when calling list_cluster_custom_object");
+    unless ( exists $args{'version'} ) {
+        croak(
+"Missing the required parameter 'version' when calling list_cluster_custom_object"
+        );
     }
 
     # verify the required parameter 'plural' is set
-    unless (exists $args{'plural'}) {
-      croak("Missing the required parameter 'plural' when calling list_cluster_custom_object");
+    unless ( exists $args{'plural'} ) {
+        croak(
+"Missing the required parameter 'plural' when calling list_cluster_custom_object"
+        );
     }
 
     # parse inputs
     my $_resource_path = '/apis/{group}/{version}/{plural}';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/json;stream=watch');
+    my $_header_accept =
+      $self->{api_client}->select_header_accept( 'application/json',
+        'application/json;stream=watch' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'field_selector'}) {
-        $query_params->{'fieldSelector'} = $self->{api_client}->to_query_value($args{'field_selector'});
+    if ( exists $args{'field_selector'} ) {
+        $query_params->{'fieldSelector'} =
+          $self->{api_client}->to_query_value( $args{'field_selector'} );
     }
 
     # query params
-    if ( exists $args{'label_selector'}) {
-        $query_params->{'labelSelector'} = $self->{api_client}->to_query_value($args{'label_selector'});
+    if ( exists $args{'label_selector'} ) {
+        $query_params->{'labelSelector'} =
+          $self->{api_client}->to_query_value( $args{'label_selector'} );
     }
 
     # query params
-    if ( exists $args{'resource_version'}) {
-        $query_params->{'resourceVersion'} = $self->{api_client}->to_query_value($args{'resource_version'});
+    if ( exists $args{'resource_version'} ) {
+        $query_params->{'resourceVersion'} =
+          $self->{api_client}->to_query_value( $args{'resource_version'} );
     }
 
     # query params
-    if ( exists $args{'timeout_seconds'}) {
-        $query_params->{'timeoutSeconds'} = $self->{api_client}->to_query_value($args{'timeout_seconds'});
+    if ( exists $args{'timeout_seconds'} ) {
+        $query_params->{'timeoutSeconds'} =
+          $self->{api_client}->to_query_value( $args{'timeout_seconds'} );
     }
 
     # query params
-    if ( exists $args{'watch'}) {
-        $query_params->{'watch'} = $self->{api_client}->to_query_value($args{'watch'});
+    if ( exists $args{'watch'} ) {
+        $query_params->{'watch'} =
+          $self->{api_client}->to_query_value( $args{'watch'} );
     }
 
     # path params
-    if ( exists $args{'group'}) {
+    if ( exists $args{'group'} ) {
         my $_base_variable = "{" . "group" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'group'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'group'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'version'}) {
+    if ( exists $args{'version'} ) {
         my $_base_variable = "{" . "version" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'version'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'version'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'plural'}) {
+    if ( exists $args{'plural'} ) {
         my $_base_variable = "{" . "plural" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'plural'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'plural'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('object', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'object', $response );
     return $_response_object;
 }
 
 #
 # list_namespaced_custom_object
 #
-# 
-# 
+#
+#
 # @param string $group The custom resource&#39;s group name (required)
 # @param string $version The custom resource&#39;s version (required)
 # @param string $namespace The custom resource&#39;s namespace (required)
@@ -1650,181 +1888,212 @@ sub list_cluster_custom_object {
 # @param boolean $watch Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. (optional)
 {
     my $params = {
-    'group' => {
-        data_type => 'string',
-        description => 'The custom resource&#39;s group name',
-        required => '1',
-    },
-    'version' => {
-        data_type => 'string',
-        description => 'The custom resource&#39;s version',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'The custom resource&#39;s namespace',
-        required => '1',
-    },
-    'plural' => {
-        data_type => 'string',
-        description => 'The custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'field_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
-        required => '0',
-    },
-    'label_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
-        required => '0',
-    },
-    'resource_version' => {
-        data_type => 'string',
-        description => 'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
-        required => '0',
-    },
-    'timeout_seconds' => {
-        data_type => 'int',
-        description => 'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
-        required => '0',
-    },
-    'watch' => {
-        data_type => 'boolean',
-        description => 'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications.',
-        required => '0',
-    },
+        'group' => {
+            data_type   => 'string',
+            description => 'The custom resource&#39;s group name',
+            required    => '1',
+        },
+        'version' => {
+            data_type   => 'string',
+            description => 'The custom resource&#39;s version',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type   => 'string',
+            description => 'The custom resource&#39;s namespace',
+            required    => '1',
+        },
+        'plural' => {
+            data_type => 'string',
+            description =>
+'The custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
+            required => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'field_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
+            required => '0',
+        },
+        'label_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
+            required => '0',
+        },
+        'resource_version' => {
+            data_type => 'string',
+            description =>
+'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
+            required => '0',
+        },
+        'timeout_seconds' => {
+            data_type => 'int',
+            description =>
+'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
+            required => '0',
+        },
+        'watch' => {
+            data_type => 'boolean',
+            description =>
+'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications.',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'list_namespaced_custom_object' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'list_namespaced_custom_object'} = {
+        summary => '',
+        params  => $params,
         returns => 'object',
-        };
+    };
 }
+
 # @return object
 #
 sub list_namespaced_custom_object {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'group' is set
-    unless (exists $args{'group'}) {
-      croak("Missing the required parameter 'group' when calling list_namespaced_custom_object");
+    unless ( exists $args{'group'} ) {
+        croak(
+"Missing the required parameter 'group' when calling list_namespaced_custom_object"
+        );
     }
 
     # verify the required parameter 'version' is set
-    unless (exists $args{'version'}) {
-      croak("Missing the required parameter 'version' when calling list_namespaced_custom_object");
+    unless ( exists $args{'version'} ) {
+        croak(
+"Missing the required parameter 'version' when calling list_namespaced_custom_object"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling list_namespaced_custom_object");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling list_namespaced_custom_object"
+        );
     }
 
     # verify the required parameter 'plural' is set
-    unless (exists $args{'plural'}) {
-      croak("Missing the required parameter 'plural' when calling list_namespaced_custom_object");
+    unless ( exists $args{'plural'} ) {
+        croak(
+"Missing the required parameter 'plural' when calling list_namespaced_custom_object"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/{group}/{version}/namespaces/{namespace}/{plural}';
+    my $_resource_path =
+      '/apis/{group}/{version}/namespaces/{namespace}/{plural}';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/json;stream=watch');
+    my $_header_accept =
+      $self->{api_client}->select_header_accept( 'application/json',
+        'application/json;stream=watch' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'field_selector'}) {
-        $query_params->{'fieldSelector'} = $self->{api_client}->to_query_value($args{'field_selector'});
+    if ( exists $args{'field_selector'} ) {
+        $query_params->{'fieldSelector'} =
+          $self->{api_client}->to_query_value( $args{'field_selector'} );
     }
 
     # query params
-    if ( exists $args{'label_selector'}) {
-        $query_params->{'labelSelector'} = $self->{api_client}->to_query_value($args{'label_selector'});
+    if ( exists $args{'label_selector'} ) {
+        $query_params->{'labelSelector'} =
+          $self->{api_client}->to_query_value( $args{'label_selector'} );
     }
 
     # query params
-    if ( exists $args{'resource_version'}) {
-        $query_params->{'resourceVersion'} = $self->{api_client}->to_query_value($args{'resource_version'});
+    if ( exists $args{'resource_version'} ) {
+        $query_params->{'resourceVersion'} =
+          $self->{api_client}->to_query_value( $args{'resource_version'} );
     }
 
     # query params
-    if ( exists $args{'timeout_seconds'}) {
-        $query_params->{'timeoutSeconds'} = $self->{api_client}->to_query_value($args{'timeout_seconds'});
+    if ( exists $args{'timeout_seconds'} ) {
+        $query_params->{'timeoutSeconds'} =
+          $self->{api_client}->to_query_value( $args{'timeout_seconds'} );
     }
 
     # query params
-    if ( exists $args{'watch'}) {
-        $query_params->{'watch'} = $self->{api_client}->to_query_value($args{'watch'});
+    if ( exists $args{'watch'} ) {
+        $query_params->{'watch'} =
+          $self->{api_client}->to_query_value( $args{'watch'} );
     }
 
     # path params
-    if ( exists $args{'group'}) {
+    if ( exists $args{'group'} ) {
         my $_base_variable = "{" . "group" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'group'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'group'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'version'}) {
+    if ( exists $args{'version'} ) {
         my $_base_variable = "{" . "version" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'version'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'version'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'plural'}) {
+    if ( exists $args{'plural'} ) {
         my $_base_variable = "{" . "plural" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'plural'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'plural'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('object', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'object', $response );
     return $_response_object;
 }
 
 #
 # patch_cluster_custom_object
 #
-# 
-# 
+#
+#
 # @param string $group the custom resource&#39;s group (required)
 # @param string $version the custom resource&#39;s version (required)
 # @param string $plural the custom object&#39;s plural name. For TPRs this would be lowercase plural kind. (required)
@@ -1832,114 +2101,130 @@ sub list_namespaced_custom_object {
 # @param UNKNOWN_BASE_TYPE $body The JSON schema of the Resource to patch. (required)
 {
     my $params = {
-    'group' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s group',
-        required => '1',
-    },
-    'version' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s version',
-        required => '1',
-    },
-    'plural' => {
-        data_type => 'string',
-        description => 'the custom object&#39;s plural name. For TPRs this would be lowercase plural kind.',
-        required => '1',
-    },
-    'name' => {
-        data_type => 'string',
-        description => 'the custom object&#39;s name',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'UNKNOWN_BASE_TYPE',
-        description => 'The JSON schema of the Resource to patch.',
-        required => '1',
-    },
+        'group' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s group',
+            required    => '1',
+        },
+        'version' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s version',
+            required    => '1',
+        },
+        'plural' => {
+            data_type => 'string',
+            description =>
+'the custom object&#39;s plural name. For TPRs this would be lowercase plural kind.',
+            required => '1',
+        },
+        'name' => {
+            data_type   => 'string',
+            description => 'the custom object&#39;s name',
+            required    => '1',
+        },
+        'body' => {
+            data_type   => 'UNKNOWN_BASE_TYPE',
+            description => 'The JSON schema of the Resource to patch.',
+            required    => '1',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'patch_cluster_custom_object' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'patch_cluster_custom_object'} = {
+        summary => '',
+        params  => $params,
         returns => 'object',
-        };
+    };
 }
+
 # @return object
 #
 sub patch_cluster_custom_object {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'group' is set
-    unless (exists $args{'group'}) {
-      croak("Missing the required parameter 'group' when calling patch_cluster_custom_object");
+    unless ( exists $args{'group'} ) {
+        croak(
+"Missing the required parameter 'group' when calling patch_cluster_custom_object"
+        );
     }
 
     # verify the required parameter 'version' is set
-    unless (exists $args{'version'}) {
-      croak("Missing the required parameter 'version' when calling patch_cluster_custom_object");
+    unless ( exists $args{'version'} ) {
+        croak(
+"Missing the required parameter 'version' when calling patch_cluster_custom_object"
+        );
     }
 
     # verify the required parameter 'plural' is set
-    unless (exists $args{'plural'}) {
-      croak("Missing the required parameter 'plural' when calling patch_cluster_custom_object");
+    unless ( exists $args{'plural'} ) {
+        croak(
+"Missing the required parameter 'plural' when calling patch_cluster_custom_object"
+        );
     }
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling patch_cluster_custom_object");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling patch_cluster_custom_object"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling patch_cluster_custom_object");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling patch_cluster_custom_object"
+        );
     }
 
     # parse inputs
     my $_resource_path = '/apis/{group}/{version}/{plural}/{name}';
 
-    my $_method = 'PATCH';
-    my $query_params = {};
+    my $_method       = 'PATCH';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json');
+    my $_header_accept =
+      $self->{api_client}->select_header_accept('application/json');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/merge-patch+json');
+    $header_params->{'Content-Type'} = $self->{api_client}
+      ->select_header_content_type('application/merge-patch+json');
 
     # path params
-    if ( exists $args{'group'}) {
+    if ( exists $args{'group'} ) {
         my $_base_variable = "{" . "group" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'group'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'group'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'version'}) {
+    if ( exists $args{'version'} ) {
         my $_base_variable = "{" . "version" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'version'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'version'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'plural'}) {
+    if ( exists $args{'plural'} ) {
         my $_base_variable = "{" . "plural" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'plural'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'plural'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -1947,21 +2232,23 @@ sub patch_cluster_custom_object {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('object', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'object', $response );
     return $_response_object;
 }
 
 #
 # patch_cluster_custom_object_scale
 #
-# 
-# 
+#
+#
 # @param string $group the custom resource&#39;s group (required)
 # @param string $version the custom resource&#39;s version (required)
 # @param string $plural the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind. (required)
@@ -1969,114 +2256,132 @@ sub patch_cluster_custom_object {
 # @param UNKNOWN_BASE_TYPE $body  (required)
 {
     my $params = {
-    'group' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s group',
-        required => '1',
-    },
-    'version' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s version',
-        required => '1',
-    },
-    'plural' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
-        required => '1',
-    },
-    'name' => {
-        data_type => 'string',
-        description => 'the custom object&#39;s name',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'UNKNOWN_BASE_TYPE',
-        description => '',
-        required => '1',
-    },
+        'group' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s group',
+            required    => '1',
+        },
+        'version' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s version',
+            required    => '1',
+        },
+        'plural' => {
+            data_type => 'string',
+            description =>
+'the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
+            required => '1',
+        },
+        'name' => {
+            data_type   => 'string',
+            description => 'the custom object&#39;s name',
+            required    => '1',
+        },
+        'body' => {
+            data_type   => 'UNKNOWN_BASE_TYPE',
+            description => '',
+            required    => '1',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'patch_cluster_custom_object_scale' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'patch_cluster_custom_object_scale'} = {
+        summary => '',
+        params  => $params,
         returns => 'object',
-        };
+    };
 }
+
 # @return object
 #
 sub patch_cluster_custom_object_scale {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'group' is set
-    unless (exists $args{'group'}) {
-      croak("Missing the required parameter 'group' when calling patch_cluster_custom_object_scale");
+    unless ( exists $args{'group'} ) {
+        croak(
+"Missing the required parameter 'group' when calling patch_cluster_custom_object_scale"
+        );
     }
 
     # verify the required parameter 'version' is set
-    unless (exists $args{'version'}) {
-      croak("Missing the required parameter 'version' when calling patch_cluster_custom_object_scale");
+    unless ( exists $args{'version'} ) {
+        croak(
+"Missing the required parameter 'version' when calling patch_cluster_custom_object_scale"
+        );
     }
 
     # verify the required parameter 'plural' is set
-    unless (exists $args{'plural'}) {
-      croak("Missing the required parameter 'plural' when calling patch_cluster_custom_object_scale");
+    unless ( exists $args{'plural'} ) {
+        croak(
+"Missing the required parameter 'plural' when calling patch_cluster_custom_object_scale"
+        );
     }
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling patch_cluster_custom_object_scale");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling patch_cluster_custom_object_scale"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling patch_cluster_custom_object_scale");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling patch_cluster_custom_object_scale"
+        );
     }
 
     # parse inputs
     my $_resource_path = '/apis/{group}/{version}/{plural}/{name}/scale';
 
-    my $_method = 'PATCH';
-    my $query_params = {};
+    my $_method       = 'PATCH';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/merge-patch+json');
+    $header_params->{'Content-Type'} = $self->{api_client}
+      ->select_header_content_type('application/merge-patch+json');
 
     # path params
-    if ( exists $args{'group'}) {
+    if ( exists $args{'group'} ) {
         my $_base_variable = "{" . "group" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'group'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'group'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'version'}) {
+    if ( exists $args{'version'} ) {
         my $_base_variable = "{" . "version" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'version'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'version'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'plural'}) {
+    if ( exists $args{'plural'} ) {
         my $_base_variable = "{" . "plural" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'plural'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'plural'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -2084,21 +2389,23 @@ sub patch_cluster_custom_object_scale {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('object', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'object', $response );
     return $_response_object;
 }
 
 #
 # patch_cluster_custom_object_status
 #
-# 
-# 
+#
+#
 # @param string $group the custom resource&#39;s group (required)
 # @param string $version the custom resource&#39;s version (required)
 # @param string $plural the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind. (required)
@@ -2106,114 +2413,133 @@ sub patch_cluster_custom_object_scale {
 # @param UNKNOWN_BASE_TYPE $body  (required)
 {
     my $params = {
-    'group' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s group',
-        required => '1',
-    },
-    'version' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s version',
-        required => '1',
-    },
-    'plural' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
-        required => '1',
-    },
-    'name' => {
-        data_type => 'string',
-        description => 'the custom object&#39;s name',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'UNKNOWN_BASE_TYPE',
-        description => '',
-        required => '1',
-    },
+        'group' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s group',
+            required    => '1',
+        },
+        'version' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s version',
+            required    => '1',
+        },
+        'plural' => {
+            data_type => 'string',
+            description =>
+'the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
+            required => '1',
+        },
+        'name' => {
+            data_type   => 'string',
+            description => 'the custom object&#39;s name',
+            required    => '1',
+        },
+        'body' => {
+            data_type   => 'UNKNOWN_BASE_TYPE',
+            description => '',
+            required    => '1',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'patch_cluster_custom_object_status' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'patch_cluster_custom_object_status'} =
+      {
+        summary => '',
+        params  => $params,
         returns => 'object',
-        };
+      };
 }
+
 # @return object
 #
 sub patch_cluster_custom_object_status {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'group' is set
-    unless (exists $args{'group'}) {
-      croak("Missing the required parameter 'group' when calling patch_cluster_custom_object_status");
+    unless ( exists $args{'group'} ) {
+        croak(
+"Missing the required parameter 'group' when calling patch_cluster_custom_object_status"
+        );
     }
 
     # verify the required parameter 'version' is set
-    unless (exists $args{'version'}) {
-      croak("Missing the required parameter 'version' when calling patch_cluster_custom_object_status");
+    unless ( exists $args{'version'} ) {
+        croak(
+"Missing the required parameter 'version' when calling patch_cluster_custom_object_status"
+        );
     }
 
     # verify the required parameter 'plural' is set
-    unless (exists $args{'plural'}) {
-      croak("Missing the required parameter 'plural' when calling patch_cluster_custom_object_status");
+    unless ( exists $args{'plural'} ) {
+        croak(
+"Missing the required parameter 'plural' when calling patch_cluster_custom_object_status"
+        );
     }
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling patch_cluster_custom_object_status");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling patch_cluster_custom_object_status"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling patch_cluster_custom_object_status");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling patch_cluster_custom_object_status"
+        );
     }
 
     # parse inputs
     my $_resource_path = '/apis/{group}/{version}/{plural}/{name}/status';
 
-    my $_method = 'PATCH';
-    my $query_params = {};
+    my $_method       = 'PATCH';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/merge-patch+json');
+    $header_params->{'Content-Type'} = $self->{api_client}
+      ->select_header_content_type('application/merge-patch+json');
 
     # path params
-    if ( exists $args{'group'}) {
+    if ( exists $args{'group'} ) {
         my $_base_variable = "{" . "group" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'group'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'group'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'version'}) {
+    if ( exists $args{'version'} ) {
         my $_base_variable = "{" . "version" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'version'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'version'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'plural'}) {
+    if ( exists $args{'plural'} ) {
         my $_base_variable = "{" . "plural" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'plural'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'plural'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -2221,21 +2547,23 @@ sub patch_cluster_custom_object_status {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('object', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'object', $response );
     return $_response_object;
 }
 
 #
 # patch_namespaced_custom_object
 #
-# 
-# 
+#
+#
 # @param string $group the custom resource&#39;s group (required)
 # @param string $version the custom resource&#39;s version (required)
 # @param string $namespace The custom resource&#39;s namespace (required)
@@ -2244,131 +2572,151 @@ sub patch_cluster_custom_object_status {
 # @param UNKNOWN_BASE_TYPE $body The JSON schema of the Resource to patch. (required)
 {
     my $params = {
-    'group' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s group',
-        required => '1',
-    },
-    'version' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s version',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'The custom resource&#39;s namespace',
-        required => '1',
-    },
-    'plural' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
-        required => '1',
-    },
-    'name' => {
-        data_type => 'string',
-        description => 'the custom object&#39;s name',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'UNKNOWN_BASE_TYPE',
-        description => 'The JSON schema of the Resource to patch.',
-        required => '1',
-    },
+        'group' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s group',
+            required    => '1',
+        },
+        'version' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s version',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type   => 'string',
+            description => 'The custom resource&#39;s namespace',
+            required    => '1',
+        },
+        'plural' => {
+            data_type => 'string',
+            description =>
+'the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
+            required => '1',
+        },
+        'name' => {
+            data_type   => 'string',
+            description => 'the custom object&#39;s name',
+            required    => '1',
+        },
+        'body' => {
+            data_type   => 'UNKNOWN_BASE_TYPE',
+            description => 'The JSON schema of the Resource to patch.',
+            required    => '1',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'patch_namespaced_custom_object' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'patch_namespaced_custom_object'} = {
+        summary => '',
+        params  => $params,
         returns => 'object',
-        };
+    };
 }
+
 # @return object
 #
 sub patch_namespaced_custom_object {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'group' is set
-    unless (exists $args{'group'}) {
-      croak("Missing the required parameter 'group' when calling patch_namespaced_custom_object");
+    unless ( exists $args{'group'} ) {
+        croak(
+"Missing the required parameter 'group' when calling patch_namespaced_custom_object"
+        );
     }
 
     # verify the required parameter 'version' is set
-    unless (exists $args{'version'}) {
-      croak("Missing the required parameter 'version' when calling patch_namespaced_custom_object");
+    unless ( exists $args{'version'} ) {
+        croak(
+"Missing the required parameter 'version' when calling patch_namespaced_custom_object"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling patch_namespaced_custom_object");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling patch_namespaced_custom_object"
+        );
     }
 
     # verify the required parameter 'plural' is set
-    unless (exists $args{'plural'}) {
-      croak("Missing the required parameter 'plural' when calling patch_namespaced_custom_object");
+    unless ( exists $args{'plural'} ) {
+        croak(
+"Missing the required parameter 'plural' when calling patch_namespaced_custom_object"
+        );
     }
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling patch_namespaced_custom_object");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling patch_namespaced_custom_object"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling patch_namespaced_custom_object");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling patch_namespaced_custom_object"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/{group}/{version}/namespaces/{namespace}/{plural}/{name}';
+    my $_resource_path =
+      '/apis/{group}/{version}/namespaces/{namespace}/{plural}/{name}';
 
-    my $_method = 'PATCH';
-    my $query_params = {};
+    my $_method       = 'PATCH';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json');
+    my $_header_accept =
+      $self->{api_client}->select_header_accept('application/json');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/merge-patch+json');
+    $header_params->{'Content-Type'} = $self->{api_client}
+      ->select_header_content_type('application/merge-patch+json');
 
     # path params
-    if ( exists $args{'group'}) {
+    if ( exists $args{'group'} ) {
         my $_base_variable = "{" . "group" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'group'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'group'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'version'}) {
+    if ( exists $args{'version'} ) {
         my $_base_variable = "{" . "version" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'version'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'version'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'plural'}) {
+    if ( exists $args{'plural'} ) {
         my $_base_variable = "{" . "plural" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'plural'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'plural'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -2376,21 +2724,23 @@ sub patch_namespaced_custom_object {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('object', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'object', $response );
     return $_response_object;
 }
 
 #
 # patch_namespaced_custom_object_scale
 #
-# 
-# 
+#
+#
 # @param string $group the custom resource&#39;s group (required)
 # @param string $version the custom resource&#39;s version (required)
 # @param string $namespace The custom resource&#39;s namespace (required)
@@ -2399,131 +2749,154 @@ sub patch_namespaced_custom_object {
 # @param UNKNOWN_BASE_TYPE $body  (required)
 {
     my $params = {
-    'group' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s group',
-        required => '1',
-    },
-    'version' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s version',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'The custom resource&#39;s namespace',
-        required => '1',
-    },
-    'plural' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
-        required => '1',
-    },
-    'name' => {
-        data_type => 'string',
-        description => 'the custom object&#39;s name',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'UNKNOWN_BASE_TYPE',
-        description => '',
-        required => '1',
-    },
+        'group' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s group',
+            required    => '1',
+        },
+        'version' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s version',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type   => 'string',
+            description => 'The custom resource&#39;s namespace',
+            required    => '1',
+        },
+        'plural' => {
+            data_type => 'string',
+            description =>
+'the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
+            required => '1',
+        },
+        'name' => {
+            data_type   => 'string',
+            description => 'the custom object&#39;s name',
+            required    => '1',
+        },
+        'body' => {
+            data_type   => 'UNKNOWN_BASE_TYPE',
+            description => '',
+            required    => '1',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'patch_namespaced_custom_object_scale' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'patch_namespaced_custom_object_scale'}
+      = {
+        summary => '',
+        params  => $params,
         returns => 'object',
-        };
+      };
 }
+
 # @return object
 #
 sub patch_namespaced_custom_object_scale {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'group' is set
-    unless (exists $args{'group'}) {
-      croak("Missing the required parameter 'group' when calling patch_namespaced_custom_object_scale");
+    unless ( exists $args{'group'} ) {
+        croak(
+"Missing the required parameter 'group' when calling patch_namespaced_custom_object_scale"
+        );
     }
 
     # verify the required parameter 'version' is set
-    unless (exists $args{'version'}) {
-      croak("Missing the required parameter 'version' when calling patch_namespaced_custom_object_scale");
+    unless ( exists $args{'version'} ) {
+        croak(
+"Missing the required parameter 'version' when calling patch_namespaced_custom_object_scale"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling patch_namespaced_custom_object_scale");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling patch_namespaced_custom_object_scale"
+        );
     }
 
     # verify the required parameter 'plural' is set
-    unless (exists $args{'plural'}) {
-      croak("Missing the required parameter 'plural' when calling patch_namespaced_custom_object_scale");
+    unless ( exists $args{'plural'} ) {
+        croak(
+"Missing the required parameter 'plural' when calling patch_namespaced_custom_object_scale"
+        );
     }
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling patch_namespaced_custom_object_scale");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling patch_namespaced_custom_object_scale"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling patch_namespaced_custom_object_scale");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling patch_namespaced_custom_object_scale"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/{group}/{version}/namespaces/{namespace}/{plural}/{name}/scale';
+    my $_resource_path =
+      '/apis/{group}/{version}/namespaces/{namespace}/{plural}/{name}/scale';
 
-    my $_method = 'PATCH';
-    my $query_params = {};
+    my $_method       = 'PATCH';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/merge-patch+json');
+    $header_params->{'Content-Type'} = $self->{api_client}
+      ->select_header_content_type('application/merge-patch+json');
 
     # path params
-    if ( exists $args{'group'}) {
+    if ( exists $args{'group'} ) {
         my $_base_variable = "{" . "group" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'group'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'group'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'version'}) {
+    if ( exists $args{'version'} ) {
         my $_base_variable = "{" . "version" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'version'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'version'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'plural'}) {
+    if ( exists $args{'plural'} ) {
         my $_base_variable = "{" . "plural" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'plural'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'plural'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -2531,21 +2904,23 @@ sub patch_namespaced_custom_object_scale {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('object', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'object', $response );
     return $_response_object;
 }
 
 #
 # patch_namespaced_custom_object_status
 #
-# 
-# 
+#
+#
 # @param string $group the custom resource&#39;s group (required)
 # @param string $version the custom resource&#39;s version (required)
 # @param string $namespace The custom resource&#39;s namespace (required)
@@ -2554,131 +2929,154 @@ sub patch_namespaced_custom_object_scale {
 # @param UNKNOWN_BASE_TYPE $body  (required)
 {
     my $params = {
-    'group' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s group',
-        required => '1',
-    },
-    'version' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s version',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'The custom resource&#39;s namespace',
-        required => '1',
-    },
-    'plural' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
-        required => '1',
-    },
-    'name' => {
-        data_type => 'string',
-        description => 'the custom object&#39;s name',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'UNKNOWN_BASE_TYPE',
-        description => '',
-        required => '1',
-    },
+        'group' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s group',
+            required    => '1',
+        },
+        'version' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s version',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type   => 'string',
+            description => 'The custom resource&#39;s namespace',
+            required    => '1',
+        },
+        'plural' => {
+            data_type => 'string',
+            description =>
+'the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
+            required => '1',
+        },
+        'name' => {
+            data_type   => 'string',
+            description => 'the custom object&#39;s name',
+            required    => '1',
+        },
+        'body' => {
+            data_type   => 'UNKNOWN_BASE_TYPE',
+            description => '',
+            required    => '1',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'patch_namespaced_custom_object_status' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'patch_namespaced_custom_object_status'}
+      = {
+        summary => '',
+        params  => $params,
         returns => 'object',
-        };
+      };
 }
+
 # @return object
 #
 sub patch_namespaced_custom_object_status {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'group' is set
-    unless (exists $args{'group'}) {
-      croak("Missing the required parameter 'group' when calling patch_namespaced_custom_object_status");
+    unless ( exists $args{'group'} ) {
+        croak(
+"Missing the required parameter 'group' when calling patch_namespaced_custom_object_status"
+        );
     }
 
     # verify the required parameter 'version' is set
-    unless (exists $args{'version'}) {
-      croak("Missing the required parameter 'version' when calling patch_namespaced_custom_object_status");
+    unless ( exists $args{'version'} ) {
+        croak(
+"Missing the required parameter 'version' when calling patch_namespaced_custom_object_status"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling patch_namespaced_custom_object_status");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling patch_namespaced_custom_object_status"
+        );
     }
 
     # verify the required parameter 'plural' is set
-    unless (exists $args{'plural'}) {
-      croak("Missing the required parameter 'plural' when calling patch_namespaced_custom_object_status");
+    unless ( exists $args{'plural'} ) {
+        croak(
+"Missing the required parameter 'plural' when calling patch_namespaced_custom_object_status"
+        );
     }
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling patch_namespaced_custom_object_status");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling patch_namespaced_custom_object_status"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling patch_namespaced_custom_object_status");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling patch_namespaced_custom_object_status"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/{group}/{version}/namespaces/{namespace}/{plural}/{name}/status';
+    my $_resource_path =
+      '/apis/{group}/{version}/namespaces/{namespace}/{plural}/{name}/status';
 
-    my $_method = 'PATCH';
-    my $query_params = {};
+    my $_method       = 'PATCH';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/merge-patch+json');
+    $header_params->{'Content-Type'} = $self->{api_client}
+      ->select_header_content_type('application/merge-patch+json');
 
     # path params
-    if ( exists $args{'group'}) {
+    if ( exists $args{'group'} ) {
         my $_base_variable = "{" . "group" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'group'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'group'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'version'}) {
+    if ( exists $args{'version'} ) {
         my $_base_variable = "{" . "version" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'version'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'version'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'plural'}) {
+    if ( exists $args{'plural'} ) {
         my $_base_variable = "{" . "plural" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'plural'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'plural'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -2686,21 +3084,23 @@ sub patch_namespaced_custom_object_status {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('object', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'object', $response );
     return $_response_object;
 }
 
 #
 # replace_cluster_custom_object
 #
-# 
-# 
+#
+#
 # @param string $group the custom resource&#39;s group (required)
 # @param string $version the custom resource&#39;s version (required)
 # @param string $plural the custom object&#39;s plural name. For TPRs this would be lowercase plural kind. (required)
@@ -2708,114 +3108,130 @@ sub patch_namespaced_custom_object_status {
 # @param UNKNOWN_BASE_TYPE $body The JSON schema of the Resource to replace. (required)
 {
     my $params = {
-    'group' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s group',
-        required => '1',
-    },
-    'version' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s version',
-        required => '1',
-    },
-    'plural' => {
-        data_type => 'string',
-        description => 'the custom object&#39;s plural name. For TPRs this would be lowercase plural kind.',
-        required => '1',
-    },
-    'name' => {
-        data_type => 'string',
-        description => 'the custom object&#39;s name',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'UNKNOWN_BASE_TYPE',
-        description => 'The JSON schema of the Resource to replace.',
-        required => '1',
-    },
+        'group' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s group',
+            required    => '1',
+        },
+        'version' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s version',
+            required    => '1',
+        },
+        'plural' => {
+            data_type => 'string',
+            description =>
+'the custom object&#39;s plural name. For TPRs this would be lowercase plural kind.',
+            required => '1',
+        },
+        'name' => {
+            data_type   => 'string',
+            description => 'the custom object&#39;s name',
+            required    => '1',
+        },
+        'body' => {
+            data_type   => 'UNKNOWN_BASE_TYPE',
+            description => 'The JSON schema of the Resource to replace.',
+            required    => '1',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'replace_cluster_custom_object' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'replace_cluster_custom_object'} = {
+        summary => '',
+        params  => $params,
         returns => 'object',
-        };
+    };
 }
+
 # @return object
 #
 sub replace_cluster_custom_object {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'group' is set
-    unless (exists $args{'group'}) {
-      croak("Missing the required parameter 'group' when calling replace_cluster_custom_object");
+    unless ( exists $args{'group'} ) {
+        croak(
+"Missing the required parameter 'group' when calling replace_cluster_custom_object"
+        );
     }
 
     # verify the required parameter 'version' is set
-    unless (exists $args{'version'}) {
-      croak("Missing the required parameter 'version' when calling replace_cluster_custom_object");
+    unless ( exists $args{'version'} ) {
+        croak(
+"Missing the required parameter 'version' when calling replace_cluster_custom_object"
+        );
     }
 
     # verify the required parameter 'plural' is set
-    unless (exists $args{'plural'}) {
-      croak("Missing the required parameter 'plural' when calling replace_cluster_custom_object");
+    unless ( exists $args{'plural'} ) {
+        croak(
+"Missing the required parameter 'plural' when calling replace_cluster_custom_object"
+        );
     }
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling replace_cluster_custom_object");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling replace_cluster_custom_object"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling replace_cluster_custom_object");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling replace_cluster_custom_object"
+        );
     }
 
     # parse inputs
     my $_resource_path = '/apis/{group}/{version}/{plural}/{name}';
 
-    my $_method = 'PUT';
-    my $query_params = {};
+    my $_method       = 'PUT';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json');
+    my $_header_accept =
+      $self->{api_client}->select_header_accept('application/json');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # path params
-    if ( exists $args{'group'}) {
+    if ( exists $args{'group'} ) {
         my $_base_variable = "{" . "group" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'group'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'group'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'version'}) {
+    if ( exists $args{'version'} ) {
         my $_base_variable = "{" . "version" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'version'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'version'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'plural'}) {
+    if ( exists $args{'plural'} ) {
         my $_base_variable = "{" . "plural" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'plural'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'plural'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -2823,21 +3239,23 @@ sub replace_cluster_custom_object {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('object', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'object', $response );
     return $_response_object;
 }
 
 #
 # replace_cluster_custom_object_scale
 #
-# 
-# 
+#
+#
 # @param string $group the custom resource&#39;s group (required)
 # @param string $version the custom resource&#39;s version (required)
 # @param string $plural the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind. (required)
@@ -2845,114 +3263,133 @@ sub replace_cluster_custom_object {
 # @param UNKNOWN_BASE_TYPE $body  (required)
 {
     my $params = {
-    'group' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s group',
-        required => '1',
-    },
-    'version' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s version',
-        required => '1',
-    },
-    'plural' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
-        required => '1',
-    },
-    'name' => {
-        data_type => 'string',
-        description => 'the custom object&#39;s name',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'UNKNOWN_BASE_TYPE',
-        description => '',
-        required => '1',
-    },
+        'group' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s group',
+            required    => '1',
+        },
+        'version' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s version',
+            required    => '1',
+        },
+        'plural' => {
+            data_type => 'string',
+            description =>
+'the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
+            required => '1',
+        },
+        'name' => {
+            data_type   => 'string',
+            description => 'the custom object&#39;s name',
+            required    => '1',
+        },
+        'body' => {
+            data_type   => 'UNKNOWN_BASE_TYPE',
+            description => '',
+            required    => '1',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'replace_cluster_custom_object_scale' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'replace_cluster_custom_object_scale'}
+      = {
+        summary => '',
+        params  => $params,
         returns => 'object',
-        };
+      };
 }
+
 # @return object
 #
 sub replace_cluster_custom_object_scale {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'group' is set
-    unless (exists $args{'group'}) {
-      croak("Missing the required parameter 'group' when calling replace_cluster_custom_object_scale");
+    unless ( exists $args{'group'} ) {
+        croak(
+"Missing the required parameter 'group' when calling replace_cluster_custom_object_scale"
+        );
     }
 
     # verify the required parameter 'version' is set
-    unless (exists $args{'version'}) {
-      croak("Missing the required parameter 'version' when calling replace_cluster_custom_object_scale");
+    unless ( exists $args{'version'} ) {
+        croak(
+"Missing the required parameter 'version' when calling replace_cluster_custom_object_scale"
+        );
     }
 
     # verify the required parameter 'plural' is set
-    unless (exists $args{'plural'}) {
-      croak("Missing the required parameter 'plural' when calling replace_cluster_custom_object_scale");
+    unless ( exists $args{'plural'} ) {
+        croak(
+"Missing the required parameter 'plural' when calling replace_cluster_custom_object_scale"
+        );
     }
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling replace_cluster_custom_object_scale");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling replace_cluster_custom_object_scale"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling replace_cluster_custom_object_scale");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling replace_cluster_custom_object_scale"
+        );
     }
 
     # parse inputs
     my $_resource_path = '/apis/{group}/{version}/{plural}/{name}/scale';
 
-    my $_method = 'PUT';
-    my $query_params = {};
+    my $_method       = 'PUT';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # path params
-    if ( exists $args{'group'}) {
+    if ( exists $args{'group'} ) {
         my $_base_variable = "{" . "group" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'group'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'group'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'version'}) {
+    if ( exists $args{'version'} ) {
         my $_base_variable = "{" . "version" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'version'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'version'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'plural'}) {
+    if ( exists $args{'plural'} ) {
         my $_base_variable = "{" . "plural" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'plural'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'plural'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -2960,21 +3397,23 @@ sub replace_cluster_custom_object_scale {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('object', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'object', $response );
     return $_response_object;
 }
 
 #
 # replace_cluster_custom_object_status
 #
-# 
-# 
+#
+#
 # @param string $group the custom resource&#39;s group (required)
 # @param string $version the custom resource&#39;s version (required)
 # @param string $plural the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind. (required)
@@ -2982,114 +3421,133 @@ sub replace_cluster_custom_object_scale {
 # @param UNKNOWN_BASE_TYPE $body  (required)
 {
     my $params = {
-    'group' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s group',
-        required => '1',
-    },
-    'version' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s version',
-        required => '1',
-    },
-    'plural' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
-        required => '1',
-    },
-    'name' => {
-        data_type => 'string',
-        description => 'the custom object&#39;s name',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'UNKNOWN_BASE_TYPE',
-        description => '',
-        required => '1',
-    },
+        'group' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s group',
+            required    => '1',
+        },
+        'version' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s version',
+            required    => '1',
+        },
+        'plural' => {
+            data_type => 'string',
+            description =>
+'the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
+            required => '1',
+        },
+        'name' => {
+            data_type   => 'string',
+            description => 'the custom object&#39;s name',
+            required    => '1',
+        },
+        'body' => {
+            data_type   => 'UNKNOWN_BASE_TYPE',
+            description => '',
+            required    => '1',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'replace_cluster_custom_object_status' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'replace_cluster_custom_object_status'}
+      = {
+        summary => '',
+        params  => $params,
         returns => 'object',
-        };
+      };
 }
+
 # @return object
 #
 sub replace_cluster_custom_object_status {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'group' is set
-    unless (exists $args{'group'}) {
-      croak("Missing the required parameter 'group' when calling replace_cluster_custom_object_status");
+    unless ( exists $args{'group'} ) {
+        croak(
+"Missing the required parameter 'group' when calling replace_cluster_custom_object_status"
+        );
     }
 
     # verify the required parameter 'version' is set
-    unless (exists $args{'version'}) {
-      croak("Missing the required parameter 'version' when calling replace_cluster_custom_object_status");
+    unless ( exists $args{'version'} ) {
+        croak(
+"Missing the required parameter 'version' when calling replace_cluster_custom_object_status"
+        );
     }
 
     # verify the required parameter 'plural' is set
-    unless (exists $args{'plural'}) {
-      croak("Missing the required parameter 'plural' when calling replace_cluster_custom_object_status");
+    unless ( exists $args{'plural'} ) {
+        croak(
+"Missing the required parameter 'plural' when calling replace_cluster_custom_object_status"
+        );
     }
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling replace_cluster_custom_object_status");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling replace_cluster_custom_object_status"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling replace_cluster_custom_object_status");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling replace_cluster_custom_object_status"
+        );
     }
 
     # parse inputs
     my $_resource_path = '/apis/{group}/{version}/{plural}/{name}/status';
 
-    my $_method = 'PUT';
-    my $query_params = {};
+    my $_method       = 'PUT';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # path params
-    if ( exists $args{'group'}) {
+    if ( exists $args{'group'} ) {
         my $_base_variable = "{" . "group" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'group'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'group'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'version'}) {
+    if ( exists $args{'version'} ) {
         my $_base_variable = "{" . "version" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'version'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'version'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'plural'}) {
+    if ( exists $args{'plural'} ) {
         my $_base_variable = "{" . "plural" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'plural'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'plural'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -3097,21 +3555,23 @@ sub replace_cluster_custom_object_status {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('object', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'object', $response );
     return $_response_object;
 }
 
 #
 # replace_namespaced_custom_object
 #
-# 
-# 
+#
+#
 # @param string $group the custom resource&#39;s group (required)
 # @param string $version the custom resource&#39;s version (required)
 # @param string $namespace The custom resource&#39;s namespace (required)
@@ -3120,131 +3580,151 @@ sub replace_cluster_custom_object_status {
 # @param UNKNOWN_BASE_TYPE $body The JSON schema of the Resource to replace. (required)
 {
     my $params = {
-    'group' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s group',
-        required => '1',
-    },
-    'version' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s version',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'The custom resource&#39;s namespace',
-        required => '1',
-    },
-    'plural' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
-        required => '1',
-    },
-    'name' => {
-        data_type => 'string',
-        description => 'the custom object&#39;s name',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'UNKNOWN_BASE_TYPE',
-        description => 'The JSON schema of the Resource to replace.',
-        required => '1',
-    },
+        'group' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s group',
+            required    => '1',
+        },
+        'version' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s version',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type   => 'string',
+            description => 'The custom resource&#39;s namespace',
+            required    => '1',
+        },
+        'plural' => {
+            data_type => 'string',
+            description =>
+'the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
+            required => '1',
+        },
+        'name' => {
+            data_type   => 'string',
+            description => 'the custom object&#39;s name',
+            required    => '1',
+        },
+        'body' => {
+            data_type   => 'UNKNOWN_BASE_TYPE',
+            description => 'The JSON schema of the Resource to replace.',
+            required    => '1',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'replace_namespaced_custom_object' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'replace_namespaced_custom_object'} = {
+        summary => '',
+        params  => $params,
         returns => 'object',
-        };
+    };
 }
+
 # @return object
 #
 sub replace_namespaced_custom_object {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'group' is set
-    unless (exists $args{'group'}) {
-      croak("Missing the required parameter 'group' when calling replace_namespaced_custom_object");
+    unless ( exists $args{'group'} ) {
+        croak(
+"Missing the required parameter 'group' when calling replace_namespaced_custom_object"
+        );
     }
 
     # verify the required parameter 'version' is set
-    unless (exists $args{'version'}) {
-      croak("Missing the required parameter 'version' when calling replace_namespaced_custom_object");
+    unless ( exists $args{'version'} ) {
+        croak(
+"Missing the required parameter 'version' when calling replace_namespaced_custom_object"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling replace_namespaced_custom_object");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling replace_namespaced_custom_object"
+        );
     }
 
     # verify the required parameter 'plural' is set
-    unless (exists $args{'plural'}) {
-      croak("Missing the required parameter 'plural' when calling replace_namespaced_custom_object");
+    unless ( exists $args{'plural'} ) {
+        croak(
+"Missing the required parameter 'plural' when calling replace_namespaced_custom_object"
+        );
     }
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling replace_namespaced_custom_object");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling replace_namespaced_custom_object"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling replace_namespaced_custom_object");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling replace_namespaced_custom_object"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/{group}/{version}/namespaces/{namespace}/{plural}/{name}';
+    my $_resource_path =
+      '/apis/{group}/{version}/namespaces/{namespace}/{plural}/{name}';
 
-    my $_method = 'PUT';
-    my $query_params = {};
+    my $_method       = 'PUT';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json');
+    my $_header_accept =
+      $self->{api_client}->select_header_accept('application/json');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # path params
-    if ( exists $args{'group'}) {
+    if ( exists $args{'group'} ) {
         my $_base_variable = "{" . "group" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'group'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'group'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'version'}) {
+    if ( exists $args{'version'} ) {
         my $_base_variable = "{" . "version" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'version'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'version'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'plural'}) {
+    if ( exists $args{'plural'} ) {
         my $_base_variable = "{" . "plural" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'plural'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'plural'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -3252,21 +3732,23 @@ sub replace_namespaced_custom_object {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('object', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'object', $response );
     return $_response_object;
 }
 
 #
 # replace_namespaced_custom_object_scale
 #
-# 
-# 
+#
+#
 # @param string $group the custom resource&#39;s group (required)
 # @param string $version the custom resource&#39;s version (required)
 # @param string $namespace The custom resource&#39;s namespace (required)
@@ -3275,131 +3757,154 @@ sub replace_namespaced_custom_object {
 # @param UNKNOWN_BASE_TYPE $body  (required)
 {
     my $params = {
-    'group' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s group',
-        required => '1',
-    },
-    'version' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s version',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'The custom resource&#39;s namespace',
-        required => '1',
-    },
-    'plural' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
-        required => '1',
-    },
-    'name' => {
-        data_type => 'string',
-        description => 'the custom object&#39;s name',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'UNKNOWN_BASE_TYPE',
-        description => '',
-        required => '1',
-    },
+        'group' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s group',
+            required    => '1',
+        },
+        'version' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s version',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type   => 'string',
+            description => 'The custom resource&#39;s namespace',
+            required    => '1',
+        },
+        'plural' => {
+            data_type => 'string',
+            description =>
+'the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
+            required => '1',
+        },
+        'name' => {
+            data_type   => 'string',
+            description => 'the custom object&#39;s name',
+            required    => '1',
+        },
+        'body' => {
+            data_type   => 'UNKNOWN_BASE_TYPE',
+            description => '',
+            required    => '1',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'replace_namespaced_custom_object_scale' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{
+        'replace_namespaced_custom_object_scale'} = {
+        summary => '',
+        params  => $params,
         returns => 'object',
         };
 }
+
 # @return object
 #
 sub replace_namespaced_custom_object_scale {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'group' is set
-    unless (exists $args{'group'}) {
-      croak("Missing the required parameter 'group' when calling replace_namespaced_custom_object_scale");
+    unless ( exists $args{'group'} ) {
+        croak(
+"Missing the required parameter 'group' when calling replace_namespaced_custom_object_scale"
+        );
     }
 
     # verify the required parameter 'version' is set
-    unless (exists $args{'version'}) {
-      croak("Missing the required parameter 'version' when calling replace_namespaced_custom_object_scale");
+    unless ( exists $args{'version'} ) {
+        croak(
+"Missing the required parameter 'version' when calling replace_namespaced_custom_object_scale"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling replace_namespaced_custom_object_scale");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling replace_namespaced_custom_object_scale"
+        );
     }
 
     # verify the required parameter 'plural' is set
-    unless (exists $args{'plural'}) {
-      croak("Missing the required parameter 'plural' when calling replace_namespaced_custom_object_scale");
+    unless ( exists $args{'plural'} ) {
+        croak(
+"Missing the required parameter 'plural' when calling replace_namespaced_custom_object_scale"
+        );
     }
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling replace_namespaced_custom_object_scale");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling replace_namespaced_custom_object_scale"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling replace_namespaced_custom_object_scale");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling replace_namespaced_custom_object_scale"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/{group}/{version}/namespaces/{namespace}/{plural}/{name}/scale';
+    my $_resource_path =
+      '/apis/{group}/{version}/namespaces/{namespace}/{plural}/{name}/scale';
 
-    my $_method = 'PUT';
-    my $query_params = {};
+    my $_method       = 'PUT';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # path params
-    if ( exists $args{'group'}) {
+    if ( exists $args{'group'} ) {
         my $_base_variable = "{" . "group" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'group'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'group'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'version'}) {
+    if ( exists $args{'version'} ) {
         my $_base_variable = "{" . "version" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'version'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'version'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'plural'}) {
+    if ( exists $args{'plural'} ) {
         my $_base_variable = "{" . "plural" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'plural'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'plural'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -3407,21 +3912,23 @@ sub replace_namespaced_custom_object_scale {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('object', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'object', $response );
     return $_response_object;
 }
 
 #
 # replace_namespaced_custom_object_status
 #
-# 
-# 
+#
+#
 # @param string $group the custom resource&#39;s group (required)
 # @param string $version the custom resource&#39;s version (required)
 # @param string $namespace The custom resource&#39;s namespace (required)
@@ -3430,131 +3937,154 @@ sub replace_namespaced_custom_object_scale {
 # @param UNKNOWN_BASE_TYPE $body  (required)
 {
     my $params = {
-    'group' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s group',
-        required => '1',
-    },
-    'version' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s version',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'The custom resource&#39;s namespace',
-        required => '1',
-    },
-    'plural' => {
-        data_type => 'string',
-        description => 'the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
-        required => '1',
-    },
-    'name' => {
-        data_type => 'string',
-        description => 'the custom object&#39;s name',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'UNKNOWN_BASE_TYPE',
-        description => '',
-        required => '1',
-    },
+        'group' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s group',
+            required    => '1',
+        },
+        'version' => {
+            data_type   => 'string',
+            description => 'the custom resource&#39;s version',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type   => 'string',
+            description => 'The custom resource&#39;s namespace',
+            required    => '1',
+        },
+        'plural' => {
+            data_type => 'string',
+            description =>
+'the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind.',
+            required => '1',
+        },
+        'name' => {
+            data_type   => 'string',
+            description => 'the custom object&#39;s name',
+            required    => '1',
+        },
+        'body' => {
+            data_type   => 'UNKNOWN_BASE_TYPE',
+            description => '',
+            required    => '1',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'replace_namespaced_custom_object_status' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{
+        'replace_namespaced_custom_object_status'} = {
+        summary => '',
+        params  => $params,
         returns => 'object',
         };
 }
+
 # @return object
 #
 sub replace_namespaced_custom_object_status {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'group' is set
-    unless (exists $args{'group'}) {
-      croak("Missing the required parameter 'group' when calling replace_namespaced_custom_object_status");
+    unless ( exists $args{'group'} ) {
+        croak(
+"Missing the required parameter 'group' when calling replace_namespaced_custom_object_status"
+        );
     }
 
     # verify the required parameter 'version' is set
-    unless (exists $args{'version'}) {
-      croak("Missing the required parameter 'version' when calling replace_namespaced_custom_object_status");
+    unless ( exists $args{'version'} ) {
+        croak(
+"Missing the required parameter 'version' when calling replace_namespaced_custom_object_status"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling replace_namespaced_custom_object_status");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling replace_namespaced_custom_object_status"
+        );
     }
 
     # verify the required parameter 'plural' is set
-    unless (exists $args{'plural'}) {
-      croak("Missing the required parameter 'plural' when calling replace_namespaced_custom_object_status");
+    unless ( exists $args{'plural'} ) {
+        croak(
+"Missing the required parameter 'plural' when calling replace_namespaced_custom_object_status"
+        );
     }
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling replace_namespaced_custom_object_status");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling replace_namespaced_custom_object_status"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling replace_namespaced_custom_object_status");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling replace_namespaced_custom_object_status"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/{group}/{version}/namespaces/{namespace}/{plural}/{name}/status';
+    my $_resource_path =
+      '/apis/{group}/{version}/namespaces/{namespace}/{plural}/{name}/status';
 
-    my $_method = 'PUT';
-    my $query_params = {};
+    my $_method       = 'PUT';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # path params
-    if ( exists $args{'group'}) {
+    if ( exists $args{'group'} ) {
         my $_base_variable = "{" . "group" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'group'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'group'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'version'}) {
+    if ( exists $args{'version'} ) {
         my $_base_variable = "{" . "version" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'version'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'version'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'plural'}) {
+    if ( exists $args{'plural'} ) {
         my $_base_variable = "{" . "plural" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'plural'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'plural'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -3562,13 +4092,15 @@ sub replace_namespaced_custom_object_status {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('object', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'object', $response );
     return $_response_object;
 }
 

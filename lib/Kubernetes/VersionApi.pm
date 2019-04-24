@@ -1,3 +1,4 @@
+
 =begin comment
 
 Kubernetes
@@ -22,7 +23,7 @@ package Kubernetes::VersionApi;
 require 5.6.0;
 use strict;
 use warnings;
-use utf8; 
+use utf8;
 use Exporter;
 use Carp qw( croak );
 use Log::Any qw($log);
@@ -31,15 +32,16 @@ use Kubernetes::ApiClient;
 
 use base "Class::Data::Inheritable";
 
-__PACKAGE__->mk_classdata('method_documentation' => {});
+__PACKAGE__->mk_classdata( 'method_documentation' => {} );
 
 sub new {
     my $class = shift;
     my $api_client;
 
-    if ($_[0] && ref $_[0] && ref $_[0] eq 'Kubernetes::ApiClient' ) {
+    if ( $_[0] && ref $_[0] && ref $_[0] eq 'Kubernetes::ApiClient' ) {
         $api_client = $_[0];
-    } else {
+    }
+    else {
         $api_client = Kubernetes::ApiClient->new(@_);
     }
 
@@ -47,53 +49,57 @@ sub new {
 
 }
 
-
 #
 # get_code
 #
-# 
-# 
+#
+#
 {
-    my $params = {
-    };
-    __PACKAGE__->method_documentation->{ 'get_code' } = { 
-    	summary => '',
-        params => $params,
+    my $params = {};
+    __PACKAGE__->method_documentation->{'get_code'} = {
+        summary => '',
+        params  => $params,
         returns => 'VersionInfo',
-        };
+    };
 }
+
 # @return VersionInfo
 #
 sub get_code {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # parse inputs
     my $_resource_path = '/version/';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json');
+    my $_header_accept =
+      $self->{api_client}->select_header_accept('application/json');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('VersionInfo', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'VersionInfo', $response );
     return $_response_object;
 }
 
