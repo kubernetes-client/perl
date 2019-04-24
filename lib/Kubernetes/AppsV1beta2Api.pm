@@ -1,3 +1,4 @@
+
 =begin comment
 
 Kubernetes
@@ -22,7 +23,7 @@ package Kubernetes::AppsV1beta2Api;
 require 5.6.0;
 use strict;
 use warnings;
-use utf8; 
+use utf8;
 use Exporter;
 use Carp qw( croak );
 use Log::Any qw($log);
@@ -31,15 +32,16 @@ use Kubernetes::ApiClient;
 
 use base "Class::Data::Inheritable";
 
-__PACKAGE__->mk_classdata('method_documentation' => {});
+__PACKAGE__->mk_classdata( 'method_documentation' => {} );
 
 sub new {
     my $class = shift;
     my $api_client;
 
-    if ($_[0] && ref $_[0] && ref $_[0] eq 'Kubernetes::ApiClient' ) {
+    if ( $_[0] && ref $_[0] && ref $_[0] eq 'Kubernetes::ApiClient' ) {
         $api_client = $_[0];
-    } else {
+    }
+    else {
         $api_client = Kubernetes::ApiClient->new(@_);
     }
 
@@ -47,12 +49,11 @@ sub new {
 
 }
 
-
 #
 # create_namespaced_controller_revision
 #
-# 
-# 
+#
+#
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param V1beta2ControllerRevision $body  (required)
 # @param boolean $include_uninitialized If true, partially initialized resources are included in the response. (optional)
@@ -60,93 +61,113 @@ sub new {
 # @param string $dry_run When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)
 {
     my $params = {
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'V1beta2ControllerRevision',
-        description => '',
-        required => '1',
-    },
-    'include_uninitialized' => {
-        data_type => 'boolean',
-        description => 'If true, partially initialized resources are included in the response.',
-        required => '0',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'body' => {
+            data_type   => 'V1beta2ControllerRevision',
+            description => '',
+            required    => '1',
+        },
+        'include_uninitialized' => {
+            data_type => 'boolean',
+            description =>
+'If true, partially initialized resources are included in the response.',
+            required => '0',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'create_namespaced_controller_revision' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'create_namespaced_controller_revision'}
+      = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2ControllerRevision',
-        };
+      };
 }
+
 # @return V1beta2ControllerRevision
 #
 sub create_namespaced_controller_revision {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling create_namespaced_controller_revision");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling create_namespaced_controller_revision"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling create_namespaced_controller_revision");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling create_namespaced_controller_revision"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/controllerrevisions';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/controllerrevisions';
 
-    my $_method = 'POST';
-    my $query_params = {};
+    my $_method       = 'POST';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'include_uninitialized'}) {
-        $query_params->{'includeUninitialized'} = $self->{api_client}->to_query_value($args{'include_uninitialized'});
+    if ( exists $args{'include_uninitialized'} ) {
+        $query_params->{'includeUninitialized'} =
+          $self->{api_client}->to_query_value( $args{'include_uninitialized'} );
     }
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -154,21 +175,23 @@ sub create_namespaced_controller_revision {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2ControllerRevision', $response);
+    my $_response_object = $self->{api_client}
+      ->deserialize( 'V1beta2ControllerRevision', $response );
     return $_response_object;
 }
 
 #
 # create_namespaced_daemon_set
 #
-# 
-# 
+#
+#
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param V1beta2DaemonSet $body  (required)
 # @param boolean $include_uninitialized If true, partially initialized resources are included in the response. (optional)
@@ -176,93 +199,111 @@ sub create_namespaced_controller_revision {
 # @param string $dry_run When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)
 {
     my $params = {
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'V1beta2DaemonSet',
-        description => '',
-        required => '1',
-    },
-    'include_uninitialized' => {
-        data_type => 'boolean',
-        description => 'If true, partially initialized resources are included in the response.',
-        required => '0',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'body' => {
+            data_type   => 'V1beta2DaemonSet',
+            description => '',
+            required    => '1',
+        },
+        'include_uninitialized' => {
+            data_type => 'boolean',
+            description =>
+'If true, partially initialized resources are included in the response.',
+            required => '0',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'create_namespaced_daemon_set' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'create_namespaced_daemon_set'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2DaemonSet',
-        };
+    };
 }
+
 # @return V1beta2DaemonSet
 #
 sub create_namespaced_daemon_set {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling create_namespaced_daemon_set");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling create_namespaced_daemon_set"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling create_namespaced_daemon_set");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling create_namespaced_daemon_set"
+        );
     }
 
     # parse inputs
     my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/daemonsets';
 
-    my $_method = 'POST';
-    my $query_params = {};
+    my $_method       = 'POST';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'include_uninitialized'}) {
-        $query_params->{'includeUninitialized'} = $self->{api_client}->to_query_value($args{'include_uninitialized'});
+    if ( exists $args{'include_uninitialized'} ) {
+        $query_params->{'includeUninitialized'} =
+          $self->{api_client}->to_query_value( $args{'include_uninitialized'} );
     }
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -270,21 +311,23 @@ sub create_namespaced_daemon_set {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2DaemonSet', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2DaemonSet', $response );
     return $_response_object;
 }
 
 #
 # create_namespaced_deployment
 #
-# 
-# 
+#
+#
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param V1beta2Deployment $body  (required)
 # @param boolean $include_uninitialized If true, partially initialized resources are included in the response. (optional)
@@ -292,93 +335,112 @@ sub create_namespaced_daemon_set {
 # @param string $dry_run When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)
 {
     my $params = {
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'V1beta2Deployment',
-        description => '',
-        required => '1',
-    },
-    'include_uninitialized' => {
-        data_type => 'boolean',
-        description => 'If true, partially initialized resources are included in the response.',
-        required => '0',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'body' => {
+            data_type   => 'V1beta2Deployment',
+            description => '',
+            required    => '1',
+        },
+        'include_uninitialized' => {
+            data_type => 'boolean',
+            description =>
+'If true, partially initialized resources are included in the response.',
+            required => '0',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'create_namespaced_deployment' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'create_namespaced_deployment'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2Deployment',
-        };
+    };
 }
+
 # @return V1beta2Deployment
 #
 sub create_namespaced_deployment {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling create_namespaced_deployment");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling create_namespaced_deployment"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling create_namespaced_deployment");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling create_namespaced_deployment"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/deployments';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/deployments';
 
-    my $_method = 'POST';
-    my $query_params = {};
+    my $_method       = 'POST';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'include_uninitialized'}) {
-        $query_params->{'includeUninitialized'} = $self->{api_client}->to_query_value($args{'include_uninitialized'});
+    if ( exists $args{'include_uninitialized'} ) {
+        $query_params->{'includeUninitialized'} =
+          $self->{api_client}->to_query_value( $args{'include_uninitialized'} );
     }
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -386,21 +448,23 @@ sub create_namespaced_deployment {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2Deployment', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2Deployment', $response );
     return $_response_object;
 }
 
 #
 # create_namespaced_replica_set
 #
-# 
-# 
+#
+#
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param V1beta2ReplicaSet $body  (required)
 # @param boolean $include_uninitialized If true, partially initialized resources are included in the response. (optional)
@@ -408,93 +472,112 @@ sub create_namespaced_deployment {
 # @param string $dry_run When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)
 {
     my $params = {
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'V1beta2ReplicaSet',
-        description => '',
-        required => '1',
-    },
-    'include_uninitialized' => {
-        data_type => 'boolean',
-        description => 'If true, partially initialized resources are included in the response.',
-        required => '0',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'body' => {
+            data_type   => 'V1beta2ReplicaSet',
+            description => '',
+            required    => '1',
+        },
+        'include_uninitialized' => {
+            data_type => 'boolean',
+            description =>
+'If true, partially initialized resources are included in the response.',
+            required => '0',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'create_namespaced_replica_set' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'create_namespaced_replica_set'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2ReplicaSet',
-        };
+    };
 }
+
 # @return V1beta2ReplicaSet
 #
 sub create_namespaced_replica_set {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling create_namespaced_replica_set");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling create_namespaced_replica_set"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling create_namespaced_replica_set");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling create_namespaced_replica_set"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/replicasets';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/replicasets';
 
-    my $_method = 'POST';
-    my $query_params = {};
+    my $_method       = 'POST';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'include_uninitialized'}) {
-        $query_params->{'includeUninitialized'} = $self->{api_client}->to_query_value($args{'include_uninitialized'});
+    if ( exists $args{'include_uninitialized'} ) {
+        $query_params->{'includeUninitialized'} =
+          $self->{api_client}->to_query_value( $args{'include_uninitialized'} );
     }
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -502,21 +585,23 @@ sub create_namespaced_replica_set {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2ReplicaSet', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2ReplicaSet', $response );
     return $_response_object;
 }
 
 #
 # create_namespaced_stateful_set
 #
-# 
-# 
+#
+#
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param V1beta2StatefulSet $body  (required)
 # @param boolean $include_uninitialized If true, partially initialized resources are included in the response. (optional)
@@ -524,93 +609,112 @@ sub create_namespaced_replica_set {
 # @param string $dry_run When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)
 {
     my $params = {
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'V1beta2StatefulSet',
-        description => '',
-        required => '1',
-    },
-    'include_uninitialized' => {
-        data_type => 'boolean',
-        description => 'If true, partially initialized resources are included in the response.',
-        required => '0',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'body' => {
+            data_type   => 'V1beta2StatefulSet',
+            description => '',
+            required    => '1',
+        },
+        'include_uninitialized' => {
+            data_type => 'boolean',
+            description =>
+'If true, partially initialized resources are included in the response.',
+            required => '0',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'create_namespaced_stateful_set' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'create_namespaced_stateful_set'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2StatefulSet',
-        };
+    };
 }
+
 # @return V1beta2StatefulSet
 #
 sub create_namespaced_stateful_set {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling create_namespaced_stateful_set");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling create_namespaced_stateful_set"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling create_namespaced_stateful_set");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling create_namespaced_stateful_set"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/statefulsets';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/statefulsets';
 
-    my $_method = 'POST';
-    my $query_params = {};
+    my $_method       = 'POST';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'include_uninitialized'}) {
-        $query_params->{'includeUninitialized'} = $self->{api_client}->to_query_value($args{'include_uninitialized'});
+    if ( exists $args{'include_uninitialized'} ) {
+        $query_params->{'includeUninitialized'} =
+          $self->{api_client}->to_query_value( $args{'include_uninitialized'} );
     }
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -618,21 +722,23 @@ sub create_namespaced_stateful_set {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2StatefulSet', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2StatefulSet', $response );
     return $_response_object;
 }
 
 #
 # delete_collection_namespaced_controller_revision
 #
-# 
-# 
+#
+#
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param boolean $include_uninitialized If true, partially initialized resources are included in the response. (optional)
 # @param string $pretty If &#39;true&#39;, then the output is pretty printed. (optional)
@@ -645,160 +751,192 @@ sub create_namespaced_stateful_set {
 # @param boolean $watch Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 {
     my $params = {
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'include_uninitialized' => {
-        data_type => 'boolean',
-        description => 'If true, partially initialized resources are included in the response.',
-        required => '0',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'continue' => {
-        data_type => 'string',
-        description => 'The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.',
-        required => '0',
-    },
-    'field_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
-        required => '0',
-    },
-    'label_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
-        required => '0',
-    },
-    'limit' => {
-        data_type => 'int',
-        description => 'limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.',
-        required => '0',
-    },
-    'resource_version' => {
-        data_type => 'string',
-        description => 'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
-        required => '0',
-    },
-    'timeout_seconds' => {
-        data_type => 'int',
-        description => 'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
-        required => '0',
-    },
-    'watch' => {
-        data_type => 'boolean',
-        description => 'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.',
-        required => '0',
-    },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'include_uninitialized' => {
+            data_type => 'boolean',
+            description =>
+'If true, partially initialized resources are included in the response.',
+            required => '0',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'continue' => {
+            data_type => 'string',
+            description =>
+'The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.',
+            required => '0',
+        },
+        'field_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
+            required => '0',
+        },
+        'label_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
+            required => '0',
+        },
+        'limit' => {
+            data_type => 'int',
+            description =>
+'limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.',
+            required => '0',
+        },
+        'resource_version' => {
+            data_type => 'string',
+            description =>
+'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
+            required => '0',
+        },
+        'timeout_seconds' => {
+            data_type => 'int',
+            description =>
+'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
+            required => '0',
+        },
+        'watch' => {
+            data_type => 'boolean',
+            description =>
+'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'delete_collection_namespaced_controller_revision' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{
+        'delete_collection_namespaced_controller_revision'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1Status',
         };
 }
+
 # @return V1Status
 #
 sub delete_collection_namespaced_controller_revision {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling delete_collection_namespaced_controller_revision");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling delete_collection_namespaced_controller_revision"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/controllerrevisions';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/controllerrevisions';
 
-    my $_method = 'DELETE';
-    my $query_params = {};
+    my $_method       = 'DELETE';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'include_uninitialized'}) {
-        $query_params->{'includeUninitialized'} = $self->{api_client}->to_query_value($args{'include_uninitialized'});
+    if ( exists $args{'include_uninitialized'} ) {
+        $query_params->{'includeUninitialized'} =
+          $self->{api_client}->to_query_value( $args{'include_uninitialized'} );
     }
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'continue'}) {
-        $query_params->{'continue'} = $self->{api_client}->to_query_value($args{'continue'});
+    if ( exists $args{'continue'} ) {
+        $query_params->{'continue'} =
+          $self->{api_client}->to_query_value( $args{'continue'} );
     }
 
     # query params
-    if ( exists $args{'field_selector'}) {
-        $query_params->{'fieldSelector'} = $self->{api_client}->to_query_value($args{'field_selector'});
+    if ( exists $args{'field_selector'} ) {
+        $query_params->{'fieldSelector'} =
+          $self->{api_client}->to_query_value( $args{'field_selector'} );
     }
 
     # query params
-    if ( exists $args{'label_selector'}) {
-        $query_params->{'labelSelector'} = $self->{api_client}->to_query_value($args{'label_selector'});
+    if ( exists $args{'label_selector'} ) {
+        $query_params->{'labelSelector'} =
+          $self->{api_client}->to_query_value( $args{'label_selector'} );
     }
 
     # query params
-    if ( exists $args{'limit'}) {
-        $query_params->{'limit'} = $self->{api_client}->to_query_value($args{'limit'});
+    if ( exists $args{'limit'} ) {
+        $query_params->{'limit'} =
+          $self->{api_client}->to_query_value( $args{'limit'} );
     }
 
     # query params
-    if ( exists $args{'resource_version'}) {
-        $query_params->{'resourceVersion'} = $self->{api_client}->to_query_value($args{'resource_version'});
+    if ( exists $args{'resource_version'} ) {
+        $query_params->{'resourceVersion'} =
+          $self->{api_client}->to_query_value( $args{'resource_version'} );
     }
 
     # query params
-    if ( exists $args{'timeout_seconds'}) {
-        $query_params->{'timeoutSeconds'} = $self->{api_client}->to_query_value($args{'timeout_seconds'});
+    if ( exists $args{'timeout_seconds'} ) {
+        $query_params->{'timeoutSeconds'} =
+          $self->{api_client}->to_query_value( $args{'timeout_seconds'} );
     }
 
     # query params
-    if ( exists $args{'watch'}) {
-        $query_params->{'watch'} = $self->{api_client}->to_query_value($args{'watch'});
+    if ( exists $args{'watch'} ) {
+        $query_params->{'watch'} =
+          $self->{api_client}->to_query_value( $args{'watch'} );
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1Status', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1Status', $response );
     return $_response_object;
 }
 
 #
 # delete_collection_namespaced_daemon_set
 #
-# 
-# 
+#
+#
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param boolean $include_uninitialized If true, partially initialized resources are included in the response. (optional)
 # @param string $pretty If &#39;true&#39;, then the output is pretty printed. (optional)
@@ -811,160 +949,191 @@ sub delete_collection_namespaced_controller_revision {
 # @param boolean $watch Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 {
     my $params = {
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'include_uninitialized' => {
-        data_type => 'boolean',
-        description => 'If true, partially initialized resources are included in the response.',
-        required => '0',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'continue' => {
-        data_type => 'string',
-        description => 'The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.',
-        required => '0',
-    },
-    'field_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
-        required => '0',
-    },
-    'label_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
-        required => '0',
-    },
-    'limit' => {
-        data_type => 'int',
-        description => 'limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.',
-        required => '0',
-    },
-    'resource_version' => {
-        data_type => 'string',
-        description => 'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
-        required => '0',
-    },
-    'timeout_seconds' => {
-        data_type => 'int',
-        description => 'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
-        required => '0',
-    },
-    'watch' => {
-        data_type => 'boolean',
-        description => 'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.',
-        required => '0',
-    },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'include_uninitialized' => {
+            data_type => 'boolean',
+            description =>
+'If true, partially initialized resources are included in the response.',
+            required => '0',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'continue' => {
+            data_type => 'string',
+            description =>
+'The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.',
+            required => '0',
+        },
+        'field_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
+            required => '0',
+        },
+        'label_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
+            required => '0',
+        },
+        'limit' => {
+            data_type => 'int',
+            description =>
+'limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.',
+            required => '0',
+        },
+        'resource_version' => {
+            data_type => 'string',
+            description =>
+'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
+            required => '0',
+        },
+        'timeout_seconds' => {
+            data_type => 'int',
+            description =>
+'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
+            required => '0',
+        },
+        'watch' => {
+            data_type => 'boolean',
+            description =>
+'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'delete_collection_namespaced_daemon_set' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{
+        'delete_collection_namespaced_daemon_set'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1Status',
         };
 }
+
 # @return V1Status
 #
 sub delete_collection_namespaced_daemon_set {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling delete_collection_namespaced_daemon_set");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling delete_collection_namespaced_daemon_set"
+        );
     }
 
     # parse inputs
     my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/daemonsets';
 
-    my $_method = 'DELETE';
-    my $query_params = {};
+    my $_method       = 'DELETE';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'include_uninitialized'}) {
-        $query_params->{'includeUninitialized'} = $self->{api_client}->to_query_value($args{'include_uninitialized'});
+    if ( exists $args{'include_uninitialized'} ) {
+        $query_params->{'includeUninitialized'} =
+          $self->{api_client}->to_query_value( $args{'include_uninitialized'} );
     }
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'continue'}) {
-        $query_params->{'continue'} = $self->{api_client}->to_query_value($args{'continue'});
+    if ( exists $args{'continue'} ) {
+        $query_params->{'continue'} =
+          $self->{api_client}->to_query_value( $args{'continue'} );
     }
 
     # query params
-    if ( exists $args{'field_selector'}) {
-        $query_params->{'fieldSelector'} = $self->{api_client}->to_query_value($args{'field_selector'});
+    if ( exists $args{'field_selector'} ) {
+        $query_params->{'fieldSelector'} =
+          $self->{api_client}->to_query_value( $args{'field_selector'} );
     }
 
     # query params
-    if ( exists $args{'label_selector'}) {
-        $query_params->{'labelSelector'} = $self->{api_client}->to_query_value($args{'label_selector'});
+    if ( exists $args{'label_selector'} ) {
+        $query_params->{'labelSelector'} =
+          $self->{api_client}->to_query_value( $args{'label_selector'} );
     }
 
     # query params
-    if ( exists $args{'limit'}) {
-        $query_params->{'limit'} = $self->{api_client}->to_query_value($args{'limit'});
+    if ( exists $args{'limit'} ) {
+        $query_params->{'limit'} =
+          $self->{api_client}->to_query_value( $args{'limit'} );
     }
 
     # query params
-    if ( exists $args{'resource_version'}) {
-        $query_params->{'resourceVersion'} = $self->{api_client}->to_query_value($args{'resource_version'});
+    if ( exists $args{'resource_version'} ) {
+        $query_params->{'resourceVersion'} =
+          $self->{api_client}->to_query_value( $args{'resource_version'} );
     }
 
     # query params
-    if ( exists $args{'timeout_seconds'}) {
-        $query_params->{'timeoutSeconds'} = $self->{api_client}->to_query_value($args{'timeout_seconds'});
+    if ( exists $args{'timeout_seconds'} ) {
+        $query_params->{'timeoutSeconds'} =
+          $self->{api_client}->to_query_value( $args{'timeout_seconds'} );
     }
 
     # query params
-    if ( exists $args{'watch'}) {
-        $query_params->{'watch'} = $self->{api_client}->to_query_value($args{'watch'});
+    if ( exists $args{'watch'} ) {
+        $query_params->{'watch'} =
+          $self->{api_client}->to_query_value( $args{'watch'} );
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1Status', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1Status', $response );
     return $_response_object;
 }
 
 #
 # delete_collection_namespaced_deployment
 #
-# 
-# 
+#
+#
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param boolean $include_uninitialized If true, partially initialized resources are included in the response. (optional)
 # @param string $pretty If &#39;true&#39;, then the output is pretty printed. (optional)
@@ -977,160 +1146,192 @@ sub delete_collection_namespaced_daemon_set {
 # @param boolean $watch Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 {
     my $params = {
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'include_uninitialized' => {
-        data_type => 'boolean',
-        description => 'If true, partially initialized resources are included in the response.',
-        required => '0',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'continue' => {
-        data_type => 'string',
-        description => 'The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.',
-        required => '0',
-    },
-    'field_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
-        required => '0',
-    },
-    'label_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
-        required => '0',
-    },
-    'limit' => {
-        data_type => 'int',
-        description => 'limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.',
-        required => '0',
-    },
-    'resource_version' => {
-        data_type => 'string',
-        description => 'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
-        required => '0',
-    },
-    'timeout_seconds' => {
-        data_type => 'int',
-        description => 'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
-        required => '0',
-    },
-    'watch' => {
-        data_type => 'boolean',
-        description => 'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.',
-        required => '0',
-    },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'include_uninitialized' => {
+            data_type => 'boolean',
+            description =>
+'If true, partially initialized resources are included in the response.',
+            required => '0',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'continue' => {
+            data_type => 'string',
+            description =>
+'The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.',
+            required => '0',
+        },
+        'field_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
+            required => '0',
+        },
+        'label_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
+            required => '0',
+        },
+        'limit' => {
+            data_type => 'int',
+            description =>
+'limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.',
+            required => '0',
+        },
+        'resource_version' => {
+            data_type => 'string',
+            description =>
+'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
+            required => '0',
+        },
+        'timeout_seconds' => {
+            data_type => 'int',
+            description =>
+'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
+            required => '0',
+        },
+        'watch' => {
+            data_type => 'boolean',
+            description =>
+'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'delete_collection_namespaced_deployment' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{
+        'delete_collection_namespaced_deployment'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1Status',
         };
 }
+
 # @return V1Status
 #
 sub delete_collection_namespaced_deployment {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling delete_collection_namespaced_deployment");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling delete_collection_namespaced_deployment"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/deployments';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/deployments';
 
-    my $_method = 'DELETE';
-    my $query_params = {};
+    my $_method       = 'DELETE';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'include_uninitialized'}) {
-        $query_params->{'includeUninitialized'} = $self->{api_client}->to_query_value($args{'include_uninitialized'});
+    if ( exists $args{'include_uninitialized'} ) {
+        $query_params->{'includeUninitialized'} =
+          $self->{api_client}->to_query_value( $args{'include_uninitialized'} );
     }
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'continue'}) {
-        $query_params->{'continue'} = $self->{api_client}->to_query_value($args{'continue'});
+    if ( exists $args{'continue'} ) {
+        $query_params->{'continue'} =
+          $self->{api_client}->to_query_value( $args{'continue'} );
     }
 
     # query params
-    if ( exists $args{'field_selector'}) {
-        $query_params->{'fieldSelector'} = $self->{api_client}->to_query_value($args{'field_selector'});
+    if ( exists $args{'field_selector'} ) {
+        $query_params->{'fieldSelector'} =
+          $self->{api_client}->to_query_value( $args{'field_selector'} );
     }
 
     # query params
-    if ( exists $args{'label_selector'}) {
-        $query_params->{'labelSelector'} = $self->{api_client}->to_query_value($args{'label_selector'});
+    if ( exists $args{'label_selector'} ) {
+        $query_params->{'labelSelector'} =
+          $self->{api_client}->to_query_value( $args{'label_selector'} );
     }
 
     # query params
-    if ( exists $args{'limit'}) {
-        $query_params->{'limit'} = $self->{api_client}->to_query_value($args{'limit'});
+    if ( exists $args{'limit'} ) {
+        $query_params->{'limit'} =
+          $self->{api_client}->to_query_value( $args{'limit'} );
     }
 
     # query params
-    if ( exists $args{'resource_version'}) {
-        $query_params->{'resourceVersion'} = $self->{api_client}->to_query_value($args{'resource_version'});
+    if ( exists $args{'resource_version'} ) {
+        $query_params->{'resourceVersion'} =
+          $self->{api_client}->to_query_value( $args{'resource_version'} );
     }
 
     # query params
-    if ( exists $args{'timeout_seconds'}) {
-        $query_params->{'timeoutSeconds'} = $self->{api_client}->to_query_value($args{'timeout_seconds'});
+    if ( exists $args{'timeout_seconds'} ) {
+        $query_params->{'timeoutSeconds'} =
+          $self->{api_client}->to_query_value( $args{'timeout_seconds'} );
     }
 
     # query params
-    if ( exists $args{'watch'}) {
-        $query_params->{'watch'} = $self->{api_client}->to_query_value($args{'watch'});
+    if ( exists $args{'watch'} ) {
+        $query_params->{'watch'} =
+          $self->{api_client}->to_query_value( $args{'watch'} );
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1Status', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1Status', $response );
     return $_response_object;
 }
 
 #
 # delete_collection_namespaced_replica_set
 #
-# 
-# 
+#
+#
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param boolean $include_uninitialized If true, partially initialized resources are included in the response. (optional)
 # @param string $pretty If &#39;true&#39;, then the output is pretty printed. (optional)
@@ -1143,160 +1344,192 @@ sub delete_collection_namespaced_deployment {
 # @param boolean $watch Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 {
     my $params = {
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'include_uninitialized' => {
-        data_type => 'boolean',
-        description => 'If true, partially initialized resources are included in the response.',
-        required => '0',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'continue' => {
-        data_type => 'string',
-        description => 'The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.',
-        required => '0',
-    },
-    'field_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
-        required => '0',
-    },
-    'label_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
-        required => '0',
-    },
-    'limit' => {
-        data_type => 'int',
-        description => 'limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.',
-        required => '0',
-    },
-    'resource_version' => {
-        data_type => 'string',
-        description => 'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
-        required => '0',
-    },
-    'timeout_seconds' => {
-        data_type => 'int',
-        description => 'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
-        required => '0',
-    },
-    'watch' => {
-        data_type => 'boolean',
-        description => 'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.',
-        required => '0',
-    },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'include_uninitialized' => {
+            data_type => 'boolean',
+            description =>
+'If true, partially initialized resources are included in the response.',
+            required => '0',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'continue' => {
+            data_type => 'string',
+            description =>
+'The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.',
+            required => '0',
+        },
+        'field_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
+            required => '0',
+        },
+        'label_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
+            required => '0',
+        },
+        'limit' => {
+            data_type => 'int',
+            description =>
+'limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.',
+            required => '0',
+        },
+        'resource_version' => {
+            data_type => 'string',
+            description =>
+'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
+            required => '0',
+        },
+        'timeout_seconds' => {
+            data_type => 'int',
+            description =>
+'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
+            required => '0',
+        },
+        'watch' => {
+            data_type => 'boolean',
+            description =>
+'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'delete_collection_namespaced_replica_set' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{
+        'delete_collection_namespaced_replica_set'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1Status',
         };
 }
+
 # @return V1Status
 #
 sub delete_collection_namespaced_replica_set {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling delete_collection_namespaced_replica_set");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling delete_collection_namespaced_replica_set"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/replicasets';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/replicasets';
 
-    my $_method = 'DELETE';
-    my $query_params = {};
+    my $_method       = 'DELETE';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'include_uninitialized'}) {
-        $query_params->{'includeUninitialized'} = $self->{api_client}->to_query_value($args{'include_uninitialized'});
+    if ( exists $args{'include_uninitialized'} ) {
+        $query_params->{'includeUninitialized'} =
+          $self->{api_client}->to_query_value( $args{'include_uninitialized'} );
     }
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'continue'}) {
-        $query_params->{'continue'} = $self->{api_client}->to_query_value($args{'continue'});
+    if ( exists $args{'continue'} ) {
+        $query_params->{'continue'} =
+          $self->{api_client}->to_query_value( $args{'continue'} );
     }
 
     # query params
-    if ( exists $args{'field_selector'}) {
-        $query_params->{'fieldSelector'} = $self->{api_client}->to_query_value($args{'field_selector'});
+    if ( exists $args{'field_selector'} ) {
+        $query_params->{'fieldSelector'} =
+          $self->{api_client}->to_query_value( $args{'field_selector'} );
     }
 
     # query params
-    if ( exists $args{'label_selector'}) {
-        $query_params->{'labelSelector'} = $self->{api_client}->to_query_value($args{'label_selector'});
+    if ( exists $args{'label_selector'} ) {
+        $query_params->{'labelSelector'} =
+          $self->{api_client}->to_query_value( $args{'label_selector'} );
     }
 
     # query params
-    if ( exists $args{'limit'}) {
-        $query_params->{'limit'} = $self->{api_client}->to_query_value($args{'limit'});
+    if ( exists $args{'limit'} ) {
+        $query_params->{'limit'} =
+          $self->{api_client}->to_query_value( $args{'limit'} );
     }
 
     # query params
-    if ( exists $args{'resource_version'}) {
-        $query_params->{'resourceVersion'} = $self->{api_client}->to_query_value($args{'resource_version'});
+    if ( exists $args{'resource_version'} ) {
+        $query_params->{'resourceVersion'} =
+          $self->{api_client}->to_query_value( $args{'resource_version'} );
     }
 
     # query params
-    if ( exists $args{'timeout_seconds'}) {
-        $query_params->{'timeoutSeconds'} = $self->{api_client}->to_query_value($args{'timeout_seconds'});
+    if ( exists $args{'timeout_seconds'} ) {
+        $query_params->{'timeoutSeconds'} =
+          $self->{api_client}->to_query_value( $args{'timeout_seconds'} );
     }
 
     # query params
-    if ( exists $args{'watch'}) {
-        $query_params->{'watch'} = $self->{api_client}->to_query_value($args{'watch'});
+    if ( exists $args{'watch'} ) {
+        $query_params->{'watch'} =
+          $self->{api_client}->to_query_value( $args{'watch'} );
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1Status', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1Status', $response );
     return $_response_object;
 }
 
 #
 # delete_collection_namespaced_stateful_set
 #
-# 
-# 
+#
+#
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param boolean $include_uninitialized If true, partially initialized resources are included in the response. (optional)
 # @param string $pretty If &#39;true&#39;, then the output is pretty printed. (optional)
@@ -1309,160 +1542,192 @@ sub delete_collection_namespaced_replica_set {
 # @param boolean $watch Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 {
     my $params = {
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'include_uninitialized' => {
-        data_type => 'boolean',
-        description => 'If true, partially initialized resources are included in the response.',
-        required => '0',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'continue' => {
-        data_type => 'string',
-        description => 'The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.',
-        required => '0',
-    },
-    'field_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
-        required => '0',
-    },
-    'label_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
-        required => '0',
-    },
-    'limit' => {
-        data_type => 'int',
-        description => 'limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.',
-        required => '0',
-    },
-    'resource_version' => {
-        data_type => 'string',
-        description => 'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
-        required => '0',
-    },
-    'timeout_seconds' => {
-        data_type => 'int',
-        description => 'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
-        required => '0',
-    },
-    'watch' => {
-        data_type => 'boolean',
-        description => 'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.',
-        required => '0',
-    },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'include_uninitialized' => {
+            data_type => 'boolean',
+            description =>
+'If true, partially initialized resources are included in the response.',
+            required => '0',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'continue' => {
+            data_type => 'string',
+            description =>
+'The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.',
+            required => '0',
+        },
+        'field_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
+            required => '0',
+        },
+        'label_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
+            required => '0',
+        },
+        'limit' => {
+            data_type => 'int',
+            description =>
+'limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.',
+            required => '0',
+        },
+        'resource_version' => {
+            data_type => 'string',
+            description =>
+'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
+            required => '0',
+        },
+        'timeout_seconds' => {
+            data_type => 'int',
+            description =>
+'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
+            required => '0',
+        },
+        'watch' => {
+            data_type => 'boolean',
+            description =>
+'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'delete_collection_namespaced_stateful_set' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{
+        'delete_collection_namespaced_stateful_set'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1Status',
         };
 }
+
 # @return V1Status
 #
 sub delete_collection_namespaced_stateful_set {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling delete_collection_namespaced_stateful_set");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling delete_collection_namespaced_stateful_set"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/statefulsets';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/statefulsets';
 
-    my $_method = 'DELETE';
-    my $query_params = {};
+    my $_method       = 'DELETE';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'include_uninitialized'}) {
-        $query_params->{'includeUninitialized'} = $self->{api_client}->to_query_value($args{'include_uninitialized'});
+    if ( exists $args{'include_uninitialized'} ) {
+        $query_params->{'includeUninitialized'} =
+          $self->{api_client}->to_query_value( $args{'include_uninitialized'} );
     }
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'continue'}) {
-        $query_params->{'continue'} = $self->{api_client}->to_query_value($args{'continue'});
+    if ( exists $args{'continue'} ) {
+        $query_params->{'continue'} =
+          $self->{api_client}->to_query_value( $args{'continue'} );
     }
 
     # query params
-    if ( exists $args{'field_selector'}) {
-        $query_params->{'fieldSelector'} = $self->{api_client}->to_query_value($args{'field_selector'});
+    if ( exists $args{'field_selector'} ) {
+        $query_params->{'fieldSelector'} =
+          $self->{api_client}->to_query_value( $args{'field_selector'} );
     }
 
     # query params
-    if ( exists $args{'label_selector'}) {
-        $query_params->{'labelSelector'} = $self->{api_client}->to_query_value($args{'label_selector'});
+    if ( exists $args{'label_selector'} ) {
+        $query_params->{'labelSelector'} =
+          $self->{api_client}->to_query_value( $args{'label_selector'} );
     }
 
     # query params
-    if ( exists $args{'limit'}) {
-        $query_params->{'limit'} = $self->{api_client}->to_query_value($args{'limit'});
+    if ( exists $args{'limit'} ) {
+        $query_params->{'limit'} =
+          $self->{api_client}->to_query_value( $args{'limit'} );
     }
 
     # query params
-    if ( exists $args{'resource_version'}) {
-        $query_params->{'resourceVersion'} = $self->{api_client}->to_query_value($args{'resource_version'});
+    if ( exists $args{'resource_version'} ) {
+        $query_params->{'resourceVersion'} =
+          $self->{api_client}->to_query_value( $args{'resource_version'} );
     }
 
     # query params
-    if ( exists $args{'timeout_seconds'}) {
-        $query_params->{'timeoutSeconds'} = $self->{api_client}->to_query_value($args{'timeout_seconds'});
+    if ( exists $args{'timeout_seconds'} ) {
+        $query_params->{'timeoutSeconds'} =
+          $self->{api_client}->to_query_value( $args{'timeout_seconds'} );
     }
 
     # query params
-    if ( exists $args{'watch'}) {
-        $query_params->{'watch'} = $self->{api_client}->to_query_value($args{'watch'});
+    if ( exists $args{'watch'} ) {
+        $query_params->{'watch'} =
+          $self->{api_client}->to_query_value( $args{'watch'} );
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1Status', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1Status', $response );
     return $_response_object;
 }
 
 #
 # delete_namespaced_controller_revision
 #
-# 
-# 
+#
+#
 # @param string $name name of the ControllerRevision (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param string $pretty If &#39;true&#39;, then the output is pretty printed. (optional)
@@ -1473,125 +1738,149 @@ sub delete_collection_namespaced_stateful_set {
 # @param V1DeleteOptions $body  (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the ControllerRevision',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
-    'grace_period_seconds' => {
-        data_type => 'int',
-        description => 'The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.',
-        required => '0',
-    },
-    'orphan_dependents' => {
-        data_type => 'boolean',
-        description => 'Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both.',
-        required => '0',
-    },
-    'propagation_policy' => {
-        data_type => 'string',
-        description => 'Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: &#39;Orphan&#39; - orphan the dependents; &#39;Background&#39; - allow the garbage collector to delete the dependents in the background; &#39;Foreground&#39; - a cascading policy that deletes all dependents in the foreground.',
-        required => '0',
-    },
-    'body' => {
-        data_type => 'V1DeleteOptions',
-        description => '',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the ControllerRevision',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
+        'grace_period_seconds' => {
+            data_type => 'int',
+            description =>
+'The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.',
+            required => '0',
+        },
+        'orphan_dependents' => {
+            data_type => 'boolean',
+            description =>
+'Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both.',
+            required => '0',
+        },
+        'propagation_policy' => {
+            data_type => 'string',
+            description =>
+'Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: &#39;Orphan&#39; - orphan the dependents; &#39;Background&#39; - allow the garbage collector to delete the dependents in the background; &#39;Foreground&#39; - a cascading policy that deletes all dependents in the foreground.',
+            required => '0',
+        },
+        'body' => {
+            data_type   => 'V1DeleteOptions',
+            description => '',
+            required    => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'delete_namespaced_controller_revision' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'delete_namespaced_controller_revision'}
+      = {
+        summary => '',
+        params  => $params,
         returns => 'V1Status',
-        };
+      };
 }
+
 # @return V1Status
 #
 sub delete_namespaced_controller_revision {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling delete_namespaced_controller_revision");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling delete_namespaced_controller_revision"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling delete_namespaced_controller_revision");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling delete_namespaced_controller_revision"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/controllerrevisions/{name}';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/controllerrevisions/{name}';
 
-    my $_method = 'DELETE';
-    my $query_params = {};
+    my $_method       = 'DELETE';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # query params
-    if ( exists $args{'grace_period_seconds'}) {
-        $query_params->{'gracePeriodSeconds'} = $self->{api_client}->to_query_value($args{'grace_period_seconds'});
+    if ( exists $args{'grace_period_seconds'} ) {
+        $query_params->{'gracePeriodSeconds'} =
+          $self->{api_client}->to_query_value( $args{'grace_period_seconds'} );
     }
 
     # query params
-    if ( exists $args{'orphan_dependents'}) {
-        $query_params->{'orphanDependents'} = $self->{api_client}->to_query_value($args{'orphan_dependents'});
+    if ( exists $args{'orphan_dependents'} ) {
+        $query_params->{'orphanDependents'} =
+          $self->{api_client}->to_query_value( $args{'orphan_dependents'} );
     }
 
     # query params
-    if ( exists $args{'propagation_policy'}) {
-        $query_params->{'propagationPolicy'} = $self->{api_client}->to_query_value($args{'propagation_policy'});
+    if ( exists $args{'propagation_policy'} ) {
+        $query_params->{'propagationPolicy'} =
+          $self->{api_client}->to_query_value( $args{'propagation_policy'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -1599,21 +1888,23 @@ sub delete_namespaced_controller_revision {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1Status', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1Status', $response );
     return $_response_object;
 }
 
 #
 # delete_namespaced_daemon_set
 #
-# 
-# 
+#
+#
 # @param string $name name of the DaemonSet (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param string $pretty If &#39;true&#39;, then the output is pretty printed. (optional)
@@ -1624,125 +1915,148 @@ sub delete_namespaced_controller_revision {
 # @param V1DeleteOptions $body  (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the DaemonSet',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
-    'grace_period_seconds' => {
-        data_type => 'int',
-        description => 'The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.',
-        required => '0',
-    },
-    'orphan_dependents' => {
-        data_type => 'boolean',
-        description => 'Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both.',
-        required => '0',
-    },
-    'propagation_policy' => {
-        data_type => 'string',
-        description => 'Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: &#39;Orphan&#39; - orphan the dependents; &#39;Background&#39; - allow the garbage collector to delete the dependents in the background; &#39;Foreground&#39; - a cascading policy that deletes all dependents in the foreground.',
-        required => '0',
-    },
-    'body' => {
-        data_type => 'V1DeleteOptions',
-        description => '',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the DaemonSet',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
+        'grace_period_seconds' => {
+            data_type => 'int',
+            description =>
+'The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.',
+            required => '0',
+        },
+        'orphan_dependents' => {
+            data_type => 'boolean',
+            description =>
+'Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both.',
+            required => '0',
+        },
+        'propagation_policy' => {
+            data_type => 'string',
+            description =>
+'Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: &#39;Orphan&#39; - orphan the dependents; &#39;Background&#39; - allow the garbage collector to delete the dependents in the background; &#39;Foreground&#39; - a cascading policy that deletes all dependents in the foreground.',
+            required => '0',
+        },
+        'body' => {
+            data_type   => 'V1DeleteOptions',
+            description => '',
+            required    => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'delete_namespaced_daemon_set' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'delete_namespaced_daemon_set'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1Status',
-        };
+    };
 }
+
 # @return V1Status
 #
 sub delete_namespaced_daemon_set {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling delete_namespaced_daemon_set");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling delete_namespaced_daemon_set"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling delete_namespaced_daemon_set");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling delete_namespaced_daemon_set"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/daemonsets/{name}';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/daemonsets/{name}';
 
-    my $_method = 'DELETE';
-    my $query_params = {};
+    my $_method       = 'DELETE';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # query params
-    if ( exists $args{'grace_period_seconds'}) {
-        $query_params->{'gracePeriodSeconds'} = $self->{api_client}->to_query_value($args{'grace_period_seconds'});
+    if ( exists $args{'grace_period_seconds'} ) {
+        $query_params->{'gracePeriodSeconds'} =
+          $self->{api_client}->to_query_value( $args{'grace_period_seconds'} );
     }
 
     # query params
-    if ( exists $args{'orphan_dependents'}) {
-        $query_params->{'orphanDependents'} = $self->{api_client}->to_query_value($args{'orphan_dependents'});
+    if ( exists $args{'orphan_dependents'} ) {
+        $query_params->{'orphanDependents'} =
+          $self->{api_client}->to_query_value( $args{'orphan_dependents'} );
     }
 
     # query params
-    if ( exists $args{'propagation_policy'}) {
-        $query_params->{'propagationPolicy'} = $self->{api_client}->to_query_value($args{'propagation_policy'});
+    if ( exists $args{'propagation_policy'} ) {
+        $query_params->{'propagationPolicy'} =
+          $self->{api_client}->to_query_value( $args{'propagation_policy'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -1750,21 +2064,23 @@ sub delete_namespaced_daemon_set {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1Status', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1Status', $response );
     return $_response_object;
 }
 
 #
 # delete_namespaced_deployment
 #
-# 
-# 
+#
+#
 # @param string $name name of the Deployment (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param string $pretty If &#39;true&#39;, then the output is pretty printed. (optional)
@@ -1775,125 +2091,148 @@ sub delete_namespaced_daemon_set {
 # @param V1DeleteOptions $body  (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the Deployment',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
-    'grace_period_seconds' => {
-        data_type => 'int',
-        description => 'The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.',
-        required => '0',
-    },
-    'orphan_dependents' => {
-        data_type => 'boolean',
-        description => 'Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both.',
-        required => '0',
-    },
-    'propagation_policy' => {
-        data_type => 'string',
-        description => 'Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: &#39;Orphan&#39; - orphan the dependents; &#39;Background&#39; - allow the garbage collector to delete the dependents in the background; &#39;Foreground&#39; - a cascading policy that deletes all dependents in the foreground.',
-        required => '0',
-    },
-    'body' => {
-        data_type => 'V1DeleteOptions',
-        description => '',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the Deployment',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
+        'grace_period_seconds' => {
+            data_type => 'int',
+            description =>
+'The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.',
+            required => '0',
+        },
+        'orphan_dependents' => {
+            data_type => 'boolean',
+            description =>
+'Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both.',
+            required => '0',
+        },
+        'propagation_policy' => {
+            data_type => 'string',
+            description =>
+'Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: &#39;Orphan&#39; - orphan the dependents; &#39;Background&#39; - allow the garbage collector to delete the dependents in the background; &#39;Foreground&#39; - a cascading policy that deletes all dependents in the foreground.',
+            required => '0',
+        },
+        'body' => {
+            data_type   => 'V1DeleteOptions',
+            description => '',
+            required    => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'delete_namespaced_deployment' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'delete_namespaced_deployment'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1Status',
-        };
+    };
 }
+
 # @return V1Status
 #
 sub delete_namespaced_deployment {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling delete_namespaced_deployment");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling delete_namespaced_deployment"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling delete_namespaced_deployment");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling delete_namespaced_deployment"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/deployments/{name}';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/deployments/{name}';
 
-    my $_method = 'DELETE';
-    my $query_params = {};
+    my $_method       = 'DELETE';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # query params
-    if ( exists $args{'grace_period_seconds'}) {
-        $query_params->{'gracePeriodSeconds'} = $self->{api_client}->to_query_value($args{'grace_period_seconds'});
+    if ( exists $args{'grace_period_seconds'} ) {
+        $query_params->{'gracePeriodSeconds'} =
+          $self->{api_client}->to_query_value( $args{'grace_period_seconds'} );
     }
 
     # query params
-    if ( exists $args{'orphan_dependents'}) {
-        $query_params->{'orphanDependents'} = $self->{api_client}->to_query_value($args{'orphan_dependents'});
+    if ( exists $args{'orphan_dependents'} ) {
+        $query_params->{'orphanDependents'} =
+          $self->{api_client}->to_query_value( $args{'orphan_dependents'} );
     }
 
     # query params
-    if ( exists $args{'propagation_policy'}) {
-        $query_params->{'propagationPolicy'} = $self->{api_client}->to_query_value($args{'propagation_policy'});
+    if ( exists $args{'propagation_policy'} ) {
+        $query_params->{'propagationPolicy'} =
+          $self->{api_client}->to_query_value( $args{'propagation_policy'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -1901,21 +2240,23 @@ sub delete_namespaced_deployment {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1Status', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1Status', $response );
     return $_response_object;
 }
 
 #
 # delete_namespaced_replica_set
 #
-# 
-# 
+#
+#
 # @param string $name name of the ReplicaSet (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param string $pretty If &#39;true&#39;, then the output is pretty printed. (optional)
@@ -1926,125 +2267,148 @@ sub delete_namespaced_deployment {
 # @param V1DeleteOptions $body  (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the ReplicaSet',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
-    'grace_period_seconds' => {
-        data_type => 'int',
-        description => 'The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.',
-        required => '0',
-    },
-    'orphan_dependents' => {
-        data_type => 'boolean',
-        description => 'Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both.',
-        required => '0',
-    },
-    'propagation_policy' => {
-        data_type => 'string',
-        description => 'Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: &#39;Orphan&#39; - orphan the dependents; &#39;Background&#39; - allow the garbage collector to delete the dependents in the background; &#39;Foreground&#39; - a cascading policy that deletes all dependents in the foreground.',
-        required => '0',
-    },
-    'body' => {
-        data_type => 'V1DeleteOptions',
-        description => '',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the ReplicaSet',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
+        'grace_period_seconds' => {
+            data_type => 'int',
+            description =>
+'The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.',
+            required => '0',
+        },
+        'orphan_dependents' => {
+            data_type => 'boolean',
+            description =>
+'Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both.',
+            required => '0',
+        },
+        'propagation_policy' => {
+            data_type => 'string',
+            description =>
+'Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: &#39;Orphan&#39; - orphan the dependents; &#39;Background&#39; - allow the garbage collector to delete the dependents in the background; &#39;Foreground&#39; - a cascading policy that deletes all dependents in the foreground.',
+            required => '0',
+        },
+        'body' => {
+            data_type   => 'V1DeleteOptions',
+            description => '',
+            required    => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'delete_namespaced_replica_set' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'delete_namespaced_replica_set'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1Status',
-        };
+    };
 }
+
 # @return V1Status
 #
 sub delete_namespaced_replica_set {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling delete_namespaced_replica_set");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling delete_namespaced_replica_set"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling delete_namespaced_replica_set");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling delete_namespaced_replica_set"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/replicasets/{name}';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/replicasets/{name}';
 
-    my $_method = 'DELETE';
-    my $query_params = {};
+    my $_method       = 'DELETE';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # query params
-    if ( exists $args{'grace_period_seconds'}) {
-        $query_params->{'gracePeriodSeconds'} = $self->{api_client}->to_query_value($args{'grace_period_seconds'});
+    if ( exists $args{'grace_period_seconds'} ) {
+        $query_params->{'gracePeriodSeconds'} =
+          $self->{api_client}->to_query_value( $args{'grace_period_seconds'} );
     }
 
     # query params
-    if ( exists $args{'orphan_dependents'}) {
-        $query_params->{'orphanDependents'} = $self->{api_client}->to_query_value($args{'orphan_dependents'});
+    if ( exists $args{'orphan_dependents'} ) {
+        $query_params->{'orphanDependents'} =
+          $self->{api_client}->to_query_value( $args{'orphan_dependents'} );
     }
 
     # query params
-    if ( exists $args{'propagation_policy'}) {
-        $query_params->{'propagationPolicy'} = $self->{api_client}->to_query_value($args{'propagation_policy'});
+    if ( exists $args{'propagation_policy'} ) {
+        $query_params->{'propagationPolicy'} =
+          $self->{api_client}->to_query_value( $args{'propagation_policy'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -2052,21 +2416,23 @@ sub delete_namespaced_replica_set {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1Status', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1Status', $response );
     return $_response_object;
 }
 
 #
 # delete_namespaced_stateful_set
 #
-# 
-# 
+#
+#
 # @param string $name name of the StatefulSet (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param string $pretty If &#39;true&#39;, then the output is pretty printed. (optional)
@@ -2077,125 +2443,148 @@ sub delete_namespaced_replica_set {
 # @param V1DeleteOptions $body  (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the StatefulSet',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
-    'grace_period_seconds' => {
-        data_type => 'int',
-        description => 'The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.',
-        required => '0',
-    },
-    'orphan_dependents' => {
-        data_type => 'boolean',
-        description => 'Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both.',
-        required => '0',
-    },
-    'propagation_policy' => {
-        data_type => 'string',
-        description => 'Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: &#39;Orphan&#39; - orphan the dependents; &#39;Background&#39; - allow the garbage collector to delete the dependents in the background; &#39;Foreground&#39; - a cascading policy that deletes all dependents in the foreground.',
-        required => '0',
-    },
-    'body' => {
-        data_type => 'V1DeleteOptions',
-        description => '',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the StatefulSet',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
+        'grace_period_seconds' => {
+            data_type => 'int',
+            description =>
+'The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.',
+            required => '0',
+        },
+        'orphan_dependents' => {
+            data_type => 'boolean',
+            description =>
+'Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both.',
+            required => '0',
+        },
+        'propagation_policy' => {
+            data_type => 'string',
+            description =>
+'Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: &#39;Orphan&#39; - orphan the dependents; &#39;Background&#39; - allow the garbage collector to delete the dependents in the background; &#39;Foreground&#39; - a cascading policy that deletes all dependents in the foreground.',
+            required => '0',
+        },
+        'body' => {
+            data_type   => 'V1DeleteOptions',
+            description => '',
+            required    => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'delete_namespaced_stateful_set' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'delete_namespaced_stateful_set'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1Status',
-        };
+    };
 }
+
 # @return V1Status
 #
 sub delete_namespaced_stateful_set {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling delete_namespaced_stateful_set");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling delete_namespaced_stateful_set"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling delete_namespaced_stateful_set");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling delete_namespaced_stateful_set"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/statefulsets/{name}';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/statefulsets/{name}';
 
-    my $_method = 'DELETE';
-    my $query_params = {};
+    my $_method       = 'DELETE';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # query params
-    if ( exists $args{'grace_period_seconds'}) {
-        $query_params->{'gracePeriodSeconds'} = $self->{api_client}->to_query_value($args{'grace_period_seconds'});
+    if ( exists $args{'grace_period_seconds'} ) {
+        $query_params->{'gracePeriodSeconds'} =
+          $self->{api_client}->to_query_value( $args{'grace_period_seconds'} );
     }
 
     # query params
-    if ( exists $args{'orphan_dependents'}) {
-        $query_params->{'orphanDependents'} = $self->{api_client}->to_query_value($args{'orphan_dependents'});
+    if ( exists $args{'orphan_dependents'} ) {
+        $query_params->{'orphanDependents'} =
+          $self->{api_client}->to_query_value( $args{'orphan_dependents'} );
     }
 
     # query params
-    if ( exists $args{'propagation_policy'}) {
-        $query_params->{'propagationPolicy'} = $self->{api_client}->to_query_value($args{'propagation_policy'});
+    if ( exists $args{'propagation_policy'} ) {
+        $query_params->{'propagationPolicy'} =
+          $self->{api_client}->to_query_value( $args{'propagation_policy'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -2203,70 +2592,79 @@ sub delete_namespaced_stateful_set {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1Status', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1Status', $response );
     return $_response_object;
 }
 
 #
 # get_api_resources
 #
-# 
-# 
+#
+#
 {
-    my $params = {
-    };
-    __PACKAGE__->method_documentation->{ 'get_api_resources' } = { 
-    	summary => '',
-        params => $params,
+    my $params = {};
+    __PACKAGE__->method_documentation->{'get_api_resources'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1APIResourceList',
-        };
+    };
 }
+
 # @return V1APIResourceList
 #
 sub get_api_resources {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # parse inputs
     my $_resource_path = '/apis/apps/v1beta2/';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1APIResourceList', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1APIResourceList', $response );
     return $_response_object;
 }
 
 #
 # list_controller_revision_for_all_namespaces
 #
-# 
-# 
+#
+#
 # @param string $continue The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. (optional)
 # @param string $field_selector A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
 # @param boolean $include_uninitialized If true, partially initialized resources are included in the response. (optional)
@@ -2278,143 +2676,173 @@ sub get_api_resources {
 # @param boolean $watch Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 {
     my $params = {
-    'continue' => {
-        data_type => 'string',
-        description => 'The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.',
-        required => '0',
-    },
-    'field_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
-        required => '0',
-    },
-    'include_uninitialized' => {
-        data_type => 'boolean',
-        description => 'If true, partially initialized resources are included in the response.',
-        required => '0',
-    },
-    'label_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
-        required => '0',
-    },
-    'limit' => {
-        data_type => 'int',
-        description => 'limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.',
-        required => '0',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'resource_version' => {
-        data_type => 'string',
-        description => 'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
-        required => '0',
-    },
-    'timeout_seconds' => {
-        data_type => 'int',
-        description => 'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
-        required => '0',
-    },
-    'watch' => {
-        data_type => 'boolean',
-        description => 'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.',
-        required => '0',
-    },
+        'continue' => {
+            data_type => 'string',
+            description =>
+'The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.',
+            required => '0',
+        },
+        'field_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
+            required => '0',
+        },
+        'include_uninitialized' => {
+            data_type => 'boolean',
+            description =>
+'If true, partially initialized resources are included in the response.',
+            required => '0',
+        },
+        'label_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
+            required => '0',
+        },
+        'limit' => {
+            data_type => 'int',
+            description =>
+'limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.',
+            required => '0',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'resource_version' => {
+            data_type => 'string',
+            description =>
+'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
+            required => '0',
+        },
+        'timeout_seconds' => {
+            data_type => 'int',
+            description =>
+'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
+            required => '0',
+        },
+        'watch' => {
+            data_type => 'boolean',
+            description =>
+'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'list_controller_revision_for_all_namespaces' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{
+        'list_controller_revision_for_all_namespaces'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2ControllerRevisionList',
         };
 }
+
 # @return V1beta2ControllerRevisionList
 #
 sub list_controller_revision_for_all_namespaces {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # parse inputs
     my $_resource_path = '/apis/apps/v1beta2/controllerrevisions';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf', 'application/json;stream=watch', 'application/vnd.kubernetes.protobuf;stream=watch');
+    my $_header_accept = $self->{api_client}->select_header_accept(
+        'application/json',
+        'application/yaml',
+        'application/vnd.kubernetes.protobuf',
+        'application/json;stream=watch',
+        'application/vnd.kubernetes.protobuf;stream=watch'
+    );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'continue'}) {
-        $query_params->{'continue'} = $self->{api_client}->to_query_value($args{'continue'});
+    if ( exists $args{'continue'} ) {
+        $query_params->{'continue'} =
+          $self->{api_client}->to_query_value( $args{'continue'} );
     }
 
     # query params
-    if ( exists $args{'field_selector'}) {
-        $query_params->{'fieldSelector'} = $self->{api_client}->to_query_value($args{'field_selector'});
+    if ( exists $args{'field_selector'} ) {
+        $query_params->{'fieldSelector'} =
+          $self->{api_client}->to_query_value( $args{'field_selector'} );
     }
 
     # query params
-    if ( exists $args{'include_uninitialized'}) {
-        $query_params->{'includeUninitialized'} = $self->{api_client}->to_query_value($args{'include_uninitialized'});
+    if ( exists $args{'include_uninitialized'} ) {
+        $query_params->{'includeUninitialized'} =
+          $self->{api_client}->to_query_value( $args{'include_uninitialized'} );
     }
 
     # query params
-    if ( exists $args{'label_selector'}) {
-        $query_params->{'labelSelector'} = $self->{api_client}->to_query_value($args{'label_selector'});
+    if ( exists $args{'label_selector'} ) {
+        $query_params->{'labelSelector'} =
+          $self->{api_client}->to_query_value( $args{'label_selector'} );
     }
 
     # query params
-    if ( exists $args{'limit'}) {
-        $query_params->{'limit'} = $self->{api_client}->to_query_value($args{'limit'});
+    if ( exists $args{'limit'} ) {
+        $query_params->{'limit'} =
+          $self->{api_client}->to_query_value( $args{'limit'} );
     }
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'resource_version'}) {
-        $query_params->{'resourceVersion'} = $self->{api_client}->to_query_value($args{'resource_version'});
+    if ( exists $args{'resource_version'} ) {
+        $query_params->{'resourceVersion'} =
+          $self->{api_client}->to_query_value( $args{'resource_version'} );
     }
 
     # query params
-    if ( exists $args{'timeout_seconds'}) {
-        $query_params->{'timeoutSeconds'} = $self->{api_client}->to_query_value($args{'timeout_seconds'});
+    if ( exists $args{'timeout_seconds'} ) {
+        $query_params->{'timeoutSeconds'} =
+          $self->{api_client}->to_query_value( $args{'timeout_seconds'} );
     }
 
     # query params
-    if ( exists $args{'watch'}) {
-        $query_params->{'watch'} = $self->{api_client}->to_query_value($args{'watch'});
+    if ( exists $args{'watch'} ) {
+        $query_params->{'watch'} =
+          $self->{api_client}->to_query_value( $args{'watch'} );
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2ControllerRevisionList', $response);
+    my $_response_object = $self->{api_client}
+      ->deserialize( 'V1beta2ControllerRevisionList', $response );
     return $_response_object;
 }
 
 #
 # list_daemon_set_for_all_namespaces
 #
-# 
-# 
+#
+#
 # @param string $continue The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. (optional)
 # @param string $field_selector A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
 # @param boolean $include_uninitialized If true, partially initialized resources are included in the response. (optional)
@@ -2426,143 +2854,173 @@ sub list_controller_revision_for_all_namespaces {
 # @param boolean $watch Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 {
     my $params = {
-    'continue' => {
-        data_type => 'string',
-        description => 'The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.',
-        required => '0',
-    },
-    'field_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
-        required => '0',
-    },
-    'include_uninitialized' => {
-        data_type => 'boolean',
-        description => 'If true, partially initialized resources are included in the response.',
-        required => '0',
-    },
-    'label_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
-        required => '0',
-    },
-    'limit' => {
-        data_type => 'int',
-        description => 'limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.',
-        required => '0',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'resource_version' => {
-        data_type => 'string',
-        description => 'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
-        required => '0',
-    },
-    'timeout_seconds' => {
-        data_type => 'int',
-        description => 'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
-        required => '0',
-    },
-    'watch' => {
-        data_type => 'boolean',
-        description => 'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.',
-        required => '0',
-    },
+        'continue' => {
+            data_type => 'string',
+            description =>
+'The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.',
+            required => '0',
+        },
+        'field_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
+            required => '0',
+        },
+        'include_uninitialized' => {
+            data_type => 'boolean',
+            description =>
+'If true, partially initialized resources are included in the response.',
+            required => '0',
+        },
+        'label_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
+            required => '0',
+        },
+        'limit' => {
+            data_type => 'int',
+            description =>
+'limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.',
+            required => '0',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'resource_version' => {
+            data_type => 'string',
+            description =>
+'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
+            required => '0',
+        },
+        'timeout_seconds' => {
+            data_type => 'int',
+            description =>
+'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
+            required => '0',
+        },
+        'watch' => {
+            data_type => 'boolean',
+            description =>
+'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'list_daemon_set_for_all_namespaces' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'list_daemon_set_for_all_namespaces'} =
+      {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2DaemonSetList',
-        };
+      };
 }
+
 # @return V1beta2DaemonSetList
 #
 sub list_daemon_set_for_all_namespaces {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # parse inputs
     my $_resource_path = '/apis/apps/v1beta2/daemonsets';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf', 'application/json;stream=watch', 'application/vnd.kubernetes.protobuf;stream=watch');
+    my $_header_accept = $self->{api_client}->select_header_accept(
+        'application/json',
+        'application/yaml',
+        'application/vnd.kubernetes.protobuf',
+        'application/json;stream=watch',
+        'application/vnd.kubernetes.protobuf;stream=watch'
+    );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'continue'}) {
-        $query_params->{'continue'} = $self->{api_client}->to_query_value($args{'continue'});
+    if ( exists $args{'continue'} ) {
+        $query_params->{'continue'} =
+          $self->{api_client}->to_query_value( $args{'continue'} );
     }
 
     # query params
-    if ( exists $args{'field_selector'}) {
-        $query_params->{'fieldSelector'} = $self->{api_client}->to_query_value($args{'field_selector'});
+    if ( exists $args{'field_selector'} ) {
+        $query_params->{'fieldSelector'} =
+          $self->{api_client}->to_query_value( $args{'field_selector'} );
     }
 
     # query params
-    if ( exists $args{'include_uninitialized'}) {
-        $query_params->{'includeUninitialized'} = $self->{api_client}->to_query_value($args{'include_uninitialized'});
+    if ( exists $args{'include_uninitialized'} ) {
+        $query_params->{'includeUninitialized'} =
+          $self->{api_client}->to_query_value( $args{'include_uninitialized'} );
     }
 
     # query params
-    if ( exists $args{'label_selector'}) {
-        $query_params->{'labelSelector'} = $self->{api_client}->to_query_value($args{'label_selector'});
+    if ( exists $args{'label_selector'} ) {
+        $query_params->{'labelSelector'} =
+          $self->{api_client}->to_query_value( $args{'label_selector'} );
     }
 
     # query params
-    if ( exists $args{'limit'}) {
-        $query_params->{'limit'} = $self->{api_client}->to_query_value($args{'limit'});
+    if ( exists $args{'limit'} ) {
+        $query_params->{'limit'} =
+          $self->{api_client}->to_query_value( $args{'limit'} );
     }
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'resource_version'}) {
-        $query_params->{'resourceVersion'} = $self->{api_client}->to_query_value($args{'resource_version'});
+    if ( exists $args{'resource_version'} ) {
+        $query_params->{'resourceVersion'} =
+          $self->{api_client}->to_query_value( $args{'resource_version'} );
     }
 
     # query params
-    if ( exists $args{'timeout_seconds'}) {
-        $query_params->{'timeoutSeconds'} = $self->{api_client}->to_query_value($args{'timeout_seconds'});
+    if ( exists $args{'timeout_seconds'} ) {
+        $query_params->{'timeoutSeconds'} =
+          $self->{api_client}->to_query_value( $args{'timeout_seconds'} );
     }
 
     # query params
-    if ( exists $args{'watch'}) {
-        $query_params->{'watch'} = $self->{api_client}->to_query_value($args{'watch'});
+    if ( exists $args{'watch'} ) {
+        $query_params->{'watch'} =
+          $self->{api_client}->to_query_value( $args{'watch'} );
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2DaemonSetList', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2DaemonSetList', $response );
     return $_response_object;
 }
 
 #
 # list_deployment_for_all_namespaces
 #
-# 
-# 
+#
+#
 # @param string $continue The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. (optional)
 # @param string $field_selector A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
 # @param boolean $include_uninitialized If true, partially initialized resources are included in the response. (optional)
@@ -2574,143 +3032,173 @@ sub list_daemon_set_for_all_namespaces {
 # @param boolean $watch Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 {
     my $params = {
-    'continue' => {
-        data_type => 'string',
-        description => 'The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.',
-        required => '0',
-    },
-    'field_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
-        required => '0',
-    },
-    'include_uninitialized' => {
-        data_type => 'boolean',
-        description => 'If true, partially initialized resources are included in the response.',
-        required => '0',
-    },
-    'label_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
-        required => '0',
-    },
-    'limit' => {
-        data_type => 'int',
-        description => 'limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.',
-        required => '0',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'resource_version' => {
-        data_type => 'string',
-        description => 'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
-        required => '0',
-    },
-    'timeout_seconds' => {
-        data_type => 'int',
-        description => 'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
-        required => '0',
-    },
-    'watch' => {
-        data_type => 'boolean',
-        description => 'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.',
-        required => '0',
-    },
+        'continue' => {
+            data_type => 'string',
+            description =>
+'The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.',
+            required => '0',
+        },
+        'field_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
+            required => '0',
+        },
+        'include_uninitialized' => {
+            data_type => 'boolean',
+            description =>
+'If true, partially initialized resources are included in the response.',
+            required => '0',
+        },
+        'label_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
+            required => '0',
+        },
+        'limit' => {
+            data_type => 'int',
+            description =>
+'limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.',
+            required => '0',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'resource_version' => {
+            data_type => 'string',
+            description =>
+'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
+            required => '0',
+        },
+        'timeout_seconds' => {
+            data_type => 'int',
+            description =>
+'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
+            required => '0',
+        },
+        'watch' => {
+            data_type => 'boolean',
+            description =>
+'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'list_deployment_for_all_namespaces' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'list_deployment_for_all_namespaces'} =
+      {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2DeploymentList',
-        };
+      };
 }
+
 # @return V1beta2DeploymentList
 #
 sub list_deployment_for_all_namespaces {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # parse inputs
     my $_resource_path = '/apis/apps/v1beta2/deployments';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf', 'application/json;stream=watch', 'application/vnd.kubernetes.protobuf;stream=watch');
+    my $_header_accept = $self->{api_client}->select_header_accept(
+        'application/json',
+        'application/yaml',
+        'application/vnd.kubernetes.protobuf',
+        'application/json;stream=watch',
+        'application/vnd.kubernetes.protobuf;stream=watch'
+    );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'continue'}) {
-        $query_params->{'continue'} = $self->{api_client}->to_query_value($args{'continue'});
+    if ( exists $args{'continue'} ) {
+        $query_params->{'continue'} =
+          $self->{api_client}->to_query_value( $args{'continue'} );
     }
 
     # query params
-    if ( exists $args{'field_selector'}) {
-        $query_params->{'fieldSelector'} = $self->{api_client}->to_query_value($args{'field_selector'});
+    if ( exists $args{'field_selector'} ) {
+        $query_params->{'fieldSelector'} =
+          $self->{api_client}->to_query_value( $args{'field_selector'} );
     }
 
     # query params
-    if ( exists $args{'include_uninitialized'}) {
-        $query_params->{'includeUninitialized'} = $self->{api_client}->to_query_value($args{'include_uninitialized'});
+    if ( exists $args{'include_uninitialized'} ) {
+        $query_params->{'includeUninitialized'} =
+          $self->{api_client}->to_query_value( $args{'include_uninitialized'} );
     }
 
     # query params
-    if ( exists $args{'label_selector'}) {
-        $query_params->{'labelSelector'} = $self->{api_client}->to_query_value($args{'label_selector'});
+    if ( exists $args{'label_selector'} ) {
+        $query_params->{'labelSelector'} =
+          $self->{api_client}->to_query_value( $args{'label_selector'} );
     }
 
     # query params
-    if ( exists $args{'limit'}) {
-        $query_params->{'limit'} = $self->{api_client}->to_query_value($args{'limit'});
+    if ( exists $args{'limit'} ) {
+        $query_params->{'limit'} =
+          $self->{api_client}->to_query_value( $args{'limit'} );
     }
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'resource_version'}) {
-        $query_params->{'resourceVersion'} = $self->{api_client}->to_query_value($args{'resource_version'});
+    if ( exists $args{'resource_version'} ) {
+        $query_params->{'resourceVersion'} =
+          $self->{api_client}->to_query_value( $args{'resource_version'} );
     }
 
     # query params
-    if ( exists $args{'timeout_seconds'}) {
-        $query_params->{'timeoutSeconds'} = $self->{api_client}->to_query_value($args{'timeout_seconds'});
+    if ( exists $args{'timeout_seconds'} ) {
+        $query_params->{'timeoutSeconds'} =
+          $self->{api_client}->to_query_value( $args{'timeout_seconds'} );
     }
 
     # query params
-    if ( exists $args{'watch'}) {
-        $query_params->{'watch'} = $self->{api_client}->to_query_value($args{'watch'});
+    if ( exists $args{'watch'} ) {
+        $query_params->{'watch'} =
+          $self->{api_client}->to_query_value( $args{'watch'} );
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2DeploymentList', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2DeploymentList', $response );
     return $_response_object;
 }
 
 #
 # list_namespaced_controller_revision
 #
-# 
-# 
+#
+#
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param boolean $include_uninitialized If true, partially initialized resources are included in the response. (optional)
 # @param string $pretty If &#39;true&#39;, then the output is pretty printed. (optional)
@@ -2723,160 +3211,195 @@ sub list_deployment_for_all_namespaces {
 # @param boolean $watch Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 {
     my $params = {
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'include_uninitialized' => {
-        data_type => 'boolean',
-        description => 'If true, partially initialized resources are included in the response.',
-        required => '0',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'continue' => {
-        data_type => 'string',
-        description => 'The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.',
-        required => '0',
-    },
-    'field_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
-        required => '0',
-    },
-    'label_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
-        required => '0',
-    },
-    'limit' => {
-        data_type => 'int',
-        description => 'limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.',
-        required => '0',
-    },
-    'resource_version' => {
-        data_type => 'string',
-        description => 'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
-        required => '0',
-    },
-    'timeout_seconds' => {
-        data_type => 'int',
-        description => 'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
-        required => '0',
-    },
-    'watch' => {
-        data_type => 'boolean',
-        description => 'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.',
-        required => '0',
-    },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'include_uninitialized' => {
+            data_type => 'boolean',
+            description =>
+'If true, partially initialized resources are included in the response.',
+            required => '0',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'continue' => {
+            data_type => 'string',
+            description =>
+'The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.',
+            required => '0',
+        },
+        'field_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
+            required => '0',
+        },
+        'label_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
+            required => '0',
+        },
+        'limit' => {
+            data_type => 'int',
+            description =>
+'limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.',
+            required => '0',
+        },
+        'resource_version' => {
+            data_type => 'string',
+            description =>
+'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
+            required => '0',
+        },
+        'timeout_seconds' => {
+            data_type => 'int',
+            description =>
+'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
+            required => '0',
+        },
+        'watch' => {
+            data_type => 'boolean',
+            description =>
+'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'list_namespaced_controller_revision' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'list_namespaced_controller_revision'}
+      = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2ControllerRevisionList',
-        };
+      };
 }
+
 # @return V1beta2ControllerRevisionList
 #
 sub list_namespaced_controller_revision {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling list_namespaced_controller_revision");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling list_namespaced_controller_revision"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/controllerrevisions';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/controllerrevisions';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf', 'application/json;stream=watch', 'application/vnd.kubernetes.protobuf;stream=watch');
+    my $_header_accept = $self->{api_client}->select_header_accept(
+        'application/json',
+        'application/yaml',
+        'application/vnd.kubernetes.protobuf',
+        'application/json;stream=watch',
+        'application/vnd.kubernetes.protobuf;stream=watch'
+    );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'include_uninitialized'}) {
-        $query_params->{'includeUninitialized'} = $self->{api_client}->to_query_value($args{'include_uninitialized'});
+    if ( exists $args{'include_uninitialized'} ) {
+        $query_params->{'includeUninitialized'} =
+          $self->{api_client}->to_query_value( $args{'include_uninitialized'} );
     }
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'continue'}) {
-        $query_params->{'continue'} = $self->{api_client}->to_query_value($args{'continue'});
+    if ( exists $args{'continue'} ) {
+        $query_params->{'continue'} =
+          $self->{api_client}->to_query_value( $args{'continue'} );
     }
 
     # query params
-    if ( exists $args{'field_selector'}) {
-        $query_params->{'fieldSelector'} = $self->{api_client}->to_query_value($args{'field_selector'});
+    if ( exists $args{'field_selector'} ) {
+        $query_params->{'fieldSelector'} =
+          $self->{api_client}->to_query_value( $args{'field_selector'} );
     }
 
     # query params
-    if ( exists $args{'label_selector'}) {
-        $query_params->{'labelSelector'} = $self->{api_client}->to_query_value($args{'label_selector'});
+    if ( exists $args{'label_selector'} ) {
+        $query_params->{'labelSelector'} =
+          $self->{api_client}->to_query_value( $args{'label_selector'} );
     }
 
     # query params
-    if ( exists $args{'limit'}) {
-        $query_params->{'limit'} = $self->{api_client}->to_query_value($args{'limit'});
+    if ( exists $args{'limit'} ) {
+        $query_params->{'limit'} =
+          $self->{api_client}->to_query_value( $args{'limit'} );
     }
 
     # query params
-    if ( exists $args{'resource_version'}) {
-        $query_params->{'resourceVersion'} = $self->{api_client}->to_query_value($args{'resource_version'});
+    if ( exists $args{'resource_version'} ) {
+        $query_params->{'resourceVersion'} =
+          $self->{api_client}->to_query_value( $args{'resource_version'} );
     }
 
     # query params
-    if ( exists $args{'timeout_seconds'}) {
-        $query_params->{'timeoutSeconds'} = $self->{api_client}->to_query_value($args{'timeout_seconds'});
+    if ( exists $args{'timeout_seconds'} ) {
+        $query_params->{'timeoutSeconds'} =
+          $self->{api_client}->to_query_value( $args{'timeout_seconds'} );
     }
 
     # query params
-    if ( exists $args{'watch'}) {
-        $query_params->{'watch'} = $self->{api_client}->to_query_value($args{'watch'});
+    if ( exists $args{'watch'} ) {
+        $query_params->{'watch'} =
+          $self->{api_client}->to_query_value( $args{'watch'} );
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2ControllerRevisionList', $response);
+    my $_response_object = $self->{api_client}
+      ->deserialize( 'V1beta2ControllerRevisionList', $response );
     return $_response_object;
 }
 
 #
 # list_namespaced_daemon_set
 #
-# 
-# 
+#
+#
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param boolean $include_uninitialized If true, partially initialized resources are included in the response. (optional)
 # @param string $pretty If &#39;true&#39;, then the output is pretty printed. (optional)
@@ -2889,160 +3412,193 @@ sub list_namespaced_controller_revision {
 # @param boolean $watch Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 {
     my $params = {
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'include_uninitialized' => {
-        data_type => 'boolean',
-        description => 'If true, partially initialized resources are included in the response.',
-        required => '0',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'continue' => {
-        data_type => 'string',
-        description => 'The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.',
-        required => '0',
-    },
-    'field_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
-        required => '0',
-    },
-    'label_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
-        required => '0',
-    },
-    'limit' => {
-        data_type => 'int',
-        description => 'limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.',
-        required => '0',
-    },
-    'resource_version' => {
-        data_type => 'string',
-        description => 'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
-        required => '0',
-    },
-    'timeout_seconds' => {
-        data_type => 'int',
-        description => 'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
-        required => '0',
-    },
-    'watch' => {
-        data_type => 'boolean',
-        description => 'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.',
-        required => '0',
-    },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'include_uninitialized' => {
+            data_type => 'boolean',
+            description =>
+'If true, partially initialized resources are included in the response.',
+            required => '0',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'continue' => {
+            data_type => 'string',
+            description =>
+'The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.',
+            required => '0',
+        },
+        'field_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
+            required => '0',
+        },
+        'label_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
+            required => '0',
+        },
+        'limit' => {
+            data_type => 'int',
+            description =>
+'limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.',
+            required => '0',
+        },
+        'resource_version' => {
+            data_type => 'string',
+            description =>
+'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
+            required => '0',
+        },
+        'timeout_seconds' => {
+            data_type => 'int',
+            description =>
+'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
+            required => '0',
+        },
+        'watch' => {
+            data_type => 'boolean',
+            description =>
+'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'list_namespaced_daemon_set' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'list_namespaced_daemon_set'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2DaemonSetList',
-        };
+    };
 }
+
 # @return V1beta2DaemonSetList
 #
 sub list_namespaced_daemon_set {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling list_namespaced_daemon_set");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling list_namespaced_daemon_set"
+        );
     }
 
     # parse inputs
     my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/daemonsets';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf', 'application/json;stream=watch', 'application/vnd.kubernetes.protobuf;stream=watch');
+    my $_header_accept = $self->{api_client}->select_header_accept(
+        'application/json',
+        'application/yaml',
+        'application/vnd.kubernetes.protobuf',
+        'application/json;stream=watch',
+        'application/vnd.kubernetes.protobuf;stream=watch'
+    );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'include_uninitialized'}) {
-        $query_params->{'includeUninitialized'} = $self->{api_client}->to_query_value($args{'include_uninitialized'});
+    if ( exists $args{'include_uninitialized'} ) {
+        $query_params->{'includeUninitialized'} =
+          $self->{api_client}->to_query_value( $args{'include_uninitialized'} );
     }
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'continue'}) {
-        $query_params->{'continue'} = $self->{api_client}->to_query_value($args{'continue'});
+    if ( exists $args{'continue'} ) {
+        $query_params->{'continue'} =
+          $self->{api_client}->to_query_value( $args{'continue'} );
     }
 
     # query params
-    if ( exists $args{'field_selector'}) {
-        $query_params->{'fieldSelector'} = $self->{api_client}->to_query_value($args{'field_selector'});
+    if ( exists $args{'field_selector'} ) {
+        $query_params->{'fieldSelector'} =
+          $self->{api_client}->to_query_value( $args{'field_selector'} );
     }
 
     # query params
-    if ( exists $args{'label_selector'}) {
-        $query_params->{'labelSelector'} = $self->{api_client}->to_query_value($args{'label_selector'});
+    if ( exists $args{'label_selector'} ) {
+        $query_params->{'labelSelector'} =
+          $self->{api_client}->to_query_value( $args{'label_selector'} );
     }
 
     # query params
-    if ( exists $args{'limit'}) {
-        $query_params->{'limit'} = $self->{api_client}->to_query_value($args{'limit'});
+    if ( exists $args{'limit'} ) {
+        $query_params->{'limit'} =
+          $self->{api_client}->to_query_value( $args{'limit'} );
     }
 
     # query params
-    if ( exists $args{'resource_version'}) {
-        $query_params->{'resourceVersion'} = $self->{api_client}->to_query_value($args{'resource_version'});
+    if ( exists $args{'resource_version'} ) {
+        $query_params->{'resourceVersion'} =
+          $self->{api_client}->to_query_value( $args{'resource_version'} );
     }
 
     # query params
-    if ( exists $args{'timeout_seconds'}) {
-        $query_params->{'timeoutSeconds'} = $self->{api_client}->to_query_value($args{'timeout_seconds'});
+    if ( exists $args{'timeout_seconds'} ) {
+        $query_params->{'timeoutSeconds'} =
+          $self->{api_client}->to_query_value( $args{'timeout_seconds'} );
     }
 
     # query params
-    if ( exists $args{'watch'}) {
-        $query_params->{'watch'} = $self->{api_client}->to_query_value($args{'watch'});
+    if ( exists $args{'watch'} ) {
+        $query_params->{'watch'} =
+          $self->{api_client}->to_query_value( $args{'watch'} );
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2DaemonSetList', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2DaemonSetList', $response );
     return $_response_object;
 }
 
 #
 # list_namespaced_deployment
 #
-# 
-# 
+#
+#
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param boolean $include_uninitialized If true, partially initialized resources are included in the response. (optional)
 # @param string $pretty If &#39;true&#39;, then the output is pretty printed. (optional)
@@ -3055,160 +3611,194 @@ sub list_namespaced_daemon_set {
 # @param boolean $watch Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 {
     my $params = {
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'include_uninitialized' => {
-        data_type => 'boolean',
-        description => 'If true, partially initialized resources are included in the response.',
-        required => '0',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'continue' => {
-        data_type => 'string',
-        description => 'The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.',
-        required => '0',
-    },
-    'field_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
-        required => '0',
-    },
-    'label_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
-        required => '0',
-    },
-    'limit' => {
-        data_type => 'int',
-        description => 'limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.',
-        required => '0',
-    },
-    'resource_version' => {
-        data_type => 'string',
-        description => 'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
-        required => '0',
-    },
-    'timeout_seconds' => {
-        data_type => 'int',
-        description => 'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
-        required => '0',
-    },
-    'watch' => {
-        data_type => 'boolean',
-        description => 'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.',
-        required => '0',
-    },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'include_uninitialized' => {
+            data_type => 'boolean',
+            description =>
+'If true, partially initialized resources are included in the response.',
+            required => '0',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'continue' => {
+            data_type => 'string',
+            description =>
+'The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.',
+            required => '0',
+        },
+        'field_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
+            required => '0',
+        },
+        'label_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
+            required => '0',
+        },
+        'limit' => {
+            data_type => 'int',
+            description =>
+'limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.',
+            required => '0',
+        },
+        'resource_version' => {
+            data_type => 'string',
+            description =>
+'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
+            required => '0',
+        },
+        'timeout_seconds' => {
+            data_type => 'int',
+            description =>
+'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
+            required => '0',
+        },
+        'watch' => {
+            data_type => 'boolean',
+            description =>
+'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'list_namespaced_deployment' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'list_namespaced_deployment'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2DeploymentList',
-        };
+    };
 }
+
 # @return V1beta2DeploymentList
 #
 sub list_namespaced_deployment {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling list_namespaced_deployment");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling list_namespaced_deployment"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/deployments';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/deployments';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf', 'application/json;stream=watch', 'application/vnd.kubernetes.protobuf;stream=watch');
+    my $_header_accept = $self->{api_client}->select_header_accept(
+        'application/json',
+        'application/yaml',
+        'application/vnd.kubernetes.protobuf',
+        'application/json;stream=watch',
+        'application/vnd.kubernetes.protobuf;stream=watch'
+    );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'include_uninitialized'}) {
-        $query_params->{'includeUninitialized'} = $self->{api_client}->to_query_value($args{'include_uninitialized'});
+    if ( exists $args{'include_uninitialized'} ) {
+        $query_params->{'includeUninitialized'} =
+          $self->{api_client}->to_query_value( $args{'include_uninitialized'} );
     }
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'continue'}) {
-        $query_params->{'continue'} = $self->{api_client}->to_query_value($args{'continue'});
+    if ( exists $args{'continue'} ) {
+        $query_params->{'continue'} =
+          $self->{api_client}->to_query_value( $args{'continue'} );
     }
 
     # query params
-    if ( exists $args{'field_selector'}) {
-        $query_params->{'fieldSelector'} = $self->{api_client}->to_query_value($args{'field_selector'});
+    if ( exists $args{'field_selector'} ) {
+        $query_params->{'fieldSelector'} =
+          $self->{api_client}->to_query_value( $args{'field_selector'} );
     }
 
     # query params
-    if ( exists $args{'label_selector'}) {
-        $query_params->{'labelSelector'} = $self->{api_client}->to_query_value($args{'label_selector'});
+    if ( exists $args{'label_selector'} ) {
+        $query_params->{'labelSelector'} =
+          $self->{api_client}->to_query_value( $args{'label_selector'} );
     }
 
     # query params
-    if ( exists $args{'limit'}) {
-        $query_params->{'limit'} = $self->{api_client}->to_query_value($args{'limit'});
+    if ( exists $args{'limit'} ) {
+        $query_params->{'limit'} =
+          $self->{api_client}->to_query_value( $args{'limit'} );
     }
 
     # query params
-    if ( exists $args{'resource_version'}) {
-        $query_params->{'resourceVersion'} = $self->{api_client}->to_query_value($args{'resource_version'});
+    if ( exists $args{'resource_version'} ) {
+        $query_params->{'resourceVersion'} =
+          $self->{api_client}->to_query_value( $args{'resource_version'} );
     }
 
     # query params
-    if ( exists $args{'timeout_seconds'}) {
-        $query_params->{'timeoutSeconds'} = $self->{api_client}->to_query_value($args{'timeout_seconds'});
+    if ( exists $args{'timeout_seconds'} ) {
+        $query_params->{'timeoutSeconds'} =
+          $self->{api_client}->to_query_value( $args{'timeout_seconds'} );
     }
 
     # query params
-    if ( exists $args{'watch'}) {
-        $query_params->{'watch'} = $self->{api_client}->to_query_value($args{'watch'});
+    if ( exists $args{'watch'} ) {
+        $query_params->{'watch'} =
+          $self->{api_client}->to_query_value( $args{'watch'} );
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2DeploymentList', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2DeploymentList', $response );
     return $_response_object;
 }
 
 #
 # list_namespaced_replica_set
 #
-# 
-# 
+#
+#
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param boolean $include_uninitialized If true, partially initialized resources are included in the response. (optional)
 # @param string $pretty If &#39;true&#39;, then the output is pretty printed. (optional)
@@ -3221,160 +3811,194 @@ sub list_namespaced_deployment {
 # @param boolean $watch Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 {
     my $params = {
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'include_uninitialized' => {
-        data_type => 'boolean',
-        description => 'If true, partially initialized resources are included in the response.',
-        required => '0',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'continue' => {
-        data_type => 'string',
-        description => 'The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.',
-        required => '0',
-    },
-    'field_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
-        required => '0',
-    },
-    'label_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
-        required => '0',
-    },
-    'limit' => {
-        data_type => 'int',
-        description => 'limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.',
-        required => '0',
-    },
-    'resource_version' => {
-        data_type => 'string',
-        description => 'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
-        required => '0',
-    },
-    'timeout_seconds' => {
-        data_type => 'int',
-        description => 'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
-        required => '0',
-    },
-    'watch' => {
-        data_type => 'boolean',
-        description => 'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.',
-        required => '0',
-    },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'include_uninitialized' => {
+            data_type => 'boolean',
+            description =>
+'If true, partially initialized resources are included in the response.',
+            required => '0',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'continue' => {
+            data_type => 'string',
+            description =>
+'The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.',
+            required => '0',
+        },
+        'field_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
+            required => '0',
+        },
+        'label_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
+            required => '0',
+        },
+        'limit' => {
+            data_type => 'int',
+            description =>
+'limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.',
+            required => '0',
+        },
+        'resource_version' => {
+            data_type => 'string',
+            description =>
+'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
+            required => '0',
+        },
+        'timeout_seconds' => {
+            data_type => 'int',
+            description =>
+'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
+            required => '0',
+        },
+        'watch' => {
+            data_type => 'boolean',
+            description =>
+'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'list_namespaced_replica_set' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'list_namespaced_replica_set'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2ReplicaSetList',
-        };
+    };
 }
+
 # @return V1beta2ReplicaSetList
 #
 sub list_namespaced_replica_set {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling list_namespaced_replica_set");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling list_namespaced_replica_set"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/replicasets';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/replicasets';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf', 'application/json;stream=watch', 'application/vnd.kubernetes.protobuf;stream=watch');
+    my $_header_accept = $self->{api_client}->select_header_accept(
+        'application/json',
+        'application/yaml',
+        'application/vnd.kubernetes.protobuf',
+        'application/json;stream=watch',
+        'application/vnd.kubernetes.protobuf;stream=watch'
+    );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'include_uninitialized'}) {
-        $query_params->{'includeUninitialized'} = $self->{api_client}->to_query_value($args{'include_uninitialized'});
+    if ( exists $args{'include_uninitialized'} ) {
+        $query_params->{'includeUninitialized'} =
+          $self->{api_client}->to_query_value( $args{'include_uninitialized'} );
     }
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'continue'}) {
-        $query_params->{'continue'} = $self->{api_client}->to_query_value($args{'continue'});
+    if ( exists $args{'continue'} ) {
+        $query_params->{'continue'} =
+          $self->{api_client}->to_query_value( $args{'continue'} );
     }
 
     # query params
-    if ( exists $args{'field_selector'}) {
-        $query_params->{'fieldSelector'} = $self->{api_client}->to_query_value($args{'field_selector'});
+    if ( exists $args{'field_selector'} ) {
+        $query_params->{'fieldSelector'} =
+          $self->{api_client}->to_query_value( $args{'field_selector'} );
     }
 
     # query params
-    if ( exists $args{'label_selector'}) {
-        $query_params->{'labelSelector'} = $self->{api_client}->to_query_value($args{'label_selector'});
+    if ( exists $args{'label_selector'} ) {
+        $query_params->{'labelSelector'} =
+          $self->{api_client}->to_query_value( $args{'label_selector'} );
     }
 
     # query params
-    if ( exists $args{'limit'}) {
-        $query_params->{'limit'} = $self->{api_client}->to_query_value($args{'limit'});
+    if ( exists $args{'limit'} ) {
+        $query_params->{'limit'} =
+          $self->{api_client}->to_query_value( $args{'limit'} );
     }
 
     # query params
-    if ( exists $args{'resource_version'}) {
-        $query_params->{'resourceVersion'} = $self->{api_client}->to_query_value($args{'resource_version'});
+    if ( exists $args{'resource_version'} ) {
+        $query_params->{'resourceVersion'} =
+          $self->{api_client}->to_query_value( $args{'resource_version'} );
     }
 
     # query params
-    if ( exists $args{'timeout_seconds'}) {
-        $query_params->{'timeoutSeconds'} = $self->{api_client}->to_query_value($args{'timeout_seconds'});
+    if ( exists $args{'timeout_seconds'} ) {
+        $query_params->{'timeoutSeconds'} =
+          $self->{api_client}->to_query_value( $args{'timeout_seconds'} );
     }
 
     # query params
-    if ( exists $args{'watch'}) {
-        $query_params->{'watch'} = $self->{api_client}->to_query_value($args{'watch'});
+    if ( exists $args{'watch'} ) {
+        $query_params->{'watch'} =
+          $self->{api_client}->to_query_value( $args{'watch'} );
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2ReplicaSetList', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2ReplicaSetList', $response );
     return $_response_object;
 }
 
 #
 # list_namespaced_stateful_set
 #
-# 
-# 
+#
+#
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param boolean $include_uninitialized If true, partially initialized resources are included in the response. (optional)
 # @param string $pretty If &#39;true&#39;, then the output is pretty printed. (optional)
@@ -3387,160 +4011,194 @@ sub list_namespaced_replica_set {
 # @param boolean $watch Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 {
     my $params = {
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'include_uninitialized' => {
-        data_type => 'boolean',
-        description => 'If true, partially initialized resources are included in the response.',
-        required => '0',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'continue' => {
-        data_type => 'string',
-        description => 'The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.',
-        required => '0',
-    },
-    'field_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
-        required => '0',
-    },
-    'label_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
-        required => '0',
-    },
-    'limit' => {
-        data_type => 'int',
-        description => 'limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.',
-        required => '0',
-    },
-    'resource_version' => {
-        data_type => 'string',
-        description => 'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
-        required => '0',
-    },
-    'timeout_seconds' => {
-        data_type => 'int',
-        description => 'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
-        required => '0',
-    },
-    'watch' => {
-        data_type => 'boolean',
-        description => 'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.',
-        required => '0',
-    },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'include_uninitialized' => {
+            data_type => 'boolean',
+            description =>
+'If true, partially initialized resources are included in the response.',
+            required => '0',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'continue' => {
+            data_type => 'string',
+            description =>
+'The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.',
+            required => '0',
+        },
+        'field_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
+            required => '0',
+        },
+        'label_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
+            required => '0',
+        },
+        'limit' => {
+            data_type => 'int',
+            description =>
+'limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.',
+            required => '0',
+        },
+        'resource_version' => {
+            data_type => 'string',
+            description =>
+'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
+            required => '0',
+        },
+        'timeout_seconds' => {
+            data_type => 'int',
+            description =>
+'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
+            required => '0',
+        },
+        'watch' => {
+            data_type => 'boolean',
+            description =>
+'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'list_namespaced_stateful_set' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'list_namespaced_stateful_set'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2StatefulSetList',
-        };
+    };
 }
+
 # @return V1beta2StatefulSetList
 #
 sub list_namespaced_stateful_set {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling list_namespaced_stateful_set");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling list_namespaced_stateful_set"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/statefulsets';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/statefulsets';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf', 'application/json;stream=watch', 'application/vnd.kubernetes.protobuf;stream=watch');
+    my $_header_accept = $self->{api_client}->select_header_accept(
+        'application/json',
+        'application/yaml',
+        'application/vnd.kubernetes.protobuf',
+        'application/json;stream=watch',
+        'application/vnd.kubernetes.protobuf;stream=watch'
+    );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'include_uninitialized'}) {
-        $query_params->{'includeUninitialized'} = $self->{api_client}->to_query_value($args{'include_uninitialized'});
+    if ( exists $args{'include_uninitialized'} ) {
+        $query_params->{'includeUninitialized'} =
+          $self->{api_client}->to_query_value( $args{'include_uninitialized'} );
     }
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'continue'}) {
-        $query_params->{'continue'} = $self->{api_client}->to_query_value($args{'continue'});
+    if ( exists $args{'continue'} ) {
+        $query_params->{'continue'} =
+          $self->{api_client}->to_query_value( $args{'continue'} );
     }
 
     # query params
-    if ( exists $args{'field_selector'}) {
-        $query_params->{'fieldSelector'} = $self->{api_client}->to_query_value($args{'field_selector'});
+    if ( exists $args{'field_selector'} ) {
+        $query_params->{'fieldSelector'} =
+          $self->{api_client}->to_query_value( $args{'field_selector'} );
     }
 
     # query params
-    if ( exists $args{'label_selector'}) {
-        $query_params->{'labelSelector'} = $self->{api_client}->to_query_value($args{'label_selector'});
+    if ( exists $args{'label_selector'} ) {
+        $query_params->{'labelSelector'} =
+          $self->{api_client}->to_query_value( $args{'label_selector'} );
     }
 
     # query params
-    if ( exists $args{'limit'}) {
-        $query_params->{'limit'} = $self->{api_client}->to_query_value($args{'limit'});
+    if ( exists $args{'limit'} ) {
+        $query_params->{'limit'} =
+          $self->{api_client}->to_query_value( $args{'limit'} );
     }
 
     # query params
-    if ( exists $args{'resource_version'}) {
-        $query_params->{'resourceVersion'} = $self->{api_client}->to_query_value($args{'resource_version'});
+    if ( exists $args{'resource_version'} ) {
+        $query_params->{'resourceVersion'} =
+          $self->{api_client}->to_query_value( $args{'resource_version'} );
     }
 
     # query params
-    if ( exists $args{'timeout_seconds'}) {
-        $query_params->{'timeoutSeconds'} = $self->{api_client}->to_query_value($args{'timeout_seconds'});
+    if ( exists $args{'timeout_seconds'} ) {
+        $query_params->{'timeoutSeconds'} =
+          $self->{api_client}->to_query_value( $args{'timeout_seconds'} );
     }
 
     # query params
-    if ( exists $args{'watch'}) {
-        $query_params->{'watch'} = $self->{api_client}->to_query_value($args{'watch'});
+    if ( exists $args{'watch'} ) {
+        $query_params->{'watch'} =
+          $self->{api_client}->to_query_value( $args{'watch'} );
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2StatefulSetList', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2StatefulSetList', $response );
     return $_response_object;
 }
 
 #
 # list_replica_set_for_all_namespaces
 #
-# 
-# 
+#
+#
 # @param string $continue The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. (optional)
 # @param string $field_selector A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
 # @param boolean $include_uninitialized If true, partially initialized resources are included in the response. (optional)
@@ -3552,143 +4210,173 @@ sub list_namespaced_stateful_set {
 # @param boolean $watch Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 {
     my $params = {
-    'continue' => {
-        data_type => 'string',
-        description => 'The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.',
-        required => '0',
-    },
-    'field_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
-        required => '0',
-    },
-    'include_uninitialized' => {
-        data_type => 'boolean',
-        description => 'If true, partially initialized resources are included in the response.',
-        required => '0',
-    },
-    'label_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
-        required => '0',
-    },
-    'limit' => {
-        data_type => 'int',
-        description => 'limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.',
-        required => '0',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'resource_version' => {
-        data_type => 'string',
-        description => 'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
-        required => '0',
-    },
-    'timeout_seconds' => {
-        data_type => 'int',
-        description => 'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
-        required => '0',
-    },
-    'watch' => {
-        data_type => 'boolean',
-        description => 'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.',
-        required => '0',
-    },
+        'continue' => {
+            data_type => 'string',
+            description =>
+'The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.',
+            required => '0',
+        },
+        'field_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
+            required => '0',
+        },
+        'include_uninitialized' => {
+            data_type => 'boolean',
+            description =>
+'If true, partially initialized resources are included in the response.',
+            required => '0',
+        },
+        'label_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
+            required => '0',
+        },
+        'limit' => {
+            data_type => 'int',
+            description =>
+'limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.',
+            required => '0',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'resource_version' => {
+            data_type => 'string',
+            description =>
+'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
+            required => '0',
+        },
+        'timeout_seconds' => {
+            data_type => 'int',
+            description =>
+'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
+            required => '0',
+        },
+        'watch' => {
+            data_type => 'boolean',
+            description =>
+'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'list_replica_set_for_all_namespaces' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'list_replica_set_for_all_namespaces'}
+      = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2ReplicaSetList',
-        };
+      };
 }
+
 # @return V1beta2ReplicaSetList
 #
 sub list_replica_set_for_all_namespaces {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # parse inputs
     my $_resource_path = '/apis/apps/v1beta2/replicasets';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf', 'application/json;stream=watch', 'application/vnd.kubernetes.protobuf;stream=watch');
+    my $_header_accept = $self->{api_client}->select_header_accept(
+        'application/json',
+        'application/yaml',
+        'application/vnd.kubernetes.protobuf',
+        'application/json;stream=watch',
+        'application/vnd.kubernetes.protobuf;stream=watch'
+    );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'continue'}) {
-        $query_params->{'continue'} = $self->{api_client}->to_query_value($args{'continue'});
+    if ( exists $args{'continue'} ) {
+        $query_params->{'continue'} =
+          $self->{api_client}->to_query_value( $args{'continue'} );
     }
 
     # query params
-    if ( exists $args{'field_selector'}) {
-        $query_params->{'fieldSelector'} = $self->{api_client}->to_query_value($args{'field_selector'});
+    if ( exists $args{'field_selector'} ) {
+        $query_params->{'fieldSelector'} =
+          $self->{api_client}->to_query_value( $args{'field_selector'} );
     }
 
     # query params
-    if ( exists $args{'include_uninitialized'}) {
-        $query_params->{'includeUninitialized'} = $self->{api_client}->to_query_value($args{'include_uninitialized'});
+    if ( exists $args{'include_uninitialized'} ) {
+        $query_params->{'includeUninitialized'} =
+          $self->{api_client}->to_query_value( $args{'include_uninitialized'} );
     }
 
     # query params
-    if ( exists $args{'label_selector'}) {
-        $query_params->{'labelSelector'} = $self->{api_client}->to_query_value($args{'label_selector'});
+    if ( exists $args{'label_selector'} ) {
+        $query_params->{'labelSelector'} =
+          $self->{api_client}->to_query_value( $args{'label_selector'} );
     }
 
     # query params
-    if ( exists $args{'limit'}) {
-        $query_params->{'limit'} = $self->{api_client}->to_query_value($args{'limit'});
+    if ( exists $args{'limit'} ) {
+        $query_params->{'limit'} =
+          $self->{api_client}->to_query_value( $args{'limit'} );
     }
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'resource_version'}) {
-        $query_params->{'resourceVersion'} = $self->{api_client}->to_query_value($args{'resource_version'});
+    if ( exists $args{'resource_version'} ) {
+        $query_params->{'resourceVersion'} =
+          $self->{api_client}->to_query_value( $args{'resource_version'} );
     }
 
     # query params
-    if ( exists $args{'timeout_seconds'}) {
-        $query_params->{'timeoutSeconds'} = $self->{api_client}->to_query_value($args{'timeout_seconds'});
+    if ( exists $args{'timeout_seconds'} ) {
+        $query_params->{'timeoutSeconds'} =
+          $self->{api_client}->to_query_value( $args{'timeout_seconds'} );
     }
 
     # query params
-    if ( exists $args{'watch'}) {
-        $query_params->{'watch'} = $self->{api_client}->to_query_value($args{'watch'});
+    if ( exists $args{'watch'} ) {
+        $query_params->{'watch'} =
+          $self->{api_client}->to_query_value( $args{'watch'} );
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2ReplicaSetList', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2ReplicaSetList', $response );
     return $_response_object;
 }
 
 #
 # list_stateful_set_for_all_namespaces
 #
-# 
-# 
+#
+#
 # @param string $continue The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. (optional)
 # @param string $field_selector A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
 # @param boolean $include_uninitialized If true, partially initialized resources are included in the response. (optional)
@@ -3700,143 +4388,173 @@ sub list_replica_set_for_all_namespaces {
 # @param boolean $watch Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 {
     my $params = {
-    'continue' => {
-        data_type => 'string',
-        description => 'The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.',
-        required => '0',
-    },
-    'field_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
-        required => '0',
-    },
-    'include_uninitialized' => {
-        data_type => 'boolean',
-        description => 'If true, partially initialized resources are included in the response.',
-        required => '0',
-    },
-    'label_selector' => {
-        data_type => 'string',
-        description => 'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
-        required => '0',
-    },
-    'limit' => {
-        data_type => 'int',
-        description => 'limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.',
-        required => '0',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'resource_version' => {
-        data_type => 'string',
-        description => 'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
-        required => '0',
-    },
-    'timeout_seconds' => {
-        data_type => 'int',
-        description => 'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
-        required => '0',
-    },
-    'watch' => {
-        data_type => 'boolean',
-        description => 'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.',
-        required => '0',
-    },
+        'continue' => {
+            data_type => 'string',
+            description =>
+'The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \&quot;next key\&quot;.  This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.',
+            required => '0',
+        },
+        'field_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their fields. Defaults to everything.',
+            required => '0',
+        },
+        'include_uninitialized' => {
+            data_type => 'boolean',
+            description =>
+'If true, partially initialized resources are included in the response.',
+            required => '0',
+        },
+        'label_selector' => {
+            data_type => 'string',
+            description =>
+'A selector to restrict the list of returned objects by their labels. Defaults to everything.',
+            required => '0',
+        },
+        'limit' => {
+            data_type => 'int',
+            description =>
+'limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.',
+            required => '0',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'resource_version' => {
+            data_type => 'string',
+            description =>
+'When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.',
+            required => '0',
+        },
+        'timeout_seconds' => {
+            data_type => 'int',
+            description =>
+'Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.',
+            required => '0',
+        },
+        'watch' => {
+            data_type => 'boolean',
+            description =>
+'Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'list_stateful_set_for_all_namespaces' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'list_stateful_set_for_all_namespaces'}
+      = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2StatefulSetList',
-        };
+      };
 }
+
 # @return V1beta2StatefulSetList
 #
 sub list_stateful_set_for_all_namespaces {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # parse inputs
     my $_resource_path = '/apis/apps/v1beta2/statefulsets';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf', 'application/json;stream=watch', 'application/vnd.kubernetes.protobuf;stream=watch');
+    my $_header_accept = $self->{api_client}->select_header_accept(
+        'application/json',
+        'application/yaml',
+        'application/vnd.kubernetes.protobuf',
+        'application/json;stream=watch',
+        'application/vnd.kubernetes.protobuf;stream=watch'
+    );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'continue'}) {
-        $query_params->{'continue'} = $self->{api_client}->to_query_value($args{'continue'});
+    if ( exists $args{'continue'} ) {
+        $query_params->{'continue'} =
+          $self->{api_client}->to_query_value( $args{'continue'} );
     }
 
     # query params
-    if ( exists $args{'field_selector'}) {
-        $query_params->{'fieldSelector'} = $self->{api_client}->to_query_value($args{'field_selector'});
+    if ( exists $args{'field_selector'} ) {
+        $query_params->{'fieldSelector'} =
+          $self->{api_client}->to_query_value( $args{'field_selector'} );
     }
 
     # query params
-    if ( exists $args{'include_uninitialized'}) {
-        $query_params->{'includeUninitialized'} = $self->{api_client}->to_query_value($args{'include_uninitialized'});
+    if ( exists $args{'include_uninitialized'} ) {
+        $query_params->{'includeUninitialized'} =
+          $self->{api_client}->to_query_value( $args{'include_uninitialized'} );
     }
 
     # query params
-    if ( exists $args{'label_selector'}) {
-        $query_params->{'labelSelector'} = $self->{api_client}->to_query_value($args{'label_selector'});
+    if ( exists $args{'label_selector'} ) {
+        $query_params->{'labelSelector'} =
+          $self->{api_client}->to_query_value( $args{'label_selector'} );
     }
 
     # query params
-    if ( exists $args{'limit'}) {
-        $query_params->{'limit'} = $self->{api_client}->to_query_value($args{'limit'});
+    if ( exists $args{'limit'} ) {
+        $query_params->{'limit'} =
+          $self->{api_client}->to_query_value( $args{'limit'} );
     }
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'resource_version'}) {
-        $query_params->{'resourceVersion'} = $self->{api_client}->to_query_value($args{'resource_version'});
+    if ( exists $args{'resource_version'} ) {
+        $query_params->{'resourceVersion'} =
+          $self->{api_client}->to_query_value( $args{'resource_version'} );
     }
 
     # query params
-    if ( exists $args{'timeout_seconds'}) {
-        $query_params->{'timeoutSeconds'} = $self->{api_client}->to_query_value($args{'timeout_seconds'});
+    if ( exists $args{'timeout_seconds'} ) {
+        $query_params->{'timeoutSeconds'} =
+          $self->{api_client}->to_query_value( $args{'timeout_seconds'} );
     }
 
     # query params
-    if ( exists $args{'watch'}) {
-        $query_params->{'watch'} = $self->{api_client}->to_query_value($args{'watch'});
+    if ( exists $args{'watch'} ) {
+        $query_params->{'watch'} =
+          $self->{api_client}->to_query_value( $args{'watch'} );
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2StatefulSetList', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2StatefulSetList', $response );
     return $_response_object;
 }
 
 #
 # patch_namespaced_controller_revision
 #
-# 
-# 
+#
+#
 # @param string $name name of the ControllerRevision (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param UNKNOWN_BASE_TYPE $body  (required)
@@ -3844,100 +4562,124 @@ sub list_stateful_set_for_all_namespaces {
 # @param string $dry_run When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the ControllerRevision',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'UNKNOWN_BASE_TYPE',
-        description => '',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the ControllerRevision',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'body' => {
+            data_type   => 'UNKNOWN_BASE_TYPE',
+            description => '',
+            required    => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'patch_namespaced_controller_revision' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'patch_namespaced_controller_revision'}
+      = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2ControllerRevision',
-        };
+      };
 }
+
 # @return V1beta2ControllerRevision
 #
 sub patch_namespaced_controller_revision {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling patch_namespaced_controller_revision");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling patch_namespaced_controller_revision"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling patch_namespaced_controller_revision");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling patch_namespaced_controller_revision"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling patch_namespaced_controller_revision");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling patch_namespaced_controller_revision"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/controllerrevisions/{name}';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/controllerrevisions/{name}';
 
-    my $_method = 'PATCH';
-    my $query_params = {};
+    my $_method       = 'PATCH';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json');
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type(
+        'application/json-patch+json',
+        'application/merge-patch+json',
+        'application/strategic-merge-patch+json'
+      );
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -3945,21 +4687,23 @@ sub patch_namespaced_controller_revision {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2ControllerRevision', $response);
+    my $_response_object = $self->{api_client}
+      ->deserialize( 'V1beta2ControllerRevision', $response );
     return $_response_object;
 }
 
 #
 # patch_namespaced_daemon_set
 #
-# 
-# 
+#
+#
 # @param string $name name of the DaemonSet (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param UNKNOWN_BASE_TYPE $body  (required)
@@ -3967,100 +4711,123 @@ sub patch_namespaced_controller_revision {
 # @param string $dry_run When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the DaemonSet',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'UNKNOWN_BASE_TYPE',
-        description => '',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the DaemonSet',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'body' => {
+            data_type   => 'UNKNOWN_BASE_TYPE',
+            description => '',
+            required    => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'patch_namespaced_daemon_set' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'patch_namespaced_daemon_set'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2DaemonSet',
-        };
+    };
 }
+
 # @return V1beta2DaemonSet
 #
 sub patch_namespaced_daemon_set {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling patch_namespaced_daemon_set");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling patch_namespaced_daemon_set"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling patch_namespaced_daemon_set");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling patch_namespaced_daemon_set"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling patch_namespaced_daemon_set");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling patch_namespaced_daemon_set"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/daemonsets/{name}';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/daemonsets/{name}';
 
-    my $_method = 'PATCH';
-    my $query_params = {};
+    my $_method       = 'PATCH';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json');
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type(
+        'application/json-patch+json',
+        'application/merge-patch+json',
+        'application/strategic-merge-patch+json'
+      );
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -4068,21 +4835,23 @@ sub patch_namespaced_daemon_set {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2DaemonSet', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2DaemonSet', $response );
     return $_response_object;
 }
 
 #
 # patch_namespaced_daemon_set_status
 #
-# 
-# 
+#
+#
 # @param string $name name of the DaemonSet (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param UNKNOWN_BASE_TYPE $body  (required)
@@ -4090,100 +4859,124 @@ sub patch_namespaced_daemon_set {
 # @param string $dry_run When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the DaemonSet',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'UNKNOWN_BASE_TYPE',
-        description => '',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the DaemonSet',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'body' => {
+            data_type   => 'UNKNOWN_BASE_TYPE',
+            description => '',
+            required    => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'patch_namespaced_daemon_set_status' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'patch_namespaced_daemon_set_status'} =
+      {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2DaemonSet',
-        };
+      };
 }
+
 # @return V1beta2DaemonSet
 #
 sub patch_namespaced_daemon_set_status {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling patch_namespaced_daemon_set_status");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling patch_namespaced_daemon_set_status"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling patch_namespaced_daemon_set_status");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling patch_namespaced_daemon_set_status"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling patch_namespaced_daemon_set_status");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling patch_namespaced_daemon_set_status"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/daemonsets/{name}/status';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/daemonsets/{name}/status';
 
-    my $_method = 'PATCH';
-    my $query_params = {};
+    my $_method       = 'PATCH';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json');
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type(
+        'application/json-patch+json',
+        'application/merge-patch+json',
+        'application/strategic-merge-patch+json'
+      );
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -4191,21 +4984,23 @@ sub patch_namespaced_daemon_set_status {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2DaemonSet', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2DaemonSet', $response );
     return $_response_object;
 }
 
 #
 # patch_namespaced_deployment
 #
-# 
-# 
+#
+#
 # @param string $name name of the Deployment (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param UNKNOWN_BASE_TYPE $body  (required)
@@ -4213,100 +5008,123 @@ sub patch_namespaced_daemon_set_status {
 # @param string $dry_run When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the Deployment',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'UNKNOWN_BASE_TYPE',
-        description => '',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the Deployment',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'body' => {
+            data_type   => 'UNKNOWN_BASE_TYPE',
+            description => '',
+            required    => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'patch_namespaced_deployment' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'patch_namespaced_deployment'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2Deployment',
-        };
+    };
 }
+
 # @return V1beta2Deployment
 #
 sub patch_namespaced_deployment {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling patch_namespaced_deployment");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling patch_namespaced_deployment"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling patch_namespaced_deployment");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling patch_namespaced_deployment"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling patch_namespaced_deployment");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling patch_namespaced_deployment"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/deployments/{name}';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/deployments/{name}';
 
-    my $_method = 'PATCH';
-    my $query_params = {};
+    my $_method       = 'PATCH';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json');
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type(
+        'application/json-patch+json',
+        'application/merge-patch+json',
+        'application/strategic-merge-patch+json'
+      );
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -4314,21 +5132,23 @@ sub patch_namespaced_deployment {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2Deployment', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2Deployment', $response );
     return $_response_object;
 }
 
 #
 # patch_namespaced_deployment_scale
 #
-# 
-# 
+#
+#
 # @param string $name name of the Scale (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param UNKNOWN_BASE_TYPE $body  (required)
@@ -4336,100 +5156,123 @@ sub patch_namespaced_deployment {
 # @param string $dry_run When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the Scale',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'UNKNOWN_BASE_TYPE',
-        description => '',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the Scale',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'body' => {
+            data_type   => 'UNKNOWN_BASE_TYPE',
+            description => '',
+            required    => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'patch_namespaced_deployment_scale' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'patch_namespaced_deployment_scale'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2Scale',
-        };
+    };
 }
+
 # @return V1beta2Scale
 #
 sub patch_namespaced_deployment_scale {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling patch_namespaced_deployment_scale");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling patch_namespaced_deployment_scale"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling patch_namespaced_deployment_scale");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling patch_namespaced_deployment_scale"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling patch_namespaced_deployment_scale");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling patch_namespaced_deployment_scale"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/deployments/{name}/scale';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/deployments/{name}/scale';
 
-    my $_method = 'PATCH';
-    my $query_params = {};
+    my $_method       = 'PATCH';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json');
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type(
+        'application/json-patch+json',
+        'application/merge-patch+json',
+        'application/strategic-merge-patch+json'
+      );
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -4437,21 +5280,23 @@ sub patch_namespaced_deployment_scale {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2Scale', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2Scale', $response );
     return $_response_object;
 }
 
 #
 # patch_namespaced_deployment_status
 #
-# 
-# 
+#
+#
 # @param string $name name of the Deployment (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param UNKNOWN_BASE_TYPE $body  (required)
@@ -4459,100 +5304,124 @@ sub patch_namespaced_deployment_scale {
 # @param string $dry_run When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the Deployment',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'UNKNOWN_BASE_TYPE',
-        description => '',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the Deployment',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'body' => {
+            data_type   => 'UNKNOWN_BASE_TYPE',
+            description => '',
+            required    => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'patch_namespaced_deployment_status' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'patch_namespaced_deployment_status'} =
+      {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2Deployment',
-        };
+      };
 }
+
 # @return V1beta2Deployment
 #
 sub patch_namespaced_deployment_status {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling patch_namespaced_deployment_status");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling patch_namespaced_deployment_status"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling patch_namespaced_deployment_status");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling patch_namespaced_deployment_status"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling patch_namespaced_deployment_status");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling patch_namespaced_deployment_status"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/deployments/{name}/status';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/deployments/{name}/status';
 
-    my $_method = 'PATCH';
-    my $query_params = {};
+    my $_method       = 'PATCH';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json');
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type(
+        'application/json-patch+json',
+        'application/merge-patch+json',
+        'application/strategic-merge-patch+json'
+      );
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -4560,21 +5429,23 @@ sub patch_namespaced_deployment_status {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2Deployment', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2Deployment', $response );
     return $_response_object;
 }
 
 #
 # patch_namespaced_replica_set
 #
-# 
-# 
+#
+#
 # @param string $name name of the ReplicaSet (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param UNKNOWN_BASE_TYPE $body  (required)
@@ -4582,100 +5453,123 @@ sub patch_namespaced_deployment_status {
 # @param string $dry_run When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the ReplicaSet',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'UNKNOWN_BASE_TYPE',
-        description => '',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the ReplicaSet',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'body' => {
+            data_type   => 'UNKNOWN_BASE_TYPE',
+            description => '',
+            required    => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'patch_namespaced_replica_set' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'patch_namespaced_replica_set'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2ReplicaSet',
-        };
+    };
 }
+
 # @return V1beta2ReplicaSet
 #
 sub patch_namespaced_replica_set {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling patch_namespaced_replica_set");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling patch_namespaced_replica_set"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling patch_namespaced_replica_set");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling patch_namespaced_replica_set"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling patch_namespaced_replica_set");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling patch_namespaced_replica_set"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/replicasets/{name}';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/replicasets/{name}';
 
-    my $_method = 'PATCH';
-    my $query_params = {};
+    my $_method       = 'PATCH';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json');
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type(
+        'application/json-patch+json',
+        'application/merge-patch+json',
+        'application/strategic-merge-patch+json'
+      );
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -4683,21 +5577,23 @@ sub patch_namespaced_replica_set {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2ReplicaSet', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2ReplicaSet', $response );
     return $_response_object;
 }
 
 #
 # patch_namespaced_replica_set_scale
 #
-# 
-# 
+#
+#
 # @param string $name name of the Scale (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param UNKNOWN_BASE_TYPE $body  (required)
@@ -4705,100 +5601,124 @@ sub patch_namespaced_replica_set {
 # @param string $dry_run When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the Scale',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'UNKNOWN_BASE_TYPE',
-        description => '',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the Scale',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'body' => {
+            data_type   => 'UNKNOWN_BASE_TYPE',
+            description => '',
+            required    => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'patch_namespaced_replica_set_scale' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'patch_namespaced_replica_set_scale'} =
+      {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2Scale',
-        };
+      };
 }
+
 # @return V1beta2Scale
 #
 sub patch_namespaced_replica_set_scale {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling patch_namespaced_replica_set_scale");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling patch_namespaced_replica_set_scale"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling patch_namespaced_replica_set_scale");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling patch_namespaced_replica_set_scale"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling patch_namespaced_replica_set_scale");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling patch_namespaced_replica_set_scale"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/replicasets/{name}/scale';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/replicasets/{name}/scale';
 
-    my $_method = 'PATCH';
-    my $query_params = {};
+    my $_method       = 'PATCH';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json');
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type(
+        'application/json-patch+json',
+        'application/merge-patch+json',
+        'application/strategic-merge-patch+json'
+      );
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -4806,21 +5726,23 @@ sub patch_namespaced_replica_set_scale {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2Scale', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2Scale', $response );
     return $_response_object;
 }
 
 #
 # patch_namespaced_replica_set_status
 #
-# 
-# 
+#
+#
 # @param string $name name of the ReplicaSet (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param UNKNOWN_BASE_TYPE $body  (required)
@@ -4828,100 +5750,124 @@ sub patch_namespaced_replica_set_scale {
 # @param string $dry_run When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the ReplicaSet',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'UNKNOWN_BASE_TYPE',
-        description => '',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the ReplicaSet',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'body' => {
+            data_type   => 'UNKNOWN_BASE_TYPE',
+            description => '',
+            required    => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'patch_namespaced_replica_set_status' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'patch_namespaced_replica_set_status'}
+      = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2ReplicaSet',
-        };
+      };
 }
+
 # @return V1beta2ReplicaSet
 #
 sub patch_namespaced_replica_set_status {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling patch_namespaced_replica_set_status");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling patch_namespaced_replica_set_status"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling patch_namespaced_replica_set_status");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling patch_namespaced_replica_set_status"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling patch_namespaced_replica_set_status");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling patch_namespaced_replica_set_status"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/replicasets/{name}/status';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/replicasets/{name}/status';
 
-    my $_method = 'PATCH';
-    my $query_params = {};
+    my $_method       = 'PATCH';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json');
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type(
+        'application/json-patch+json',
+        'application/merge-patch+json',
+        'application/strategic-merge-patch+json'
+      );
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -4929,21 +5875,23 @@ sub patch_namespaced_replica_set_status {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2ReplicaSet', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2ReplicaSet', $response );
     return $_response_object;
 }
 
 #
 # patch_namespaced_stateful_set
 #
-# 
-# 
+#
+#
 # @param string $name name of the StatefulSet (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param UNKNOWN_BASE_TYPE $body  (required)
@@ -4951,100 +5899,123 @@ sub patch_namespaced_replica_set_status {
 # @param string $dry_run When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the StatefulSet',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'UNKNOWN_BASE_TYPE',
-        description => '',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the StatefulSet',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'body' => {
+            data_type   => 'UNKNOWN_BASE_TYPE',
+            description => '',
+            required    => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'patch_namespaced_stateful_set' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'patch_namespaced_stateful_set'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2StatefulSet',
-        };
+    };
 }
+
 # @return V1beta2StatefulSet
 #
 sub patch_namespaced_stateful_set {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling patch_namespaced_stateful_set");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling patch_namespaced_stateful_set"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling patch_namespaced_stateful_set");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling patch_namespaced_stateful_set"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling patch_namespaced_stateful_set");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling patch_namespaced_stateful_set"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/statefulsets/{name}';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/statefulsets/{name}';
 
-    my $_method = 'PATCH';
-    my $query_params = {};
+    my $_method       = 'PATCH';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json');
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type(
+        'application/json-patch+json',
+        'application/merge-patch+json',
+        'application/strategic-merge-patch+json'
+      );
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -5052,21 +6023,23 @@ sub patch_namespaced_stateful_set {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2StatefulSet', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2StatefulSet', $response );
     return $_response_object;
 }
 
 #
 # patch_namespaced_stateful_set_scale
 #
-# 
-# 
+#
+#
 # @param string $name name of the Scale (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param UNKNOWN_BASE_TYPE $body  (required)
@@ -5074,100 +6047,124 @@ sub patch_namespaced_stateful_set {
 # @param string $dry_run When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the Scale',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'UNKNOWN_BASE_TYPE',
-        description => '',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the Scale',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'body' => {
+            data_type   => 'UNKNOWN_BASE_TYPE',
+            description => '',
+            required    => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'patch_namespaced_stateful_set_scale' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'patch_namespaced_stateful_set_scale'}
+      = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2Scale',
-        };
+      };
 }
+
 # @return V1beta2Scale
 #
 sub patch_namespaced_stateful_set_scale {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling patch_namespaced_stateful_set_scale");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling patch_namespaced_stateful_set_scale"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling patch_namespaced_stateful_set_scale");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling patch_namespaced_stateful_set_scale"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling patch_namespaced_stateful_set_scale");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling patch_namespaced_stateful_set_scale"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/statefulsets/{name}/scale';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/statefulsets/{name}/scale';
 
-    my $_method = 'PATCH';
-    my $query_params = {};
+    my $_method       = 'PATCH';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json');
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type(
+        'application/json-patch+json',
+        'application/merge-patch+json',
+        'application/strategic-merge-patch+json'
+      );
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -5175,21 +6172,23 @@ sub patch_namespaced_stateful_set_scale {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2Scale', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2Scale', $response );
     return $_response_object;
 }
 
 #
 # patch_namespaced_stateful_set_status
 #
-# 
-# 
+#
+#
 # @param string $name name of the StatefulSet (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param UNKNOWN_BASE_TYPE $body  (required)
@@ -5197,100 +6196,124 @@ sub patch_namespaced_stateful_set_scale {
 # @param string $dry_run When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the StatefulSet',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'UNKNOWN_BASE_TYPE',
-        description => '',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the StatefulSet',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'body' => {
+            data_type   => 'UNKNOWN_BASE_TYPE',
+            description => '',
+            required    => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'patch_namespaced_stateful_set_status' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'patch_namespaced_stateful_set_status'}
+      = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2StatefulSet',
-        };
+      };
 }
+
 # @return V1beta2StatefulSet
 #
 sub patch_namespaced_stateful_set_status {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling patch_namespaced_stateful_set_status");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling patch_namespaced_stateful_set_status"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling patch_namespaced_stateful_set_status");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling patch_namespaced_stateful_set_status"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling patch_namespaced_stateful_set_status");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling patch_namespaced_stateful_set_status"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/statefulsets/{name}/status';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/statefulsets/{name}/status';
 
-    my $_method = 'PATCH';
-    my $query_params = {};
+    my $_method       = 'PATCH';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json');
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type(
+        'application/json-patch+json',
+        'application/merge-patch+json',
+        'application/strategic-merge-patch+json'
+      );
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -5298,21 +6321,23 @@ sub patch_namespaced_stateful_set_status {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2StatefulSet', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2StatefulSet', $response );
     return $_response_object;
 }
 
 #
 # read_namespaced_controller_revision
 #
-# 
-# 
+#
+#
 # @param string $name name of the ControllerRevision (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param string $pretty If &#39;true&#39;, then the output is pretty printed. (optional)
@@ -5320,117 +6345,139 @@ sub patch_namespaced_stateful_set_status {
 # @param boolean $export Should this value be exported.  Export strips fields that a user can not specify. (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the ControllerRevision',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'exact' => {
-        data_type => 'boolean',
-        description => 'Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39;.',
-        required => '0',
-    },
-    'export' => {
-        data_type => 'boolean',
-        description => 'Should this value be exported.  Export strips fields that a user can not specify.',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the ControllerRevision',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'exact' => {
+            data_type => 'boolean',
+            description =>
+'Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39;.',
+            required => '0',
+        },
+        'export' => {
+            data_type => 'boolean',
+            description =>
+'Should this value be exported.  Export strips fields that a user can not specify.',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'read_namespaced_controller_revision' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'read_namespaced_controller_revision'}
+      = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2ControllerRevision',
-        };
+      };
 }
+
 # @return V1beta2ControllerRevision
 #
 sub read_namespaced_controller_revision {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling read_namespaced_controller_revision");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling read_namespaced_controller_revision"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling read_namespaced_controller_revision");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling read_namespaced_controller_revision"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/controllerrevisions/{name}';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/controllerrevisions/{name}';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'exact'}) {
-        $query_params->{'exact'} = $self->{api_client}->to_query_value($args{'exact'});
+    if ( exists $args{'exact'} ) {
+        $query_params->{'exact'} =
+          $self->{api_client}->to_query_value( $args{'exact'} );
     }
 
     # query params
-    if ( exists $args{'export'}) {
-        $query_params->{'export'} = $self->{api_client}->to_query_value($args{'export'});
+    if ( exists $args{'export'} ) {
+        $query_params->{'export'} =
+          $self->{api_client}->to_query_value( $args{'export'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2ControllerRevision', $response);
+    my $_response_object = $self->{api_client}
+      ->deserialize( 'V1beta2ControllerRevision', $response );
     return $_response_object;
 }
 
 #
 # read_namespaced_daemon_set
 #
-# 
-# 
+#
+#
 # @param string $name name of the DaemonSet (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param string $pretty If &#39;true&#39;, then the output is pretty printed. (optional)
@@ -5438,213 +6485,251 @@ sub read_namespaced_controller_revision {
 # @param boolean $export Should this value be exported.  Export strips fields that a user can not specify. (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the DaemonSet',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'exact' => {
-        data_type => 'boolean',
-        description => 'Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39;.',
-        required => '0',
-    },
-    'export' => {
-        data_type => 'boolean',
-        description => 'Should this value be exported.  Export strips fields that a user can not specify.',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the DaemonSet',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'exact' => {
+            data_type => 'boolean',
+            description =>
+'Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39;.',
+            required => '0',
+        },
+        'export' => {
+            data_type => 'boolean',
+            description =>
+'Should this value be exported.  Export strips fields that a user can not specify.',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'read_namespaced_daemon_set' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'read_namespaced_daemon_set'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2DaemonSet',
-        };
+    };
 }
+
 # @return V1beta2DaemonSet
 #
 sub read_namespaced_daemon_set {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling read_namespaced_daemon_set");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling read_namespaced_daemon_set"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling read_namespaced_daemon_set");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling read_namespaced_daemon_set"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/daemonsets/{name}';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/daemonsets/{name}';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'exact'}) {
-        $query_params->{'exact'} = $self->{api_client}->to_query_value($args{'exact'});
+    if ( exists $args{'exact'} ) {
+        $query_params->{'exact'} =
+          $self->{api_client}->to_query_value( $args{'exact'} );
     }
 
     # query params
-    if ( exists $args{'export'}) {
-        $query_params->{'export'} = $self->{api_client}->to_query_value($args{'export'});
+    if ( exists $args{'export'} ) {
+        $query_params->{'export'} =
+          $self->{api_client}->to_query_value( $args{'export'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2DaemonSet', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2DaemonSet', $response );
     return $_response_object;
 }
 
 #
 # read_namespaced_daemon_set_status
 #
-# 
-# 
+#
+#
 # @param string $name name of the DaemonSet (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param string $pretty If &#39;true&#39;, then the output is pretty printed. (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the DaemonSet',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the DaemonSet',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'read_namespaced_daemon_set_status' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'read_namespaced_daemon_set_status'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2DaemonSet',
-        };
+    };
 }
+
 # @return V1beta2DaemonSet
 #
 sub read_namespaced_daemon_set_status {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling read_namespaced_daemon_set_status");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling read_namespaced_daemon_set_status"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling read_namespaced_daemon_set_status");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling read_namespaced_daemon_set_status"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/daemonsets/{name}/status';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/daemonsets/{name}/status';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2DaemonSet', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2DaemonSet', $response );
     return $_response_object;
 }
 
 #
 # read_namespaced_deployment
 #
-# 
-# 
+#
+#
 # @param string $name name of the Deployment (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param string $pretty If &#39;true&#39;, then the output is pretty printed. (optional)
@@ -5652,309 +6737,364 @@ sub read_namespaced_daemon_set_status {
 # @param boolean $export Should this value be exported.  Export strips fields that a user can not specify. (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the Deployment',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'exact' => {
-        data_type => 'boolean',
-        description => 'Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39;.',
-        required => '0',
-    },
-    'export' => {
-        data_type => 'boolean',
-        description => 'Should this value be exported.  Export strips fields that a user can not specify.',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the Deployment',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'exact' => {
+            data_type => 'boolean',
+            description =>
+'Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39;.',
+            required => '0',
+        },
+        'export' => {
+            data_type => 'boolean',
+            description =>
+'Should this value be exported.  Export strips fields that a user can not specify.',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'read_namespaced_deployment' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'read_namespaced_deployment'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2Deployment',
-        };
+    };
 }
+
 # @return V1beta2Deployment
 #
 sub read_namespaced_deployment {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling read_namespaced_deployment");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling read_namespaced_deployment"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling read_namespaced_deployment");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling read_namespaced_deployment"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/deployments/{name}';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/deployments/{name}';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'exact'}) {
-        $query_params->{'exact'} = $self->{api_client}->to_query_value($args{'exact'});
+    if ( exists $args{'exact'} ) {
+        $query_params->{'exact'} =
+          $self->{api_client}->to_query_value( $args{'exact'} );
     }
 
     # query params
-    if ( exists $args{'export'}) {
-        $query_params->{'export'} = $self->{api_client}->to_query_value($args{'export'});
+    if ( exists $args{'export'} ) {
+        $query_params->{'export'} =
+          $self->{api_client}->to_query_value( $args{'export'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2Deployment', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2Deployment', $response );
     return $_response_object;
 }
 
 #
 # read_namespaced_deployment_scale
 #
-# 
-# 
+#
+#
 # @param string $name name of the Scale (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param string $pretty If &#39;true&#39;, then the output is pretty printed. (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the Scale',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the Scale',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'read_namespaced_deployment_scale' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'read_namespaced_deployment_scale'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2Scale',
-        };
+    };
 }
+
 # @return V1beta2Scale
 #
 sub read_namespaced_deployment_scale {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling read_namespaced_deployment_scale");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling read_namespaced_deployment_scale"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling read_namespaced_deployment_scale");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling read_namespaced_deployment_scale"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/deployments/{name}/scale';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/deployments/{name}/scale';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2Scale', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2Scale', $response );
     return $_response_object;
 }
 
 #
 # read_namespaced_deployment_status
 #
-# 
-# 
+#
+#
 # @param string $name name of the Deployment (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param string $pretty If &#39;true&#39;, then the output is pretty printed. (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the Deployment',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the Deployment',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'read_namespaced_deployment_status' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'read_namespaced_deployment_status'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2Deployment',
-        };
+    };
 }
+
 # @return V1beta2Deployment
 #
 sub read_namespaced_deployment_status {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling read_namespaced_deployment_status");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling read_namespaced_deployment_status"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling read_namespaced_deployment_status");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling read_namespaced_deployment_status"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/deployments/{name}/status';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/deployments/{name}/status';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2Deployment', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2Deployment', $response );
     return $_response_object;
 }
 
 #
 # read_namespaced_replica_set
 #
-# 
-# 
+#
+#
 # @param string $name name of the ReplicaSet (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param string $pretty If &#39;true&#39;, then the output is pretty printed. (optional)
@@ -5962,309 +7102,365 @@ sub read_namespaced_deployment_status {
 # @param boolean $export Should this value be exported.  Export strips fields that a user can not specify. (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the ReplicaSet',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'exact' => {
-        data_type => 'boolean',
-        description => 'Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39;.',
-        required => '0',
-    },
-    'export' => {
-        data_type => 'boolean',
-        description => 'Should this value be exported.  Export strips fields that a user can not specify.',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the ReplicaSet',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'exact' => {
+            data_type => 'boolean',
+            description =>
+'Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39;.',
+            required => '0',
+        },
+        'export' => {
+            data_type => 'boolean',
+            description =>
+'Should this value be exported.  Export strips fields that a user can not specify.',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'read_namespaced_replica_set' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'read_namespaced_replica_set'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2ReplicaSet',
-        };
+    };
 }
+
 # @return V1beta2ReplicaSet
 #
 sub read_namespaced_replica_set {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling read_namespaced_replica_set");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling read_namespaced_replica_set"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling read_namespaced_replica_set");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling read_namespaced_replica_set"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/replicasets/{name}';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/replicasets/{name}';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'exact'}) {
-        $query_params->{'exact'} = $self->{api_client}->to_query_value($args{'exact'});
+    if ( exists $args{'exact'} ) {
+        $query_params->{'exact'} =
+          $self->{api_client}->to_query_value( $args{'exact'} );
     }
 
     # query params
-    if ( exists $args{'export'}) {
-        $query_params->{'export'} = $self->{api_client}->to_query_value($args{'export'});
+    if ( exists $args{'export'} ) {
+        $query_params->{'export'} =
+          $self->{api_client}->to_query_value( $args{'export'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2ReplicaSet', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2ReplicaSet', $response );
     return $_response_object;
 }
 
 #
 # read_namespaced_replica_set_scale
 #
-# 
-# 
+#
+#
 # @param string $name name of the Scale (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param string $pretty If &#39;true&#39;, then the output is pretty printed. (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the Scale',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the Scale',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'read_namespaced_replica_set_scale' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'read_namespaced_replica_set_scale'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2Scale',
-        };
+    };
 }
+
 # @return V1beta2Scale
 #
 sub read_namespaced_replica_set_scale {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling read_namespaced_replica_set_scale");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling read_namespaced_replica_set_scale"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling read_namespaced_replica_set_scale");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling read_namespaced_replica_set_scale"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/replicasets/{name}/scale';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/replicasets/{name}/scale';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2Scale', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2Scale', $response );
     return $_response_object;
 }
 
 #
 # read_namespaced_replica_set_status
 #
-# 
-# 
+#
+#
 # @param string $name name of the ReplicaSet (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param string $pretty If &#39;true&#39;, then the output is pretty printed. (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the ReplicaSet',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the ReplicaSet',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'read_namespaced_replica_set_status' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'read_namespaced_replica_set_status'} =
+      {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2ReplicaSet',
-        };
+      };
 }
+
 # @return V1beta2ReplicaSet
 #
 sub read_namespaced_replica_set_status {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling read_namespaced_replica_set_status");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling read_namespaced_replica_set_status"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling read_namespaced_replica_set_status");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling read_namespaced_replica_set_status"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/replicasets/{name}/status';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/replicasets/{name}/status';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2ReplicaSet', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2ReplicaSet', $response );
     return $_response_object;
 }
 
 #
 # read_namespaced_stateful_set
 #
-# 
-# 
+#
+#
 # @param string $name name of the StatefulSet (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param string $pretty If &#39;true&#39;, then the output is pretty printed. (optional)
@@ -6272,309 +7468,366 @@ sub read_namespaced_replica_set_status {
 # @param boolean $export Should this value be exported.  Export strips fields that a user can not specify. (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the StatefulSet',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'exact' => {
-        data_type => 'boolean',
-        description => 'Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39;.',
-        required => '0',
-    },
-    'export' => {
-        data_type => 'boolean',
-        description => 'Should this value be exported.  Export strips fields that a user can not specify.',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the StatefulSet',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'exact' => {
+            data_type => 'boolean',
+            description =>
+'Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39;.',
+            required => '0',
+        },
+        'export' => {
+            data_type => 'boolean',
+            description =>
+'Should this value be exported.  Export strips fields that a user can not specify.',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'read_namespaced_stateful_set' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'read_namespaced_stateful_set'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2StatefulSet',
-        };
+    };
 }
+
 # @return V1beta2StatefulSet
 #
 sub read_namespaced_stateful_set {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling read_namespaced_stateful_set");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling read_namespaced_stateful_set"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling read_namespaced_stateful_set");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling read_namespaced_stateful_set"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/statefulsets/{name}';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/statefulsets/{name}';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'exact'}) {
-        $query_params->{'exact'} = $self->{api_client}->to_query_value($args{'exact'});
+    if ( exists $args{'exact'} ) {
+        $query_params->{'exact'} =
+          $self->{api_client}->to_query_value( $args{'exact'} );
     }
 
     # query params
-    if ( exists $args{'export'}) {
-        $query_params->{'export'} = $self->{api_client}->to_query_value($args{'export'});
+    if ( exists $args{'export'} ) {
+        $query_params->{'export'} =
+          $self->{api_client}->to_query_value( $args{'export'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2StatefulSet', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2StatefulSet', $response );
     return $_response_object;
 }
 
 #
 # read_namespaced_stateful_set_scale
 #
-# 
-# 
+#
+#
 # @param string $name name of the Scale (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param string $pretty If &#39;true&#39;, then the output is pretty printed. (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the Scale',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the Scale',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'read_namespaced_stateful_set_scale' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'read_namespaced_stateful_set_scale'} =
+      {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2Scale',
-        };
+      };
 }
+
 # @return V1beta2Scale
 #
 sub read_namespaced_stateful_set_scale {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling read_namespaced_stateful_set_scale");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling read_namespaced_stateful_set_scale"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling read_namespaced_stateful_set_scale");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling read_namespaced_stateful_set_scale"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/statefulsets/{name}/scale';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/statefulsets/{name}/scale';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2Scale', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2Scale', $response );
     return $_response_object;
 }
 
 #
 # read_namespaced_stateful_set_status
 #
-# 
-# 
+#
+#
 # @param string $name name of the StatefulSet (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param string $pretty If &#39;true&#39;, then the output is pretty printed. (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the StatefulSet',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the StatefulSet',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'read_namespaced_stateful_set_status' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'read_namespaced_stateful_set_status'}
+      = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2StatefulSet',
-        };
+      };
 }
+
 # @return V1beta2StatefulSet
 #
 sub read_namespaced_stateful_set_status {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling read_namespaced_stateful_set_status");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling read_namespaced_stateful_set_status"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling read_namespaced_stateful_set_status");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling read_namespaced_stateful_set_status"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/statefulsets/{name}/status';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/statefulsets/{name}/status';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2StatefulSet', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2StatefulSet', $response );
     return $_response_object;
 }
 
 #
 # replace_namespaced_controller_revision
 #
-# 
-# 
+#
+#
 # @param string $name name of the ControllerRevision (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param V1beta2ControllerRevision $body  (required)
@@ -6582,100 +7835,120 @@ sub read_namespaced_stateful_set_status {
 # @param string $dry_run When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the ControllerRevision',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'V1beta2ControllerRevision',
-        description => '',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the ControllerRevision',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'body' => {
+            data_type   => 'V1beta2ControllerRevision',
+            description => '',
+            required    => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'replace_namespaced_controller_revision' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{
+        'replace_namespaced_controller_revision'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2ControllerRevision',
         };
 }
+
 # @return V1beta2ControllerRevision
 #
 sub replace_namespaced_controller_revision {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling replace_namespaced_controller_revision");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling replace_namespaced_controller_revision"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling replace_namespaced_controller_revision");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling replace_namespaced_controller_revision"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling replace_namespaced_controller_revision");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling replace_namespaced_controller_revision"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/controllerrevisions/{name}';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/controllerrevisions/{name}';
 
-    my $_method = 'PUT';
-    my $query_params = {};
+    my $_method       = 'PUT';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -6683,21 +7956,23 @@ sub replace_namespaced_controller_revision {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2ControllerRevision', $response);
+    my $_response_object = $self->{api_client}
+      ->deserialize( 'V1beta2ControllerRevision', $response );
     return $_response_object;
 }
 
 #
 # replace_namespaced_daemon_set
 #
-# 
-# 
+#
+#
 # @param string $name name of the DaemonSet (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param V1beta2DaemonSet $body  (required)
@@ -6705,100 +7980,119 @@ sub replace_namespaced_controller_revision {
 # @param string $dry_run When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the DaemonSet',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'V1beta2DaemonSet',
-        description => '',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the DaemonSet',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'body' => {
+            data_type   => 'V1beta2DaemonSet',
+            description => '',
+            required    => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'replace_namespaced_daemon_set' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'replace_namespaced_daemon_set'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2DaemonSet',
-        };
+    };
 }
+
 # @return V1beta2DaemonSet
 #
 sub replace_namespaced_daemon_set {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling replace_namespaced_daemon_set");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling replace_namespaced_daemon_set"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling replace_namespaced_daemon_set");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling replace_namespaced_daemon_set"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling replace_namespaced_daemon_set");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling replace_namespaced_daemon_set"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/daemonsets/{name}';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/daemonsets/{name}';
 
-    my $_method = 'PUT';
-    my $query_params = {};
+    my $_method       = 'PUT';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -6806,21 +8100,23 @@ sub replace_namespaced_daemon_set {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2DaemonSet', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2DaemonSet', $response );
     return $_response_object;
 }
 
 #
 # replace_namespaced_daemon_set_status
 #
-# 
-# 
+#
+#
 # @param string $name name of the DaemonSet (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param V1beta2DaemonSet $body  (required)
@@ -6828,100 +8124,120 @@ sub replace_namespaced_daemon_set {
 # @param string $dry_run When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the DaemonSet',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'V1beta2DaemonSet',
-        description => '',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the DaemonSet',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'body' => {
+            data_type   => 'V1beta2DaemonSet',
+            description => '',
+            required    => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'replace_namespaced_daemon_set_status' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'replace_namespaced_daemon_set_status'}
+      = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2DaemonSet',
-        };
+      };
 }
+
 # @return V1beta2DaemonSet
 #
 sub replace_namespaced_daemon_set_status {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling replace_namespaced_daemon_set_status");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling replace_namespaced_daemon_set_status"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling replace_namespaced_daemon_set_status");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling replace_namespaced_daemon_set_status"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling replace_namespaced_daemon_set_status");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling replace_namespaced_daemon_set_status"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/daemonsets/{name}/status';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/daemonsets/{name}/status';
 
-    my $_method = 'PUT';
-    my $query_params = {};
+    my $_method       = 'PUT';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -6929,21 +8245,23 @@ sub replace_namespaced_daemon_set_status {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2DaemonSet', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2DaemonSet', $response );
     return $_response_object;
 }
 
 #
 # replace_namespaced_deployment
 #
-# 
-# 
+#
+#
 # @param string $name name of the Deployment (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param V1beta2Deployment $body  (required)
@@ -6951,100 +8269,119 @@ sub replace_namespaced_daemon_set_status {
 # @param string $dry_run When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the Deployment',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'V1beta2Deployment',
-        description => '',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the Deployment',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'body' => {
+            data_type   => 'V1beta2Deployment',
+            description => '',
+            required    => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'replace_namespaced_deployment' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'replace_namespaced_deployment'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2Deployment',
-        };
+    };
 }
+
 # @return V1beta2Deployment
 #
 sub replace_namespaced_deployment {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling replace_namespaced_deployment");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling replace_namespaced_deployment"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling replace_namespaced_deployment");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling replace_namespaced_deployment"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling replace_namespaced_deployment");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling replace_namespaced_deployment"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/deployments/{name}';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/deployments/{name}';
 
-    my $_method = 'PUT';
-    my $query_params = {};
+    my $_method       = 'PUT';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -7052,21 +8389,23 @@ sub replace_namespaced_deployment {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2Deployment', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2Deployment', $response );
     return $_response_object;
 }
 
 #
 # replace_namespaced_deployment_scale
 #
-# 
-# 
+#
+#
 # @param string $name name of the Scale (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param V1beta2Scale $body  (required)
@@ -7074,100 +8413,120 @@ sub replace_namespaced_deployment {
 # @param string $dry_run When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the Scale',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'V1beta2Scale',
-        description => '',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the Scale',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'body' => {
+            data_type   => 'V1beta2Scale',
+            description => '',
+            required    => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'replace_namespaced_deployment_scale' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'replace_namespaced_deployment_scale'}
+      = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2Scale',
-        };
+      };
 }
+
 # @return V1beta2Scale
 #
 sub replace_namespaced_deployment_scale {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling replace_namespaced_deployment_scale");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling replace_namespaced_deployment_scale"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling replace_namespaced_deployment_scale");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling replace_namespaced_deployment_scale"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling replace_namespaced_deployment_scale");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling replace_namespaced_deployment_scale"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/deployments/{name}/scale';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/deployments/{name}/scale';
 
-    my $_method = 'PUT';
-    my $query_params = {};
+    my $_method       = 'PUT';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -7175,21 +8534,23 @@ sub replace_namespaced_deployment_scale {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2Scale', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2Scale', $response );
     return $_response_object;
 }
 
 #
 # replace_namespaced_deployment_status
 #
-# 
-# 
+#
+#
 # @param string $name name of the Deployment (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param V1beta2Deployment $body  (required)
@@ -7197,100 +8558,120 @@ sub replace_namespaced_deployment_scale {
 # @param string $dry_run When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the Deployment',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'V1beta2Deployment',
-        description => '',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the Deployment',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'body' => {
+            data_type   => 'V1beta2Deployment',
+            description => '',
+            required    => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'replace_namespaced_deployment_status' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'replace_namespaced_deployment_status'}
+      = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2Deployment',
-        };
+      };
 }
+
 # @return V1beta2Deployment
 #
 sub replace_namespaced_deployment_status {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling replace_namespaced_deployment_status");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling replace_namespaced_deployment_status"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling replace_namespaced_deployment_status");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling replace_namespaced_deployment_status"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling replace_namespaced_deployment_status");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling replace_namespaced_deployment_status"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/deployments/{name}/status';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/deployments/{name}/status';
 
-    my $_method = 'PUT';
-    my $query_params = {};
+    my $_method       = 'PUT';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -7298,21 +8679,23 @@ sub replace_namespaced_deployment_status {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2Deployment', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2Deployment', $response );
     return $_response_object;
 }
 
 #
 # replace_namespaced_replica_set
 #
-# 
-# 
+#
+#
 # @param string $name name of the ReplicaSet (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param V1beta2ReplicaSet $body  (required)
@@ -7320,100 +8703,119 @@ sub replace_namespaced_deployment_status {
 # @param string $dry_run When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the ReplicaSet',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'V1beta2ReplicaSet',
-        description => '',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the ReplicaSet',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'body' => {
+            data_type   => 'V1beta2ReplicaSet',
+            description => '',
+            required    => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'replace_namespaced_replica_set' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'replace_namespaced_replica_set'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2ReplicaSet',
-        };
+    };
 }
+
 # @return V1beta2ReplicaSet
 #
 sub replace_namespaced_replica_set {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling replace_namespaced_replica_set");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling replace_namespaced_replica_set"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling replace_namespaced_replica_set");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling replace_namespaced_replica_set"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling replace_namespaced_replica_set");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling replace_namespaced_replica_set"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/replicasets/{name}';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/replicasets/{name}';
 
-    my $_method = 'PUT';
-    my $query_params = {};
+    my $_method       = 'PUT';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -7421,21 +8823,23 @@ sub replace_namespaced_replica_set {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2ReplicaSet', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2ReplicaSet', $response );
     return $_response_object;
 }
 
 #
 # replace_namespaced_replica_set_scale
 #
-# 
-# 
+#
+#
 # @param string $name name of the Scale (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param V1beta2Scale $body  (required)
@@ -7443,100 +8847,120 @@ sub replace_namespaced_replica_set {
 # @param string $dry_run When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the Scale',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'V1beta2Scale',
-        description => '',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the Scale',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'body' => {
+            data_type   => 'V1beta2Scale',
+            description => '',
+            required    => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'replace_namespaced_replica_set_scale' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'replace_namespaced_replica_set_scale'}
+      = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2Scale',
-        };
+      };
 }
+
 # @return V1beta2Scale
 #
 sub replace_namespaced_replica_set_scale {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling replace_namespaced_replica_set_scale");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling replace_namespaced_replica_set_scale"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling replace_namespaced_replica_set_scale");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling replace_namespaced_replica_set_scale"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling replace_namespaced_replica_set_scale");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling replace_namespaced_replica_set_scale"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/replicasets/{name}/scale';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/replicasets/{name}/scale';
 
-    my $_method = 'PUT';
-    my $query_params = {};
+    my $_method       = 'PUT';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -7544,21 +8968,23 @@ sub replace_namespaced_replica_set_scale {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2Scale', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2Scale', $response );
     return $_response_object;
 }
 
 #
 # replace_namespaced_replica_set_status
 #
-# 
-# 
+#
+#
 # @param string $name name of the ReplicaSet (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param V1beta2ReplicaSet $body  (required)
@@ -7566,100 +8992,120 @@ sub replace_namespaced_replica_set_scale {
 # @param string $dry_run When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the ReplicaSet',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'V1beta2ReplicaSet',
-        description => '',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the ReplicaSet',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'body' => {
+            data_type   => 'V1beta2ReplicaSet',
+            description => '',
+            required    => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'replace_namespaced_replica_set_status' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'replace_namespaced_replica_set_status'}
+      = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2ReplicaSet',
-        };
+      };
 }
+
 # @return V1beta2ReplicaSet
 #
 sub replace_namespaced_replica_set_status {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling replace_namespaced_replica_set_status");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling replace_namespaced_replica_set_status"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling replace_namespaced_replica_set_status");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling replace_namespaced_replica_set_status"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling replace_namespaced_replica_set_status");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling replace_namespaced_replica_set_status"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/replicasets/{name}/status';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/replicasets/{name}/status';
 
-    my $_method = 'PUT';
-    my $query_params = {};
+    my $_method       = 'PUT';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -7667,21 +9113,23 @@ sub replace_namespaced_replica_set_status {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2ReplicaSet', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2ReplicaSet', $response );
     return $_response_object;
 }
 
 #
 # replace_namespaced_stateful_set
 #
-# 
-# 
+#
+#
 # @param string $name name of the StatefulSet (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param V1beta2StatefulSet $body  (required)
@@ -7689,100 +9137,119 @@ sub replace_namespaced_replica_set_status {
 # @param string $dry_run When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the StatefulSet',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'V1beta2StatefulSet',
-        description => '',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the StatefulSet',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'body' => {
+            data_type   => 'V1beta2StatefulSet',
+            description => '',
+            required    => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'replace_namespaced_stateful_set' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'replace_namespaced_stateful_set'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2StatefulSet',
-        };
+    };
 }
+
 # @return V1beta2StatefulSet
 #
 sub replace_namespaced_stateful_set {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling replace_namespaced_stateful_set");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling replace_namespaced_stateful_set"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling replace_namespaced_stateful_set");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling replace_namespaced_stateful_set"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling replace_namespaced_stateful_set");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling replace_namespaced_stateful_set"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/statefulsets/{name}';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/statefulsets/{name}';
 
-    my $_method = 'PUT';
-    my $query_params = {};
+    my $_method       = 'PUT';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -7790,21 +9257,23 @@ sub replace_namespaced_stateful_set {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2StatefulSet', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2StatefulSet', $response );
     return $_response_object;
 }
 
 #
 # replace_namespaced_stateful_set_scale
 #
-# 
-# 
+#
+#
 # @param string $name name of the Scale (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param V1beta2Scale $body  (required)
@@ -7812,100 +9281,120 @@ sub replace_namespaced_stateful_set {
 # @param string $dry_run When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the Scale',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'V1beta2Scale',
-        description => '',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the Scale',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'body' => {
+            data_type   => 'V1beta2Scale',
+            description => '',
+            required    => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'replace_namespaced_stateful_set_scale' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'replace_namespaced_stateful_set_scale'}
+      = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2Scale',
-        };
+      };
 }
+
 # @return V1beta2Scale
 #
 sub replace_namespaced_stateful_set_scale {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling replace_namespaced_stateful_set_scale");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling replace_namespaced_stateful_set_scale"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling replace_namespaced_stateful_set_scale");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling replace_namespaced_stateful_set_scale"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling replace_namespaced_stateful_set_scale");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling replace_namespaced_stateful_set_scale"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/statefulsets/{name}/scale';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/statefulsets/{name}/scale';
 
-    my $_method = 'PUT';
-    my $query_params = {};
+    my $_method       = 'PUT';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -7913,21 +9402,23 @@ sub replace_namespaced_stateful_set_scale {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2Scale', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2Scale', $response );
     return $_response_object;
 }
 
 #
 # replace_namespaced_stateful_set_status
 #
-# 
-# 
+#
+#
 # @param string $name name of the StatefulSet (required)
 # @param string $namespace object name and auth scope, such as for teams and projects (required)
 # @param V1beta2StatefulSet $body  (required)
@@ -7935,100 +9426,120 @@ sub replace_namespaced_stateful_set_scale {
 # @param string $dry_run When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)
 {
     my $params = {
-    'name' => {
-        data_type => 'string',
-        description => 'name of the StatefulSet',
-        required => '1',
-    },
-    'namespace' => {
-        data_type => 'string',
-        description => 'object name and auth scope, such as for teams and projects',
-        required => '1',
-    },
-    'body' => {
-        data_type => 'V1beta2StatefulSet',
-        description => '',
-        required => '1',
-    },
-    'pretty' => {
-        data_type => 'string',
-        description => 'If &#39;true&#39;, then the output is pretty printed.',
-        required => '0',
-    },
-    'dry_run' => {
-        data_type => 'string',
-        description => 'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
-        required => '0',
-    },
+        'name' => {
+            data_type   => 'string',
+            description => 'name of the StatefulSet',
+            required    => '1',
+        },
+        'namespace' => {
+            data_type => 'string',
+            description =>
+              'object name and auth scope, such as for teams and projects',
+            required => '1',
+        },
+        'body' => {
+            data_type   => 'V1beta2StatefulSet',
+            description => '',
+            required    => '1',
+        },
+        'pretty' => {
+            data_type => 'string',
+            description =>
+              'If &#39;true&#39;, then the output is pretty printed.',
+            required => '0',
+        },
+        'dry_run' => {
+            data_type => 'string',
+            description =>
+'When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed',
+            required => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'replace_namespaced_stateful_set_status' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{
+        'replace_namespaced_stateful_set_status'} = {
+        summary => '',
+        params  => $params,
         returns => 'V1beta2StatefulSet',
         };
 }
+
 # @return V1beta2StatefulSet
 #
 sub replace_namespaced_stateful_set_status {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'name' is set
-    unless (exists $args{'name'}) {
-      croak("Missing the required parameter 'name' when calling replace_namespaced_stateful_set_status");
+    unless ( exists $args{'name'} ) {
+        croak(
+"Missing the required parameter 'name' when calling replace_namespaced_stateful_set_status"
+        );
     }
 
     # verify the required parameter 'namespace' is set
-    unless (exists $args{'namespace'}) {
-      croak("Missing the required parameter 'namespace' when calling replace_namespaced_stateful_set_status");
+    unless ( exists $args{'namespace'} ) {
+        croak(
+"Missing the required parameter 'namespace' when calling replace_namespaced_stateful_set_status"
+        );
     }
 
     # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling replace_namespaced_stateful_set_status");
+    unless ( exists $args{'body'} ) {
+        croak(
+"Missing the required parameter 'body' when calling replace_namespaced_stateful_set_status"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/apis/apps/v1beta2/namespaces/{namespace}/statefulsets/{name}/status';
+    my $_resource_path =
+      '/apis/apps/v1beta2/namespaces/{namespace}/statefulsets/{name}/status';
 
-    my $_method = 'PUT';
-    my $query_params = {};
+    my $_method       = 'PUT';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf');
+    my $_header_accept =
+      $self->{api_client}
+      ->select_header_accept( 'application/json', 'application/yaml',
+        'application/vnd.kubernetes.protobuf' );
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     # query params
-    if ( exists $args{'pretty'}) {
-        $query_params->{'pretty'} = $self->{api_client}->to_query_value($args{'pretty'});
+    if ( exists $args{'pretty'} ) {
+        $query_params->{'pretty'} =
+          $self->{api_client}->to_query_value( $args{'pretty'} );
     }
 
     # query params
-    if ( exists $args{'dry_run'}) {
-        $query_params->{'dryRun'} = $self->{api_client}->to_query_value($args{'dry_run'});
+    if ( exists $args{'dry_run'} ) {
+        $query_params->{'dryRun'} =
+          $self->{api_client}->to_query_value( $args{'dry_run'} );
     }
 
     # path params
-    if ( exists $args{'name'}) {
+    if ( exists $args{'name'} ) {
         my $_base_variable = "{" . "name" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'name'});
+        my $_base_value = $self->{api_client}->to_path_value( $args{'name'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     # path params
-    if ( exists $args{'namespace'}) {
+    if ( exists $args{'namespace'} ) {
         my $_base_variable = "{" . "namespace" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'namespace'});
+        my $_base_value =
+          $self->{api_client}->to_path_value( $args{'namespace'} );
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -8036,13 +9547,15 @@ sub replace_namespaced_stateful_set_status {
     my $auth_settings = [qw(BearerToken )];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('V1beta2StatefulSet', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'V1beta2StatefulSet', $response );
     return $_response_object;
 }
 
