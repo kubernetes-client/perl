@@ -21,4 +21,8 @@
 #docs/*.md
 # Then explicitly reverse the ignore rule for a single file:
 #!docs/README.md
+
+.gitignore
 lib/Kubernetes/ApiClient.pm
+lib/Kubernetes/Util/**
+README.md
