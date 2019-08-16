@@ -18,8 +18,3 @@ nytprof.out
 *.o
 *.bs
 /_eumm/
-swagger.json
-swagger.json.unprocessed
-bin/*
-.idea/**
-docs/**
